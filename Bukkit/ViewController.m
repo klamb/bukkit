@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "MainViewController.h"
+#import <Parse/Parse.h>
 
 @interface ViewController ()
 
@@ -14,10 +16,38 @@
 
 @implementation ViewController
 
+@synthesize signUpButton, logInButton;
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[self navigationController] setNavigationBarHidden:YES animated:animated];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+        NSLog(@"User is already signed in");
+        [self performSegueWithIdentifier: @"LoggedIn" sender: self];
+    }
+     // self.view.backgroundColor = [UIColor redColor];
 	// Do any additional setup after loading the view, typically from a nib.
+}
+
+
+- (IBAction)login {
+    //self.view.backgroundColor = [UIColor redColor];
+    // [self.navigationController pushViewController:viewcontroller animated:NO];
+    // [self performSegueWithIdentifier:@"Logging In" sender:self];
+    // [self performSegueWithIdentifier:@"LoggingIn" sender:self];
+}
+
+- (IBAction)signin {
+     // self.view.backgroundColor = [UIColor blueColor];
+    //[self performSegueWithIdentifier:@"Signing Up" sender:self];
 }
 
 - (void)didReceiveMemoryWarning

@@ -1,0 +1,229 @@
+//
+//  SignUpViewController.m
+//  Bukkit
+//
+//  Created by Kevin Lamb on 9/18/13.
+//  Copyright (c) 2013 Kevin Lamb. All rights reserved.
+//
+
+#import "SignUpViewController.h"
+#import "MainViewController.h"
+
+#define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
+
+
+@interface SignUpViewController ()
+
+@end
+
+@implementation SignUpViewController
+
+@synthesize signUpButton, facebookButton, nameBox, emailBox, passwordBox, signUpTable;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[self navigationController] setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    
+    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+        NSLog(@"User is already signed in");
+        // [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
+        // [self.navigationController pushViewController:
+         // [MainViewController alloc] animated:NO];
+    }
+    
+    [signUpTable setBackgroundView:nil];
+    [signUpTable setBackgroundColor:UIColor.clearColor];
+    signUpTable.allowsSelection=NO;
+    
+    [signUpButton setEnabled:NO];
+    signUpButton.alpha = 0.5;
+    
+    [facebookButton setBackgroundColor:RGB(59, 89, 152)];
+    facebookButton.titleLabel.shadowOffset = CGSizeMake(0.0, -0.8);
+    
+}
+
+
+-(UITextField*) makeTextField: (NSString*)placeholder {
+    UITextField *tf = [[UITextField alloc] init];
+    tf.placeholder = placeholder ;
+    tf.autocorrectionType = UITextAutocorrectionTypeNo;
+    tf.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    tf.adjustsFontSizeToFitWidth = YES;
+    return tf ;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    // Return the number of rows in the section.
+    // Usually the number of items in your array (the one that holds your list)
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    //Where we configure the cell in each row
+    
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell;
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    // Configure the cell... setting the text of our cell's label
+    
+    if([indexPath row] == 0) {
+        nameBox = [self makeTextField:@"Name"];
+        nameBox.keyboardType = UIKeyboardTypeAlphabet;
+        nameBox.returnKeyType = UIReturnKeyNext;
+        nameBox.delegate = self;
+        nameBox.frame = CGRectMake(20, 12, 170, 30);
+        [cell addSubview:nameBox];
+    }
+    if([indexPath row] == 1) {
+        emailBox = [self makeTextField:@"Email"];
+        emailBox.keyboardType = UIKeyboardTypeEmailAddress;
+        emailBox.returnKeyType = UIReturnKeyNext;
+        emailBox.delegate = self;
+        emailBox.frame = CGRectMake(20, 12, 170, 30);
+        [cell addSubview:emailBox];
+    }
+    if ([indexPath row] == 2) {
+        passwordBox = [self makeTextField:@"Password"];
+        passwordBox.keyboardType = UIKeyboardTypeAlphabet;
+        passwordBox.secureTextEntry = YES;
+        passwordBox.returnKeyType = UIReturnKeyGo;
+        passwordBox.delegate = self;
+        passwordBox.frame = CGRectMake(20, 12, 170, 30);
+        [cell addSubview:passwordBox];
+        
+    }
+    
+    return cell;
+}
+
+
+// To get rid of the section header for the tableview
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.0;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSString *testString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
+    testString = [testString stringByTrimmingCharactersInSet:
+                  [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    NSString *otherField = @"";
+    NSString *otherOtherField = @"";
+    
+    if ([textField isEqual:nameBox]) {
+        otherField = emailBox.text;
+        otherOtherField = passwordBox.text;
+    }
+    if ([textField isEqual:emailBox]) {
+        otherField = nameBox.text;
+        otherOtherField = passwordBox.text;
+    }
+    else {
+        otherField = nameBox.text;
+        otherOtherField = emailBox.text;
+    }
+    // NSString *otherTextString = ([textField isEqual:password]) ? username.text : password.text;
+    
+    if(testString.length != 0 && otherField.length != 0 && otherOtherField.length != 0) {
+        signUpButton.enabled = YES;
+        signUpButton.alpha = 1.0;
+    }
+    else {
+        signUpButton.enabled = NO;
+        signUpButton.alpha = 0.5;
+    }
+    
+    return YES;
+}
+
+-(IBAction)signup:(id)sender {
+    if([self validEmail:emailBox.text]) {
+        NSLog(@"WHATS GOOD");
+        
+        PFUser *user = [PFUser user];
+        user.username = nameBox.text;
+        user.email = emailBox.text;
+        user.password = passwordBox.text;
+        
+        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {
+                // Hooray! Let them use the app now.
+                NSLog(@"Hooray");
+            } else {
+                NSString *errorString = [error userInfo][@"error"];
+                // Show the errorString somewhere and let the user try again.
+                NSLog(@"%@", errorString);
+            }
+        }];
+        
+    }
+    else {
+        NSLog(@"Ah dang");
+    }
+}
+
+- (IBAction)loginFacebookButtonTouchHandler:(id)sender  {
+    // The permissions requested from the user
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    
+    // Login PFUser using Facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        // [_activityIndicator stopAnimating]; // Hide loading indicator
+        
+        if (!user) {
+            if (!error) {
+                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+            } else {
+                NSLog(@"Uh oh. An error occurred: %@", error);
+            }
+        } else if (user.isNew) {
+            NSLog(@"User with facebook signed up and logged in!");
+            [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
+            // [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:YES];
+        } else {
+            NSLog(@"User with facebook logged in!");
+            [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
+            // [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:YES];
+        }
+    }];
+}
+
+-(BOOL) validEmail:(NSString*)text {
+    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+    return [emailTest evaluateWithObject:text];
+}
+
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end
