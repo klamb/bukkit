@@ -1,20 +1,22 @@
 //
-//  LogInTable.m
+//  SideBarViewController.m
 //  Bukkit
 //
-//  Created by Kevin Lamb on 9/22/13.
+//  Created by Kevin Lamb on 10/8/13.
 //  Copyright (c) 2013 Kevin Lamb. All rights reserved.
 //
 
-#import "LogInTableViewController.h"
+#import "SideBarViewController.h"
 
-@interface LogInTableViewController ()
+@interface SideBarViewController ()
+
+@property (nonatomic, strong) NSArray *menuItems;
 
 @end
 
-@implementation LogInTableViewController
+@implementation SideBarViewController
 
-@synthesize loginTable, usernameCell, passwordCell;
+@synthesize menuItems;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -28,13 +30,39 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view = loginTable;
+    
+    //self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
+    //self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
+    self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
+    
+    menuItems = @[@"News Feed", @"profile", @"settings"];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
+{
+    // Set the title of navigation bar by using the menu items
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    UINavigationController *destViewController = (UINavigationController*)segue.destinationViewController;
+    destViewController.title = [[menuItems objectAtIndex:indexPath.row] capitalizedString];
+    
+    if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
+        SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;
+        
+        swSegue.performBlock = ^(SWRevealViewControllerSegue* rvc_segue, UIViewController* svc, UIViewController* dvc) {
+            
+            UINavigationController* navController = (UINavigationController*)self.revealViewController.frontViewController;
+            [navController setViewControllers: @[dvc] animated: NO ];
+            [self.revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
+        };
+        
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,36 +73,23 @@
 
 #pragma mark - Table view data source
 
-/*
- * Defaults to one when not implemented
- *
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
-*/
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-// #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 2;
+    return [self.menuItems count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    NSString *CellIdentifier = [self.menuItems objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    /*
-    if ([indexPath row] == 0) {
-        UITextField *usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 10, 185, 30)];
-        usernameTextField.placeholder = @"Username";
-        [cell.contentView addSubview:usernameTextField];
-    }
-    */
     // Configure the cell...
     
     return cell;
@@ -119,17 +134,16 @@
 }
 */
 
-#pragma mark - Table view delegate
+/*
+#pragma mark - Navigation
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+// In a story board-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
 }
+
+ */
 
 @end

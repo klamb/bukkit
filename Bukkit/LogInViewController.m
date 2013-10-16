@@ -7,6 +7,7 @@
 //
 
 #import "LogInViewController.h"
+#define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 
 @interface LogInViewController ()
 
@@ -14,7 +15,7 @@
 
 @implementation LogInViewController
 
-@synthesize logInButton, username, password, loginTable;
+@synthesize logInButton, username, password, loginTable, facebookButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,6 +43,8 @@
     [logInButton setEnabled:NO];
     logInButton.alpha = 0.5;
     
+    [facebookButton setBackgroundColor:RGB(59, 89, 152)];
+    facebookButton.titleLabel.shadowOffset = CGSizeMake(0.0, -0.8);
 	// Do any additional setup after loading the view.
 }
 
@@ -157,6 +160,7 @@
     }
     else {
         [password resignFirstResponder];
+        [self login:theTextField];
     }
     return YES;
 }
@@ -201,10 +205,42 @@
                                             [self performSegueWithIdentifier:@"LOGGING IN" sender:logInButton];
                                         } else {
                                             // The login failed. Check error to see why.
-                                            NSLog(@"Hah Yea Right");
+                                            NSString *errorString = [error userInfo][@"error"];
+                                            // Show the errorString somewhere and let the user try again.
+                                            UIAlertView *errorMessage = [[UIAlertView alloc] initWithTitle:@"Log In"
+                                                                                                   message:errorString
+                                                                                                  delegate:nil
+                                                                                         cancelButtonTitle:@"OK"
+                                                                                         otherButtonTitles:nil];
+                                            [errorMessage show];
                                         }
                                     }];
     
     }
+
+- (IBAction)loginFacebookButtonTouchHandler:(id)sender  {
+    // The permissions requested from the user
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    
+    // Login PFUser using Facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        // [_activityIndicator stopAnimating]; // Hide loading indicator
+        
+        if (!user) {
+            if (!error) {
+                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+            } else {
+                NSLog(@"Uh oh. An error occurred: %@", error);
+            }
+        } else if (user.isNew) {
+            NSLog(@"User with facebook signed up and logged in!");
+            [self performSegueWithIdentifier:@"LOGGING IN" sender:facebookButton];
+        } else {
+            NSLog(@"User with facebook logged in!");
+            [self performSegueWithIdentifier:@"LOGGING IN" sender:facebookButton];
+            // [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:YES];
+        }
+    }];
+}
 
 @end

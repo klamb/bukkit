@@ -28,11 +28,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    /*
     if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         NSLog(@"User is already signed in");
         [self performSegueWithIdentifier: @"LoggedIn" sender: self];
     }
+     */
      // self.view.backgroundColor = [UIColor redColor];
 	// Do any additional setup after loading the view, typically from a nib.
 }

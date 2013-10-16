@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D02906F180DE1530067B927 /* PAPLoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D02906E180DE1530067B927 /* PAPLoadMoreCell.m */; };
+		7D029072180E0CF90067B927 /* BukkitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D029071180E0CF90067B927 /* BukkitCell.m */; };
+		7D029074180E1B8E0067B927 /* hong-kong.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D029073180E1B8E0067B927 /* hong-kong.png */; };
 		7D09DC6B17FA928F00C9B114 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09DC6A17FA928F00C9B114 /* MainViewController.m */; };
-		7D09DC6F17FBD25000C9B114 /* CenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09DC6D17FBD24F00C9B114 /* CenterViewController.m */; };
-		7D09DC7017FBD25000C9B114 /* CenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D09DC6E17FBD24F00C9B114 /* CenterViewController.xib */; };
-		7D09DC7417FBD53200C9B114 /* LeftPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09DC7217FBD53200C9B114 /* LeftPanelViewController.m */; };
-		7D09DC7517FBD53200C9B114 /* LeftPanelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D09DC7317FBD53200C9B114 /* LeftPanelViewController.xib */; };
-		7D09DC771803A8C600C9B114 /* Bukkit_Icon_114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09DC761803A8C500C9B114 /* Bukkit_Icon_114x114.png */; };
-		7D09DC791803A8C900C9B114 /* Bukkit_Icon_57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09DC781803A8C900C9B114 /* Bukkit_Icon_57x57.png */; };
+		7D09DC7C1803BAB900C9B114 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09DC7B1803BAB800C9B114 /* SWRevealViewController.m */; };
+		7D09DC7D1803C70500C9B114 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09DC7B1803BAB800C9B114 /* SWRevealViewController.m */; };
 		7D0F9D9B17E941C3007B71A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0F9D9A17E941C3007B71A9 /* UIKit.framework */; };
 		7D0F9D9D17E941C3007B71A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0F9D9C17E941C3007B71A9 /* Foundation.framework */; };
 		7D0F9D9F17E941C3007B71A9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0F9D9E17E941C3007B71A9 /* CoreGraphics.framework */; };
@@ -32,7 +31,16 @@
 		7D0F9DCC17E941C4007B71A9 /* BukkitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F9DCB17E941C4007B71A9 /* BukkitTests.m */; };
 		7D0F9DD717EA804C007B71A9 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F9DD617EA804B007B71A9 /* LogInViewController.m */; };
 		7D0F9DDF17EA81B8007B71A9 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F9DDE17EA81B8007B71A9 /* SignUpViewController.m */; };
+		7DA742E7180888B700688A67 /* AddItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA742E6180888B700688A67 /* AddItemViewController.m */; };
+		7DA742E91808A16E00688A67 /* bukkit_logo_v3_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DA742E81808A16E00688A67 /* bukkit_logo_v3_114.png */; };
+		7DA742EB1808A17500688A67 /* bukkit_logo_v3_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DA742EA1808A17500688A67 /* bukkit_logo_v3_57.png */; };
+		7DA742F1180B955300688A67 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA742F0180B955200688A67 /* ListViewController.m */; };
 		7DB88DA517EFB363005906A5 /* LogInTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB88DA417EFB363005906A5 /* LogInTableViewController.m */; };
+		7DBEE17E18050F2B00C16BF2 /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEE17D18050F2B00C16BF2 /* SideBarViewController.m */; };
+		7DBEE181180515F100C16BF2 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBEE17F180515F100C16BF2 /* menu.png */; };
+		7DBEE182180515F100C16BF2 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBEE180180515F100C16BF2 /* menu@2x.png */; };
+		7DBEE188180519B500C16BF2 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEE187180519B500C16BF2 /* ProfileViewController.m */; };
+		7DBEE18B180519D500C16BF2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEE18A180519D500C16BF2 /* SettingsViewController.m */; };
 		7DBF1F8317F39FC40023C32B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBF1F8217F39FC40023C32B /* Parse.framework */; };
 		7DBF1F8717F3A7D40023C32B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBF1F8617F3A7D40023C32B /* CFNetwork.framework */; };
 		7DBF1F8917F3A85C0023C32B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBF1F8817F3A85C0023C32B /* CoreLocation.framework */; };
@@ -57,16 +65,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7D02906D180DE1520067B927 /* PAPLoadMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PAPLoadMoreCell.h; sourceTree = "<group>"; };
+		7D02906E180DE1530067B927 /* PAPLoadMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PAPLoadMoreCell.m; sourceTree = "<group>"; };
+		7D029070180E0CF90067B927 /* BukkitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BukkitCell.h; sourceTree = "<group>"; };
+		7D029071180E0CF90067B927 /* BukkitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BukkitCell.m; sourceTree = "<group>"; };
+		7D029073180E1B8E0067B927 /* hong-kong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hong-kong.png"; sourceTree = "<group>"; };
 		7D09DC6917FA928F00C9B114 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		7D09DC6A17FA928F00C9B114 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		7D09DC6C17FBD24F00C9B114 /* CenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterViewController.h; sourceTree = "<group>"; };
-		7D09DC6D17FBD24F00C9B114 /* CenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterViewController.m; sourceTree = "<group>"; };
-		7D09DC6E17FBD24F00C9B114 /* CenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CenterViewController.xib; sourceTree = "<group>"; };
-		7D09DC7117FBD53200C9B114 /* LeftPanelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftPanelViewController.h; sourceTree = "<group>"; };
-		7D09DC7217FBD53200C9B114 /* LeftPanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftPanelViewController.m; sourceTree = "<group>"; };
-		7D09DC7317FBD53200C9B114 /* LeftPanelViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftPanelViewController.xib; sourceTree = "<group>"; };
-		7D09DC761803A8C500C9B114 /* Bukkit_Icon_114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bukkit_Icon_114x114.png; sourceTree = "<group>"; };
-		7D09DC781803A8C900C9B114 /* Bukkit_Icon_57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bukkit_Icon_57x57.png; sourceTree = "<group>"; };
+		7D09DC7A1803BAB800C9B114 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = ../SWRevealViewController.h; sourceTree = "<group>"; };
+		7D09DC7B1803BAB800C9B114 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = ../SWRevealViewController.m; sourceTree = "<group>"; };
 		7D0F9D9717E941C3007B71A9 /* Bukkit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bukkit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D0F9D9A17E941C3007B71A9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7D0F9D9C17E941C3007B71A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -93,8 +100,22 @@
 		7D0F9DD617EA804B007B71A9 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
 		7D0F9DDD17EA81B8007B71A9 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpViewController.h; path = ../SignUpViewController.h; sourceTree = "<group>"; };
 		7D0F9DDE17EA81B8007B71A9 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpViewController.m; path = ../SignUpViewController.m; sourceTree = "<group>"; };
+		7DA742E5180888B600688A67 /* AddItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddItemViewController.h; sourceTree = "<group>"; };
+		7DA742E6180888B700688A67 /* AddItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddItemViewController.m; sourceTree = "<group>"; };
+		7DA742E81808A16E00688A67 /* bukkit_logo_v3_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bukkit_logo_v3_114.png; sourceTree = "<group>"; };
+		7DA742EA1808A17500688A67 /* bukkit_logo_v3_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bukkit_logo_v3_57.png; sourceTree = "<group>"; };
+		7DA742EF180B955200688A67 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		7DA742F0180B955200688A67 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		7DB88DA317EFB363005906A5 /* LogInTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInTableViewController.h; sourceTree = "<group>"; };
 		7DB88DA417EFB363005906A5 /* LogInTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInTableViewController.m; sourceTree = "<group>"; };
+		7DBEE17C18050F2B00C16BF2 /* SideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideBarViewController.h; sourceTree = "<group>"; };
+		7DBEE17D18050F2B00C16BF2 /* SideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideBarViewController.m; sourceTree = "<group>"; };
+		7DBEE17F180515F100C16BF2 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
+		7DBEE180180515F100C16BF2 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
+		7DBEE186180519B500C16BF2 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		7DBEE187180519B500C16BF2 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		7DBEE189180519D500C16BF2 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		7DBEE18A180519D500C16BF2 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		7DBF1F8217F39FC40023C32B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		7DBF1F8417F3A0420023C32B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7DBF1F8617F3A7D40023C32B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -146,8 +167,6 @@
 		7D0F9D8E17E941C3007B71A9 = {
 			isa = PBXGroup;
 			children = (
-				7D09DC781803A8C900C9B114 /* Bukkit_Icon_57x57.png */,
-				7D09DC761803A8C500C9B114 /* Bukkit_Icon_114x114.png */,
 				7D0F9DA017E941C3007B71A9 /* Bukkit */,
 				7D0F9DC417E941C4007B71A9 /* BukkitTests */,
 				7D0F9D9917E941C3007B71A9 /* Frameworks */,
@@ -189,6 +208,10 @@
 		7D0F9DA017E941C3007B71A9 /* Bukkit */ = {
 			isa = PBXGroup;
 			children = (
+				7D02906D180DE1520067B927 /* PAPLoadMoreCell.h */,
+				7D02906E180DE1530067B927 /* PAPLoadMoreCell.m */,
+				7D09DC7A1803BAB800C9B114 /* SWRevealViewController.h */,
+				7D09DC7B1803BAB800C9B114 /* SWRevealViewController.m */,
 				7D0F9DA917E941C3007B71A9 /* AppDelegate.h */,
 				7D0F9DAA17E941C3007B71A9 /* AppDelegate.m */,
 				7D0F9DB217E941C3007B71A9 /* MainStoryboard.storyboard */,
@@ -202,13 +225,19 @@
 				7D0F9DDE17EA81B8007B71A9 /* SignUpViewController.m */,
 				7D09DC6917FA928F00C9B114 /* MainViewController.h */,
 				7D09DC6A17FA928F00C9B114 /* MainViewController.m */,
+				7DA742EF180B955200688A67 /* ListViewController.h */,
+				7DA742F0180B955200688A67 /* ListViewController.m */,
+				7D029070180E0CF90067B927 /* BukkitCell.h */,
+				7D029071180E0CF90067B927 /* BukkitCell.m */,
+				7DBEE17C18050F2B00C16BF2 /* SideBarViewController.h */,
+				7DBEE17D18050F2B00C16BF2 /* SideBarViewController.m */,
+				7DBEE186180519B500C16BF2 /* ProfileViewController.h */,
+				7DBEE187180519B500C16BF2 /* ProfileViewController.m */,
+				7DBEE189180519D500C16BF2 /* SettingsViewController.h */,
+				7DBEE18A180519D500C16BF2 /* SettingsViewController.m */,
+				7DA742E5180888B600688A67 /* AddItemViewController.h */,
+				7DA742E6180888B700688A67 /* AddItemViewController.m */,
 				7D0F9DA117E941C3007B71A9 /* Supporting Files */,
-				7D09DC6C17FBD24F00C9B114 /* CenterViewController.h */,
-				7D09DC6D17FBD24F00C9B114 /* CenterViewController.m */,
-				7D09DC6E17FBD24F00C9B114 /* CenterViewController.xib */,
-				7D09DC7117FBD53200C9B114 /* LeftPanelViewController.h */,
-				7D09DC7217FBD53200C9B114 /* LeftPanelViewController.m */,
-				7D09DC7317FBD53200C9B114 /* LeftPanelViewController.xib */,
 			);
 			path = Bukkit;
 			sourceTree = "<group>";
@@ -216,6 +245,11 @@
 		7D0F9DA117E941C3007B71A9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7D029073180E1B8E0067B927 /* hong-kong.png */,
+				7DA742EA1808A17500688A67 /* bukkit_logo_v3_57.png */,
+				7DA742E81808A16E00688A67 /* bukkit_logo_v3_114.png */,
+				7DBEE17F180515F100C16BF2 /* menu.png */,
+				7DBEE180180515F100C16BF2 /* menu@2x.png */,
 				7D0F9DA217E941C3007B71A9 /* Bukkit-Info.plist */,
 				7D0F9DA317E941C3007B71A9 /* InfoPlist.strings */,
 				7D0F9DA617E941C3007B71A9 /* main.m */,
@@ -317,15 +351,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DA742E91808A16E00688A67 /* bukkit_logo_v3_114.png in Resources */,
+				7DBEE181180515F100C16BF2 /* menu.png in Resources */,
 				7D0F9DA517E941C3007B71A9 /* InfoPlist.strings in Resources */,
 				7D0F9DAD17E941C3007B71A9 /* Default.png in Resources */,
+				7D029074180E1B8E0067B927 /* hong-kong.png in Resources */,
+				7DA742EB1808A17500688A67 /* bukkit_logo_v3_57.png in Resources */,
 				7D0F9DAF17E941C3007B71A9 /* Default@2x.png in Resources */,
+				7DBEE182180515F100C16BF2 /* menu@2x.png in Resources */,
 				7D0F9DB117E941C3007B71A9 /* Default-568h@2x.png in Resources */,
 				7D0F9DB417E941C3007B71A9 /* MainStoryboard.storyboard in Resources */,
-				7D09DC7017FBD25000C9B114 /* CenterViewController.xib in Resources */,
-				7D09DC7517FBD53200C9B114 /* LeftPanelViewController.xib in Resources */,
-				7D09DC771803A8C600C9B114 /* Bukkit_Icon_114x114.png in Resources */,
-				7D09DC791803A8C900C9B114 /* Bukkit_Icon_57x57.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,15 +395,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D02906F180DE1530067B927 /* PAPLoadMoreCell.m in Sources */,
+				7DBEE17E18050F2B00C16BF2 /* SideBarViewController.m in Sources */,
 				7D0F9DA717E941C3007B71A9 /* main.m in Sources */,
 				7D0F9DAB17E941C3007B71A9 /* AppDelegate.m in Sources */,
 				7D0F9DB717E941C4007B71A9 /* ViewController.m in Sources */,
+				7DBEE188180519B500C16BF2 /* ProfileViewController.m in Sources */,
 				7D0F9DD717EA804C007B71A9 /* LogInViewController.m in Sources */,
+				7D029072180E0CF90067B927 /* BukkitCell.m in Sources */,
 				7D0F9DDF17EA81B8007B71A9 /* SignUpViewController.m in Sources */,
 				7DB88DA517EFB363005906A5 /* LogInTableViewController.m in Sources */,
+				7DBEE18B180519D500C16BF2 /* SettingsViewController.m in Sources */,
+				7DA742E7180888B700688A67 /* AddItemViewController.m in Sources */,
+				7DA742F1180B955300688A67 /* ListViewController.m in Sources */,
 				7D09DC6B17FA928F00C9B114 /* MainViewController.m in Sources */,
-				7D09DC6F17FBD25000C9B114 /* CenterViewController.m in Sources */,
-				7D09DC7417FBD53200C9B114 /* LeftPanelViewController.m in Sources */,
+				7D09DC7D1803C70500C9B114 /* SWRevealViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +418,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D0F9DCC17E941C4007B71A9 /* BukkitTests.m in Sources */,
+				7D09DC7C1803BAB900C9B114 /* SWRevealViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

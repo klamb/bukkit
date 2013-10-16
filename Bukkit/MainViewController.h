@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CenterViewController.h"
-#import "LeftPanelViewController.h"
-#import <QuartzCore/QuartzCore.h>
+#import <Parse/Parse.h>
+#import "SWRevealViewController.h"
+#import "AddItemViewController.h"
 
-@interface MainViewController : UIViewController <CenterViewControllerDelegate>
+@protocol BukkitListDelegate;
+
+@interface MainViewController : UIViewController <AddItemDelegate>
+
+@property (nonatomic, weak) id<BukkitListDelegate> delegate;
+@property (nonatomic, weak) PFObject *list;
+
+@end
+
+@protocol BukkitListDelegate <NSObject>
+
+- (PFObject *)bukkitList;
 
 @end

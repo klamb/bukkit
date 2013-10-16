@@ -92,6 +92,7 @@
     
     if([indexPath row] == 0) {
         nameBox = [self makeTextField:@"Name"];
+        nameBox.tag = 0;
         nameBox.keyboardType = UIKeyboardTypeAlphabet;
         nameBox.returnKeyType = UIReturnKeyNext;
         nameBox.delegate = self;
@@ -100,6 +101,7 @@
     }
     if([indexPath row] == 1) {
         emailBox = [self makeTextField:@"Email"];
+        emailBox.tag = 1;
         emailBox.keyboardType = UIKeyboardTypeEmailAddress;
         emailBox.returnKeyType = UIReturnKeyNext;
         emailBox.delegate = self;
@@ -108,6 +110,7 @@
     }
     if ([indexPath row] == 2) {
         passwordBox = [self makeTextField:@"Password"];
+        passwordBox.tag = 2;
         passwordBox.keyboardType = UIKeyboardTypeAlphabet;
         passwordBox.secureTextEntry = YES;
         passwordBox.returnKeyType = UIReturnKeyGo;
@@ -124,6 +127,24 @@
 // To get rid of the section header for the tableview
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0.0;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField*)textField {
+    switch (textField.tag) {
+        case 0:
+            [emailBox becomeFirstResponder];
+            break;
+            
+        case 1:
+            [passwordBox becomeFirstResponder];
+            break;
+            
+        default:
+             [self signup:textField];
+            break;
+            
+    }
+    return NO; // We do not want UITextField to insert line-breaks.
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -163,8 +184,6 @@
 
 -(IBAction)signup:(id)sender {
     if([self validEmail:emailBox.text]) {
-        NSLog(@"WHATS GOOD");
-        
         PFUser *user = [PFUser user];
         user.username = nameBox.text;
         user.email = emailBox.text;
@@ -174,10 +193,17 @@
             if (!error) {
                 // Hooray! Let them use the app now.
                 NSLog(@"Hooray");
+                [self performSegueWithIdentifier:@"Signing Up" sender:sender];
             } else {
                 NSString *errorString = [error userInfo][@"error"];
                 // Show the errorString somewhere and let the user try again.
                 NSLog(@"%@", errorString);
+                UIAlertView *errorMessage = [[UIAlertView alloc] initWithTitle:@"Sign Up"
+                                                                  message:errorString
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+                [errorMessage show];
             }
         }];
         
@@ -189,7 +215,7 @@
 
 - (IBAction)loginFacebookButtonTouchHandler:(id)sender  {
     // The permissions requested from the user
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"user_education_history"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -203,15 +229,63 @@
             }
         } else if (user.isNew) {
             NSLog(@"User with facebook signed up and logged in!");
+            [self linkSchoolwithUser:user];
             [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
-            // [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:YES];
         } else {
             NSLog(@"User with facebook logged in!");
             [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
-            // [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:YES];
         }
     }];
 }
+
+-(void)linkSchoolwithUser:(PFUser *) user{
+    
+    FBRequest *request = [FBRequest requestForMe];
+    
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        NSString *schoolName = @"";
+        if (!error) {
+            NSDictionary *userData = (NSDictionary *)result;
+            
+            NSArray *education = userData[@"education"];
+            NSString *name = userData[@"name"];
+            
+            for (FBGraphObject* edu in education) {
+                if ([[edu objectForKey:@"type"] isEqualToString:@"College"]) {
+                    schoolName = [[edu objectForKey:@"school"] objectForKey:@"name"];
+                }
+            }
+
+            user.username = name;
+            [self createUser:user andBukkitList:schoolName];
+        }
+    }];
+}
+
+-(void)createUser:(PFUser *) user andBukkitList:(NSString *)school {
+    
+    user[@"school"] = school;
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"bukkitlist"];
+    [query whereKey:@"name" equalTo:school];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            PFObject *bukkitlist = [PFObject objectWithClassName:@"bukkitlist"];
+            [bukkitlist setObject:school forKey:@"name"];
+            [bukkitlist saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                PFRelation *relation = [user relationforKey:@"lists"];
+                [relation addObject:bukkitlist];
+                [user saveInBackground];
+            }];
+        } else {
+            // The find succeeded.
+            PFRelation *relation = [user relationforKey:@"lists"];
+            [relation addObject:object];
+            [user saveInBackground];
+        }
+    }];
+}
+
 
 -(BOOL) validEmail:(NSString*)text {
     NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";

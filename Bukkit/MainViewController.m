@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+
 #define CENTER_TAG 1
 #define LEFT_PANEL_TAG 2
 #define CORNER_RADIUS 4
@@ -15,13 +16,17 @@
 
 @interface MainViewController ()
 
-@property (nonatomic, strong) CenterViewController *centerViewController;
-@property (nonatomic, strong) LeftPanelViewController *leftPanelViewController;
-@property (nonatomic, assign) BOOL showingLeftPanel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addItemButton;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
+
+-(IBAction)presentAddItemView:(id)sender;
 
 @end
 
-@implementation MainViewController 
+@implementation MainViewController
+
+@synthesize sidebarButton, addItemButton, navItem, list;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,84 +40,90 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"Loaded");
     
-    self.centerViewController = [[CenterViewController alloc] initWithNibName:@"CenterViewController" bundle:nil];
-    self.centerViewController.view.tag = CENTER_TAG;
-    self.centerViewController.delegate = self;
+    PFUser *user = [PFUser currentUser];
     
-    [self.view addSubview:self.centerViewController.view];
-    [self addChildViewController:_centerViewController];
+    // Change button color
+    sidebarButton.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
     
-    [_centerViewController didMoveToParentViewController:self];
-	// Do any additional setup after loading the view.
+    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
+    sidebarButton.target = self.revealViewController;
+    sidebarButton.action = @selector(revealToggle:);
+    
+    // Set the gesture
+    // [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
+    // [(AppDelegate *)[[UIApplication sharedApplication] delegate] getBukkitList:self];
+
+    
+    PFRelation *lists = [user relationforKey:@"lists"];
+    
+    [[lists query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            // There was an error
+        } else {
+            list = object;
+            navItem.title = [object objectForKey:@"name"];
+            // NSLog(@"%@", [object objectForKey:@"name"]);
+        }
+    }];
+    
+    UISwipeGestureRecognizer * recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(myRightAction)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.view addGestureRecognizer:recognizer];
+    
+    
+
+    PFQuery *query = [lists query];
+    
+    /*
+    PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
+    [query whereKey:@"list" matchesQuery:query];
+    [queryBukkitList orderByDescending:@"createdAt"];
+    // queryBukkitList.cachePolicy = kPFCachePolicyNetworkOnly;
+    queryBukkitList.limit = 100;
+    
+    [queryBukkitList findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            // Do something with the found objects
+            
+            if (objects.count == 0) {
+                
+            } else {
+                for (PFObject *bukkitlist in objects) {
+                    NSLog(@"%@", [bukkitlist objectForKey:@"title"]);
+                }
+            }
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+     */
+    
 }
 
-- (UIView *)getLeftView {
-    // init view if it doesn't already exist
-    if (_leftPanelViewController == nil)
-    {
-        // this is where you define the view for the left panel
-        self.leftPanelViewController = [[LeftPanelViewController alloc] initWithNibName:@"LeftPanelViewController" bundle:nil];
-        self.leftPanelViewController.view.tag = LEFT_PANEL_TAG;
-        self.leftPanelViewController.delegate = _centerViewController;
-        
-        [self.view addSubview:self.leftPanelViewController.view];
-        
-        [self addChildViewController:_leftPanelViewController];
-        [_leftPanelViewController didMoveToParentViewController:self];
-        
-        _leftPanelViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
+-(IBAction)presentAddItemView: (id)sender {
     
-    self.showingLeftPanel = YES;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
+                                                         bundle:nil];
     
-    // set up view shadows
-    [self showCenterViewWithShadow:YES withOffset:-2];
+    AddItemViewController *addItemController =
+    [storyboard instantiateViewControllerWithIdentifier:@"AddItemViewController"];
+    // addItemController.bukkitList = bukkitList;
+    addItemController.delegate = self;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addItemController];
     
-    UIView *view = self.leftPanelViewController.view;
-    return view;
+     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
--(void)showCenterViewWithShadow:(BOOL)value withOffset:(double)offset {
-    if (value) {
-        [_centerViewController.view.layer setCornerRadius:CORNER_RADIUS];
-        [_centerViewController.view.layer setShadowColor:[UIColor blackColor].CGColor];
-        [_centerViewController.view.layer setShadowOpacity:0.8];
-        [_centerViewController.view.layer setShadowOffset:CGSizeMake(offset, offset)];
-        
-    }
-    else {
-        [_centerViewController.view.layer setCornerRadius:0.0f];
-        [_centerViewController.view.layer setShadowOffset:CGSizeMake(offset, offset)];
-    }
+-(void)cancelAddingItem:(AddItemViewController *) addItemController {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark -
-#pragma mark Delegate Actions
-
-- (void)movePanelLeft {
-    
-}
-
-- (void)movePanelRight {
-    UIView *childView = [self getLeftView];
-    [self.view sendSubviewToBack:childView];
-    
-    [UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         _centerViewController.view.frame = CGRectMake(self.view.frame.size.width - PANEL_WIDTH, 0, self.view.frame.size.width, self.view.frame.size.height);
-                     }
-                     completion:^(BOOL finished) {
-                         if (finished) {
-                             
-                             _centerViewController.menuButton.tag = 0;
-                         }
-                     }];
-}
-
-- (void)movePanelToOriginalPosition {
-    
+-(void)addItem:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

@@ -7,24 +7,82 @@
 //
 
 #import "AppDelegate.h"
-#import <Parse/Parse.h>
 #import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
 
+@synthesize revealViewController, storyboard;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    
-    NSLog(@"Application did launch");
-    
+
+    // ****************************************************************************
+    // Parse initialization
     [Parse setApplicationId:@"UvQUJni3ffqceFAN9A3znpedOc1eNHf3v3tyGdHE"
                   clientKey:@"ih9c1SogIstMaQzR0cSlhwqpx8Er3uvdErpN8MrR"];
+    // ****************************************************************************
     
     [PFFacebookUtils initializeFacebook];
     [FBLoginView class];
     
+    self.storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    self.revealViewController = [storyboard instantiateViewControllerWithIdentifier:@"RevealViewController"];
+    
+    self.window.rootViewController = self.revealViewController;
+    [self.window makeKeyAndVisible];
+    
+    if([self checkForLogin]) {
+        
+    }
+    
     return YES;
+}
+
+-(BOOL)checkForLogin {
+    if (![PFUser currentUser]) {
+        [self presentLogInViewController];
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
+
+-(void)logOut:(SettingsViewController *) settingsViewController {
+    // Log out
+    [PFUser logOut];
+    
+    
+    ViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    [settingsViewController presentViewController:navigationController animated:NO completion:nil];
+}
+
+-(void)getBukkitList:(MainViewController *) viewController {
+    PFUser *user = [PFUser currentUser];
+    
+    PFRelation *lists = [user relationforKey:@"lists"];
+    
+    [[lists query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!object) {
+            // There was an error
+        } else {
+            viewController.list = object;
+            // navItem.title = [object objectForKey:@"name"];
+            NSLog(@"%@", [object objectForKey:@"name"]);
+        }
+    }];
+}
+
+-(void)presentLogInViewController {
+    ViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    [self.revealViewController presentViewController:navigationController animated:NO completion:nil];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {

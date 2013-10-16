@@ -14,6 +14,8 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>bukkit_logo_v3_114</string>
+				<string>bukkit_logo_v3_57</string>
 				<string>Bukkit_Icon_114x114.png</string>
 				<string>Bukkit_Icon_57x57.png</string>
 			</array>
