@@ -57,9 +57,10 @@
             } else {
                 for (PFObject *bukkitlist in objects) {
                     PFObject *bukkit = [PFObject objectWithClassName:@"bukkit"];
+                    [bukkit setObject:[NSNumber numberWithInt:0] forKey:@"ranking"];
                     [bukkit setObject:titleField.text forKey:@"title"];
                     [bukkit setObject:bukkitlist forKey:@"list"];
-                    [bukkit saveInBackground];
+                    [self linkImageWithBukkit:bukkit];
                 }
             }
         } else {
@@ -69,6 +70,24 @@
     }];
     
     [self.delegate addItem:self];
+}
+
+-(void)linkImageWithBukkit:(PFObject *)bukkit {
+    UIImage *image = [UIImage imageNamed:@"hong-kong.png"];
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.05f);
+    
+    PFFile *imageFile = [PFFile fileWithName:@"Image.png" data:imageData];
+    
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            [bukkit setObject:imageFile forKey:@"Image"];
+            [bukkit saveInBackground];
+        }
+        else{
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField*)textField {

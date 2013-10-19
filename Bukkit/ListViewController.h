@@ -7,10 +7,13 @@
 //
 
 #import <Parse/Parse.h>
-#import "MainViewController.h"
-#import "PAPLoadMoreCell.h"
 #import "BukkitCell.h"
+#import "MainViewController.h"
 
-@interface ListViewController : PFQueryTableViewController
+
+@interface ListViewController : PFQueryTableViewController <BukkitDelegate>
+
+-(void)updateTable:(NSString *)segmentSelected;
+@property (nonatomic, assign) BOOL shouldReloadOnAppear;
 
 @end

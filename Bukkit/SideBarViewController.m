@@ -31,8 +31,8 @@
 {
     [super viewDidLoad];
     
-    //self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
-    //self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
+    self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
     menuItems = @[@"News Feed", @"profile", @"settings"];
@@ -87,11 +87,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier = [self.menuItems objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    NSString *cellIdentifier = [self.menuItems objectAtIndex:indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    
+    cell.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    cell.textLabel.textColor = [UIColor whiteColor];
+
     return cell;
 }
 

@@ -10,9 +10,13 @@
 
 @interface ListViewController ()
 
+@property (nonatomic, assign) BOOL topRated;
+
 @end
 
 @implementation ListViewController
+
+@synthesize topRated, shouldReloadOnAppear;
 
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -38,8 +42,11 @@
         // The number of objects to show per page
         self.objectsPerPage = 10;
         
-        // self.shouldReloadOnAppear = NO;
+        self.topRated = NO;
+        
+        self.shouldReloadOnAppear = NO;
     }
+    
     return self;
 }
 
@@ -65,11 +72,13 @@
     return 8.0f;
 }
 
+/*
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor = [UIColor clearColor];
     return headerView;
 }
+ */
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section == self.objects.count) {
@@ -81,11 +90,12 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section >= self.objects.count) {
         // Load More Section
-        return 44.0f;
+        return 50.0f;
     }
     
-    return 80.0f;
+    return 175.0f;
 }
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -106,32 +116,43 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-   
-    // [self loadObjects];
+    if (self.shouldReloadOnAppear) {
+        self.shouldReloadOnAppear = NO;
+        [self loadObjects];
+    }
 }
 
 
 - (PFQuery *)queryForTable {
     
-     /*
+    
     if (![PFUser currentUser]) {
         PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
         [query setLimit:0];
         return query;
     }
     
+    
     PFUser *user = [PFUser currentUser];
     PFRelation *lists = [user relationforKey:@"lists"];
     PFQuery *query = [lists query];
-    */
+    
     
     PFQuery *queryBukkitList = [PFQuery queryWithClassName:self.parseClassName];
-    // [query whereKey:@"list" matchesQuery:query];
-    // [queryBukkitList orderByDescending:@"createdAt"];
+    [query whereKey:@"list" matchesQuery:query];
+    
+    
+    
+    if(topRated) {
+        [queryBukkitList orderByDescending:@"ranking"];
+    }
+    else {
+        [queryBukkitList orderByDescending:@"createdAt"];
+    }
+    
     // queryBukkitList.cachePolicy = kPFCachePolicyIgnoreCache;
-    // queryBukkitList.limit = 100;
+    queryBukkitList.limit = 100;
   
-    NSLog(@"%lu", (unsigned long)[self.objects count]);
     // A pull-to-refresh should always trigger a network request.
     // [queryBukkitList setCachePolicy:kPFCachePolicyNetworkOnly];
     
@@ -192,29 +213,78 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *CellIdentifier = @"Cell";
     
+    if (indexPath.section == self.objects.count) {
+        // this behavior is normally handled by PFQueryTableViewController, but we are using sections for each object and we must handle this ourselves
+        UITableViewCell *cell = [self tableView:tableView cellForNextPageAtIndexPath:indexPath];
+        return cell;
+    }
+    
     BukkitCell *cell = (BukkitCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[BukkitCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+        cell = [[BukkitCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:CellIdentifier];
     }
     
+    cell.delegate = self;
     cell.title.text = [object objectForKey:@"title"];
+    cell.bukkit = object;
+    
+    if (topRated) {
+         NSString *rankText = [NSString stringWithFormat:@"%d", indexPath.section+1];
+         cell.rank.text = rankText;
+    } else {
+         NSString *time = [self getTimeElapsed:object.createdAt];
+        cell.rank.text = time;
+    }
     
     return cell;
+}
+
+-(void)updateTable:(NSString *)segmentSelected {
+    
+    if([segmentSelected isEqualToString:@"Top Rated"]) {
+        self.topRated = YES;
+    } else {
+        self.topRated = NO;
+    }
+    
+    [self loadObjects];
+}
+
+-(NSString *)getTimeElapsed:(NSDate *)timeStamp {
+    NSTimeInterval distanceBetweenDates = [[NSDate date] timeIntervalSinceDate:timeStamp];
+    double secondsInAnHour = 3600;
+    double secondsInAMinute = 60;
+    double secondsInADay = 86400;
+    NSInteger hoursBetweenDates = distanceBetweenDates / secondsInAnHour;
+    
+    if (hoursBetweenDates <= 0) {
+        NSInteger minutesBetweenDates = distanceBetweenDates / secondsInAMinute;
+        return [NSString stringWithFormat:@"%d m", minutesBetweenDates];
+    } else if(hoursBetweenDates >= 24) {
+        NSInteger daysBetweenDates = distanceBetweenDates/secondsInADay;
+        return [NSString stringWithFormat:@"%d d", daysBetweenDates];
+    } else {
+        return [NSString stringWithFormat:@"%d h", hoursBetweenDates];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
     
-    PAPLoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
     if (!cell) {
-        cell = [[PAPLoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        // cell.separatorImageTop.image = [UIImage imageNamed:@"SeparatorTimelineDark.png"];
-        cell.textLabel.text = @"Load More";
-        cell.hideSeparatorBottom = YES;
-        cell.mainView.backgroundColor = [UIColor clearColor];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
+       
     }
+    
+    cell.textLabel.text = @"Load More";
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    
+    
+    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.bounds] ;
+    cell.selectedBackgroundView.backgroundColor = [UIColor blueColor];
+    
     return cell;
 }
 
@@ -227,7 +297,38 @@
     if (indexPath.section == self.objects.count && self.paginationEnabled) {
         // Load More Cell
         [self loadNextPage];
+    } else {
+        MainViewController *mainVC = (MainViewController *)self.parentViewController;
+        [mainVC loadBukkitView:self.objects[indexPath.section]];
     }
+}
+
+-(void)bukkitCell:(BukkitCell *)bukkitCell didTapDiddit:(UIButton *)button {
+    PFQuery *query = [PFQuery queryWithClassName:@"bukkit"];
+    [query getObjectInBackgroundWithId:bukkitCell.bukkit.objectId block:^(PFObject *bukkit, NSError *error) {
+        
+        PFUser *user = [PFUser currentUser];
+        PFRelation *relation = [bukkit relationforKey:@"diddit"];
+        [relation addObject:user];
+        [bukkit incrementKey:@"ranking"];
+        [bukkit saveInBackground];
+    }];
+}
+
+-(void)bukkitCell:(BukkitCell *)bukkitCell didTapBukkit:(UIButton *)button {
+    PFQuery *query = [PFQuery queryWithClassName:@"bukkit"];
+    [query getObjectInBackgroundWithId:bukkitCell.bukkit.objectId block:^(PFObject *bukkit, NSError *error) {
+        
+        PFUser *user = [PFUser currentUser];
+        PFRelation *relation = [bukkit relationforKey:@"bukkit"];
+        [relation addObject:user];
+        [bukkit incrementKey:@"ranking"];
+        [bukkit saveInBackground];
+    }];
+}
+
+-(void)bukkitCell:(BukkitCell *)bukkitCell didTapComment:(UIButton *)button {
+    
 }
 
 - (void)didReceiveMemoryWarning

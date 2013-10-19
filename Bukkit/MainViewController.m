@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addItemButton;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 -(IBAction)presentAddItemView:(id)sender;
 
@@ -26,10 +27,11 @@
 
 @implementation MainViewController
 
-@synthesize sidebarButton, addItemButton, navItem, list;
+@synthesize sidebarButton, addItemButton, navItem, list, segmentedControl;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -50,11 +52,15 @@
     sidebarButton.target = self.revealViewController;
     sidebarButton.action = @selector(revealToggle:);
     
+    [segmentedControl addTarget:self
+                         action:@selector(pickOne:)
+               forControlEvents:UIControlEventValueChanged];
+    
     // Set the gesture
     // [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
     // [(AppDelegate *)[[UIApplication sharedApplication] delegate] getBukkitList:self];
-
+    
     
     PFRelation *lists = [user relationforKey:@"lists"];
     
@@ -67,51 +73,24 @@
             // NSLog(@"%@", [object objectForKey:@"name"]);
         }
     }];
-    
-    UISwipeGestureRecognizer * recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(myRightAction)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
-    [self.view addGestureRecognizer:recognizer];
-    
-    
+}
 
-    PFQuery *query = [lists query];
+-(void) pickOne:(id)sender{
     
-    /*
-    PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
-    [query whereKey:@"list" matchesQuery:query];
-    [queryBukkitList orderByDescending:@"createdAt"];
-    // queryBukkitList.cachePolicy = kPFCachePolicyNetworkOnly;
-    queryBukkitList.limit = 100;
+    segmentedControl = (UISegmentedControl *)sender;
+    NSString *order = [segmentedControl titleForSegmentAtIndex: [segmentedControl selectedSegmentIndex]];
     
-    [queryBukkitList findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            // Do something with the found objects
-            
-            if (objects.count == 0) {
-                
-            } else {
-                for (PFObject *bukkitlist in objects) {
-                    NSLog(@"%@", [bukkitlist objectForKey:@"title"]);
-                }
-            }
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-     */
-    
+    ListViewController *listVC = self.childViewControllers[0]; //assuming you have only one child
+    [listVC updateTable:order];
 }
 
 -(IBAction)presentAddItemView: (id)sender {
-    
+
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
                                                          bundle:nil];
     
     AddItemViewController *addItemController =
     [storyboard instantiateViewControllerWithIdentifier:@"AddItemViewController"];
-    // addItemController.bukkitList = bukkitList;
     addItemController.delegate = self;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addItemController];
     
@@ -123,7 +102,21 @@
 }
 
 -(void)addItem:(id)sender {
+    ListViewController *listVC = self.childViewControllers[0]; //assuming you have only one child
+    listVC.shouldReloadOnAppear = YES;
+    // [listVC loadObjects];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)loadBukkitView:(PFObject *)object {
+    
+    BukkitViewController *bukkitViewController =
+    [self.storyboard instantiateViewControllerWithIdentifier:@"BukkitViewController"];
+    bukkitViewController.delegate = self;
+    bukkitViewController.bukkit = object;
+    
+    [self.navigationController pushViewController:bukkitViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

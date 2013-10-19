@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 
+#define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
+
 @implementation AppDelegate
 
 @synthesize revealViewController, storyboard;
@@ -36,6 +38,12 @@
         
     }
     
+    [[UINavigationBar appearance] setBarTintColor:RGB(34, 158, 245)];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{
+                                                           UITextAttributeTextColor: [UIColor whiteColor]
+                                                           }];
+
     return YES;
 }
 

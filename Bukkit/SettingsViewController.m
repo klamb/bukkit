@@ -43,7 +43,6 @@
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
-    
 }
 
 -(IBAction)logOut:(id)sender {

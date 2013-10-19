@@ -10,18 +10,13 @@
 #import <Parse/Parse.h>
 #import "SWRevealViewController.h"
 #import "AddItemViewController.h"
+#import "ListViewController.h"
+#import "BukkitViewController.h"
 
-@protocol BukkitListDelegate;
+@interface MainViewController : UIViewController <AddItemDelegate, BukkitViewDelegate>
 
-@interface MainViewController : UIViewController <AddItemDelegate>
-
-@property (nonatomic, weak) id<BukkitListDelegate> delegate;
 @property (nonatomic, weak) PFObject *list;
 
-@end
-
-@protocol BukkitListDelegate <NSObject>
-
-- (PFObject *)bukkitList;
+-(void)loadBukkitView:(PFObject *)object;
 
 @end
