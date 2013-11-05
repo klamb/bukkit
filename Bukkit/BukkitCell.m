@@ -17,21 +17,15 @@
     self = [super initWithCoder:aCoder];
     if (self) {
         NSLog(@"Booshit");
-        
-        [self.commentButton setTitle:@"Booshit" forState:UIControlStateNormal];
-        
-        [self.commentButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [self.commentButton setTitleColor:[UIColor orangeColor] forState:UIControlStateSelected];
     }
     return self;
 }
-*/
+*/ 
+
 -(void)awakeFromNib {
-    
     [self setButton:self.commentButton];
     [self setButton:self.didditButton];
     [self setButton:self.bukkitButton];
-    
 }
 
 
@@ -39,8 +33,28 @@
     [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor orangeColor] forState:UIControlStateSelected];
     [button setTintColor:[UIColor clearColor]];
-    button.adjustsImageWhenHighlighted = NO;
+     button.adjustsImageWhenHighlighted = NO;
     [button setSelected:NO];
+    /*
+    if (![button isEqual:self.commentButton]) {
+        PFRelation *relation = [self.bukkit relationforKey:button.titleLabel.text.lowercaseString];
+        
+        [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                // The find succeeded.
+                NSLog(@"Successfully retrieved %d scores.", objects.count);
+                
+                for (PFObject *user in objects) {
+                    if (user.objectId == [PFUser currentUser].objectId)
+                        [button setSelected:YES];
+                }
+            } else {
+                // Log details of the failure
+                NSLog(@"WTF Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+    }
+     */
 }
 
 
@@ -59,25 +73,25 @@
         [self.didditButton setSelected:YES];
     }
     
-    [self.delegate bukkitCell:self didTapBukkit:sender];
+    [self.delegate bukkitCell:self didTapDiddit:sender];
 }
 
 - (IBAction)didTapCommentButtonAction:(UIButton *)sender {
-    if(self.didditButton.selected) {
-        [self.didditButton setSelected:NO];
+    if(self.commentButton.selected) {
+        [self.commentButton setSelected:NO];
     }
     else {
-        [self.didditButton setSelected:YES];
+        [self.commentButton setSelected:YES];
     }
     [delegate bukkitCell:self didTapBukkit:sender];
 }
 
 - (IBAction)didTapBukkitButtonAction:(UIButton *)sender {
-    if(self.didditButton.selected) {
-        [self.didditButton setSelected:NO];
+    if(self.bukkitButton.selected) {
+        [self.bukkitButton setSelected:NO];
     }
     else {
-        [self.didditButton setSelected:YES];
+        [self.bukkitButton setSelected:YES];
     }
     [delegate bukkitCell:self didTapBukkit:sender];
 }

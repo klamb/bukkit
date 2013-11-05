@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *signUpTable;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 
+@property (nonatomic, strong) NSMutableData *imageData;
+
 - (IBAction)signup:(id)sender;
 - (IBAction)loginFacebookButtonTouchHandler:(id)sender;
 

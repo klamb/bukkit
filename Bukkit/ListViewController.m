@@ -56,7 +56,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger sections = self.objects.count;
     if (self.paginationEnabled && sections != 0)
-        sections++;
+        sections = sections + 2;
     return sections;
 }
 
@@ -72,28 +72,22 @@
     return 8.0f;
 }
 
-/*
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc] init];
-    headerView.backgroundColor = [UIColor clearColor];
-    return headerView;
-}
- */
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == self.objects.count) {
+    if (section > self.objects.count || section == 0) {
         return 0.0f;
     }
     return 8.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section >= self.objects.count) {
-        // Load More Section
-        return 50.0f;
+    if (indexPath.section > self.objects.count) {
+        return 50.0f;   // Load More Section
+    } else if (indexPath.section == 0) {
+        return 30.0f;   // Segmented Control Section
+    } else {
+         return 175.0f;
     }
-    
-    return 175.0f;
 }
 
 
@@ -135,12 +129,12 @@
     
     PFUser *user = [PFUser currentUser];
     PFRelation *lists = [user relationforKey:@"lists"];
-    PFQuery *query = [lists query];
     
+    PFQuery *query = [lists query];
+    [query whereKey:@"name" equalTo:[user objectForKey:@"school"]];
     
     PFQuery *queryBukkitList = [PFQuery queryWithClassName:self.parseClassName];
-    [query whereKey:@"list" matchesQuery:query];
-    
+    [queryBukkitList whereKey:@"list" matchesQuery:query];
     
     
     if(topRated) {
@@ -189,21 +183,23 @@
     return queryBukkitList;
 }
 
+
 - (NSIndexPath *)indexPathForObject:(PFObject *)targetObject {
     for (int i = 0; i < self.objects.count; i++) {
         PFObject *object = [self.objects objectAtIndex:i];
         if ([[object objectId] isEqualToString:[targetObject objectId]]) {
-            return [NSIndexPath indexPathForRow:0 inSection:i];
+            return [NSIndexPath indexPathForRow:0 inSection:i+1];
         }
     }
     
     return nil;
 }
 
+
 - (PFObject *)objectAtIndexPath:(NSIndexPath *)indexPath {
     // overridden, since we want to implement sections
-    if (indexPath.section < self.objects.count) {
-        return [self.objects objectAtIndex:indexPath.section];
+    if (indexPath.section > 0 && indexPath.section <= self.objects.count) {
+        return [self.objects objectAtIndex:indexPath.section-1];
     }
     
     return nil;
@@ -213,7 +209,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *CellIdentifier = @"Cell";
     
-    if (indexPath.section == self.objects.count) {
+    // NSLog(@"Section %ld Count %ld", (long)indexPath.section, (unsigned long)self.objects.count);
+    
+    if(indexPath.section == 0) {
+        UITableViewCell *cell = [self tableView:tableView cellForSegmentedControl:indexPath];
+        return cell;
+    }
+    
+    if (indexPath.section > self.objects.count) {
         // this behavior is normally handled by PFQueryTableViewController, but we are using sections for each object and we must handle this ourselves
         UITableViewCell *cell = [self tableView:tableView cellForNextPageAtIndexPath:indexPath];
         return cell;
@@ -239,6 +242,38 @@
     
     return cell;
 }
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
+       
+    }
+    
+    cell.textLabel.text = @"Load More";
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    
+    
+    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.bounds] ;
+    cell.selectedBackgroundView.backgroundColor = [UIColor blueColor];
+    
+    return cell;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForSegmentedControl:(NSIndexPath *)indexPath {
+    static NSString *SegementedControlCell = @"SegmentedControlCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SegementedControlCell];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SegementedControlCell];
+        
+    }
+    
+    return cell;
+}
+
 
 -(void)updateTable:(NSString *)segmentSelected {
     
@@ -269,37 +304,20 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
-       
-    }
-    
-    cell.textLabel.text = @"Load More";
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    
-    
-    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.bounds] ;
-    cell.selectedBackgroundView.backgroundColor = [UIColor blueColor];
-    
-    return cell;
-}
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == self.objects.count && self.paginationEnabled) {
+    if(indexPath.section == 0) {
+        
+    }
+    else if (indexPath.section > self.objects.count && self.paginationEnabled) {
         // Load More Cell
         [self loadNextPage];
     } else {
         MainViewController *mainVC = (MainViewController *)self.parentViewController;
-        [mainVC loadBukkitView:self.objects[indexPath.section]];
+        [mainVC loadBukkitView:self.objects[indexPath.section-1]];
     }
 }
 

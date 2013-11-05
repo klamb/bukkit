@@ -18,7 +18,7 @@
 
 @implementation SignUpViewController
 
-@synthesize signUpButton, facebookButton, nameBox, emailBox, passwordBox, signUpTable;
+@synthesize signUpButton, facebookButton, nameBox, emailBox, passwordBox, signUpTable, imageData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -230,7 +230,6 @@
         } else if (user.isNew) {
             NSLog(@"User with facebook signed up and logged in!");
             [self linkSchoolwithUser:user];
-            [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
         } else {
             NSLog(@"User with facebook logged in!");
             [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
@@ -281,7 +280,15 @@
             // The find succeeded.
             PFRelation *relation = [user relationforKey:@"lists"];
             [relation addObject:object];
-            [user saveInBackground];
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
+                }
+                else{
+                    // Log details of the failure
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
         }
     }];
 }

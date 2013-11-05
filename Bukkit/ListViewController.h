@@ -11,7 +11,7 @@
 #import "MainViewController.h"
 
 
-@interface ListViewController : PFQueryTableViewController <BukkitDelegate>
+@interface ListViewController : PFQueryTableViewController
 
 -(void)updateTable:(NSString *)segmentSelected;
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;

@@ -19,7 +19,7 @@
 
 @implementation AddItemViewController
 
-@synthesize cancelButton, titleField, bukkitList, delegate;
+@synthesize cancelButton, uploadPhotoButton, titleField, bukkitList, delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,6 +35,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     titleField.delegate = self;
+    
+    //titleField.layer.cornerRadius=8.0f;
+    titleField.layer.masksToBounds=YES;
+    titleField.layer.borderColor=[[UIColor lightGrayColor]CGColor];
+    titleField.layer.borderWidth= 0.7f;
 }
 
 
@@ -44,32 +49,19 @@
 
 -(IBAction)addItem:(id)sender {
     
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"bukkitlist"];
-    [query whereKey:@"name" equalTo:[[PFUser currentUser] objectForKey:@"school" ]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            // Do something with the found objects
-            
-            if (objects.count == 0) {
+    PFObject *bukkit = [PFObject objectWithClassName:@"bukkit"];
+    [bukkit setObject:[NSNumber numberWithInt:0] forKey:@"ranking"];
+    [bukkit setObject:titleField.text forKey:@"title"];
+    [bukkit setObject:bukkitList forKey:@"list"];
+    PFRelation *relation = [bukkit relationforKey:@"bukkit"];
+    [relation addObject:[PFUser currentUser]];
+    [self linkImageWithBukkit:bukkit];
+}
 
-            } else {
-                for (PFObject *bukkitlist in objects) {
-                    PFObject *bukkit = [PFObject objectWithClassName:@"bukkit"];
-                    [bukkit setObject:[NSNumber numberWithInt:0] forKey:@"ranking"];
-                    [bukkit setObject:titleField.text forKey:@"title"];
-                    [bukkit setObject:bukkitlist forKey:@"list"];
-                    [self linkImageWithBukkit:bukkit];
-                }
-            }
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-    
-    [self.delegate addItem:self];
+-(IBAction)didTapUploadPhotoButton:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo", @"Choose Photo", nil];
+    if(titleField)
+        [actionSheet showInView:self.view];
 }
 
 -(void)linkImageWithBukkit:(PFObject *)bukkit {
@@ -81,13 +73,28 @@
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             [bukkit setObject:imageFile forKey:@"Image"];
-            [bukkit saveInBackground];
+            [bukkit saveInBackgroundWithBlock:^(BOOL succeded, NSError *error) {
+                PFRelation *relation = [[PFUser currentUser] relationforKey:@"bukkit"];
+                [relation addObject:bukkit];
+                [[PFUser currentUser] saveInBackground];
+                [self.delegate addItem:self];
+            }];
         }
         else{
             // Log details of the failure
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        //[self shouldStartCameraController];
+    } else if (buttonIndex == 1) {
+        // [self shouldStartPhotoLibraryPickerController];
+    }
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField*)textField {

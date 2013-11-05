@@ -8,16 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <QuartzCore/QuartzCore.h>
 
 @protocol AddItemDelegate;
 
 
-@interface AddItemViewController : UIViewController <UITextFieldDelegate>
+@interface AddItemViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate>
 
 @property(nonatomic, assign) id <AddItemDelegate> delegate;
 @property (weak, nonatomic) PFObject *bukkitList;
 @property (weak, nonatomic) IBOutlet UITextField *titleField;
 @property (weak, nonatomic) IBOutlet UIButton *postButton;
+@property (weak, nonatomic) IBOutlet UIButton *uploadPhotoButton;
+
+-(IBAction)didTapUploadPhotoButton:(id)sender;
 
 @end
 

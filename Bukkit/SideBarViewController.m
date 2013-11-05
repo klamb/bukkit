@@ -7,6 +7,7 @@
 //
 
 #import "SideBarViewController.h"
+#import "AppDelegate.h"
 
 @interface SideBarViewController ()
 
@@ -35,7 +36,7 @@
     self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
-    menuItems = @[@"News Feed", @"profile", @"settings"];
+    menuItems = @[@"News Feed", @"Profile", @"Bukkit Lists", @"Leaderboard", @"Settings"];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -51,12 +52,21 @@
     UINavigationController *destViewController = (UINavigationController*)segue.destinationViewController;
     destViewController.title = [[menuItems objectAtIndex:indexPath.row] capitalizedString];
     
+    
+    if ([segue.identifier isEqualToString:@"showNewsFeed"]) {
+        
+        MainViewController *mainViewController = (MainViewController *)segue.destinationViewController;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] getBukkitList:mainViewController];
+    }
+    
+    
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;
         
         swSegue.performBlock = ^(SWRevealViewControllerSegue* rvc_segue, UIViewController* svc, UIViewController* dvc) {
             
             UINavigationController* navController = (UINavigationController*)self.revealViewController.frontViewController;
+            
             [navController setViewControllers: @[dvc] animated: NO ];
             [self.revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
         };

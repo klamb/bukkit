@@ -20,7 +20,7 @@
 @property (nonatomic, strong) UIStoryboard *storyboard;
 
 -(void)logOut:(SettingsViewController *) settingsViewController;
--(void)getBukkitList:(MainViewController *) viewController;
+-(void)getBukkitList:(MainViewController *) mainViewController;
 -(BOOL)checkForLogin;
 -(void)presentLogInViewController;
 

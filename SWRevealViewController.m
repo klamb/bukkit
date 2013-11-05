@@ -455,7 +455,10 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
         }
         else if ( [identifier isEqualToString:SWSegueFrontIdentifier] )
         {
-                         
+            UINavigationController *navController = (UINavigationController*)segue.destinationViewController;
+            MainViewController *mainViewController = navController.viewControllers[0];
+            
+            [(AppDelegate *)[[UIApplication sharedApplication] delegate] getBukkitList:mainViewController];
             segue.performBlock = ^(SWRevealViewControllerSegue* rvc_segue, UIViewController* svc, UIViewController* dvc)
             {
                 [self _setFrontViewController:dvc];

@@ -21,5 +21,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleBukkit;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfDiddit;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfBukkit;
+@property (weak, nonatomic) IBOutlet UIButton *bukkitButton;
+@property (weak, nonatomic) IBOutlet UIButton *didditButton;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+-(IBAction)didTapBukkitButton:(id)sender;
+-(IBAction)didTapDidditButton:(id)sender;
 
 @end

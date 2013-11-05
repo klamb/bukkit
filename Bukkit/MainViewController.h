@@ -13,10 +13,11 @@
 #import "ListViewController.h"
 #import "BukkitViewController.h"
 
-@interface MainViewController : UIViewController <AddItemDelegate, BukkitViewDelegate>
+@interface MainViewController : PFQueryTableViewController <AddItemDelegate, BukkitViewDelegate, BukkitDelegate>
 
-@property (nonatomic, weak) PFObject *list;
+@property (nonatomic, strong) PFObject *list;
 
 -(void)loadBukkitView:(PFObject *)object;
+-(void)getListCallback:(PFObject *)object error:(NSError *)error;
 
 @end

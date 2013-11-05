@@ -34,10 +34,9 @@
     self.window.rootViewController = self.revealViewController;
     [self.window makeKeyAndVisible];
     
-    if([self checkForLogin]) {
-        
-    }
+    [self checkForLogin];
     
+    // [[UINavigationBar appearance] setBarTintColor:RGB(0, 93, 238)];
     [[UINavigationBar appearance] setBarTintColor:RGB(34, 158, 245)];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{
@@ -69,20 +68,13 @@
     [settingsViewController presentViewController:navigationController animated:NO completion:nil];
 }
 
--(void)getBukkitList:(MainViewController *) viewController {
-    PFUser *user = [PFUser currentUser];
+-(void)getBukkitList:(MainViewController *) mainViewController {
     
+    PFUser *user = [PFUser currentUser];
     PFRelation *lists = [user relationforKey:@"lists"];
     
-    [[lists query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
-            // There was an error
-        } else {
-            viewController.list = object;
-            // navItem.title = [object objectForKey:@"name"];
-            NSLog(@"%@", [object objectForKey:@"name"]);
-        }
-    }];
+    [[lists query] getFirstObjectInBackgroundWithTarget:mainViewController
+                                               selector:@selector(getListCallback:error:)];
 }
 
 -(void)presentLogInViewController {

@@ -15,7 +15,7 @@
 
 @implementation LogInViewController
 
-@synthesize logInButton, username, password, loginTable, facebookButton;
+@synthesize logInButton, username, password, loginTable, facebookButton, imageData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -234,11 +234,81 @@
             }
         } else if (user.isNew) {
             NSLog(@"User with facebook signed up and logged in!");
+             [self loadProfileView:user];
             [self performSegueWithIdentifier:@"LOGGING IN" sender:facebookButton];
         } else {
             NSLog(@"User with facebook logged in!");
+            [self loadProfileView:user];
             [self performSegueWithIdentifier:@"LOGGING IN" sender:facebookButton];
             // [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:YES];
+        }
+    }];
+}
+
+-(void)loadProfileView:(PFUser *) user {
+    NSLog(@"Loading... ");
+    FBRequest *request = [FBRequest requestForMe];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        // handle response
+        if (!error) {
+            // Parse the data received
+            NSDictionary *userData = (NSDictionary *)result;
+            
+            NSString *facebookID = userData[@"id"];
+            
+            // Download the user's facebook profile picture
+            imageData = [[NSMutableData alloc] init]; // the data will be loaded in here
+            
+            // URL should point to https://graph.facebook.com/{facebookId}/picture?type=large&return_ssl_resources=1
+            NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
+            
+            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:pictureURL
+                                                                      cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                                  timeoutInterval:2.0f];
+            // Run network request asynchronously
+            NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
+            
+            if (!urlConnection) {
+                NSLog(@"Failed to download picture");
+            }
+            
+            
+            
+        } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
+                    isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
+            NSLog(@"The facebook session was invalidated");
+            
+        } else {
+            NSLog(@"Some other error: %@", error);
+        }
+    }];
+
+}
+
+#pragma mark - NSURLConnectionDataDelegate
+
+/* Callback delegate methods used for downloading the user's profile picture */
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    // As chuncks of the image are received, we build our data file
+    [self.imageData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // All data has been downloaded, now we can set the image in the header image view
+    // UIImage *profilePic = [UIImage imageWithData:self.imageData];
+    NSLog(@"Got the picture...");
+    PFFile *imageFile = [PFFile fileWithName:@"profilepic.jpg" data:self.imageData];
+    
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            PFUser *user = [PFUser currentUser];
+            [user setObject:imageFile forKey:@"profilepic"];
+            [user saveInBackground];
+            
+        }
+        else{
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
 }
