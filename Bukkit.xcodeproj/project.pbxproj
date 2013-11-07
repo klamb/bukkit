@@ -59,6 +59,7 @@
 		7DBF1F9617F3A9080023C32B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBF1F8417F3A0420023C32B /* AudioToolbox.framework */; };
 		7DC5EDBB1828920F00456E32 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC5EDBA1828920F00456E32 /* Default~iphone.png */; };
 		7DC5EDBD18289C8400456E32 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC5EDBC18289C8400456E32 /* logo.png */; };
+		7DC5EDC31829F3E100456E32 /* UserActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC5EDC21829F3E100456E32 /* UserActivityViewController.m */; };
 		7DDF996A17FA5D7F0076A5DE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDF996917FA5D7F0076A5DE /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +147,8 @@
 		7DBF1F9417F3A8F60023C32B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7DC5EDBA1828920F00456E32 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		7DC5EDBC18289C8400456E32 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		7DC5EDC11829F3E100456E32 /* UserActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserActivityViewController.h; sourceTree = "<group>"; };
+		7DC5EDC21829F3E100456E32 /* UserActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserActivityViewController.m; sourceTree = "<group>"; };
 		7DDF996917FA5D7F0076A5DE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -292,6 +295,8 @@
 				7DBEE18A180519D500C16BF2 /* SettingsViewController.m */,
 				7D853A49181768B100332003 /* BukkitListsViewController.h */,
 				7D853A4A181768B100332003 /* BukkitListsViewController.m */,
+				7DC5EDC11829F3E100456E32 /* UserActivityViewController.h */,
+				7DC5EDC21829F3E100456E32 /* UserActivityViewController.m */,
 				7D853A4C181768C100332003 /* LeaderboardViewController.h */,
 				7D853A4D181768C100332003 /* LeaderboardViewController.m */,
 			);
@@ -499,6 +504,7 @@
 				7D88993E181EE90500715E83 /* ActivityViewController.m in Sources */,
 				7D029072180E0CF90067B927 /* BukkitCell.m in Sources */,
 				7D0F9DDF17EA81B8007B71A9 /* SignUpViewController.m in Sources */,
+				7DC5EDC31829F3E100456E32 /* UserActivityViewController.m in Sources */,
 				7DB88DA517EFB363005906A5 /* LogInTableViewController.m in Sources */,
 				7DBEE18B180519D500C16BF2 /* SettingsViewController.m in Sources */,
 				7DA742E7180888B700688A67 /* AddItemViewController.m in Sources */,

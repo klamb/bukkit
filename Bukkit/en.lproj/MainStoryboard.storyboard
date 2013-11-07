@@ -535,7 +535,7 @@
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="didTapBukkitButton:" destination="Ejz-sQ-HuQ" eventType="touchUpInside" id="mV2-KH-zim"/>
+                                                    <action selector="didTapBukkitButton" destination="Ejz-sQ-HuQ" eventType="touchUpInside" id="HTz-Y5-vbk"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -560,7 +560,7 @@
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="didTapDidditButton:" destination="Ejz-sQ-HuQ" eventType="touchUpInside" id="OCH-9t-PTl"/>
+                                                    <action selector="didTapDidditButton" destination="Ejz-sQ-HuQ" eventType="touchUpInside" id="NmI-VK-Khk"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -825,19 +825,72 @@
         <!--Activity View Controller-->
         <scene sceneID="EsW-oG-toO">
             <objects>
-                <tableViewController storyboardIdentifier="ActivityViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ET9-mP-hiN" customClass="ActivityViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserActivityViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ET9-mP-hiN" customClass="ActivityViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="CM8-FG-FNP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="pr8-Ne-NSM">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="175" id="ndP-6k-pfr" customClass="BukkitCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="175"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pr8-Ne-NSM" id="jQP-JU-2Xz">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ndP-6k-pfr" id="L8c-GM-zd7">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="174"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hong-kong.png" translatesAutoresizingMaskIntoConstraints="NO" id="kla-9R-0jD">
+                                            <rect key="frame" x="0.0" y="39" width="320" height="95"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9F-Y5-4mx">
+                                            <rect key="frame" x="40" y="0.0" width="291" height="40"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hT-IK-oKk">
+                                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="moS-Dl-UKM">
+                                            <rect key="frame" x="107" y="142" width="106" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Comment"/>
+                                            <connections>
+                                                <action selector="didTapCommentButtonAction:" destination="ndP-6k-pfr" eventType="touchUpInside" id="srO-BL-iDS"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lcg-UP-kEU">
+                                            <rect key="frame" x="223" y="141" width="97" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Bukkit"/>
+                                            <connections>
+                                                <action selector="didTapBukkitButtonAction:" destination="ndP-6k-pfr" eventType="touchUpInside" id="Ihf-Ju-bWf"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qpm-6f-w3b">
+                                            <rect key="frame" x="0.0" y="142" width="101" height="24"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Diddit"/>
+                                            <connections>
+                                                <action selector="didTapDidditButtonAction:" destination="ndP-6k-pfr" eventType="touchUpInside" id="HMM-kh-HcP"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bukkitButton" destination="Lcg-UP-kEU" id="HVc-Fn-2Ph"/>
+                                    <outlet property="commentButton" destination="moS-Dl-UKM" id="wci-vF-CMH"/>
+                                    <outlet property="didditButton" destination="Qpm-6f-w3b" id="cCq-uk-7Lp"/>
+                                    <outlet property="rank" destination="0hT-IK-oKk" id="ew8-3x-MXW"/>
+                                    <outlet property="title" destination="l9F-Y5-4mx" id="oXf-pz-x44"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1073,7 +1126,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="jVr-Wy-04q"/>
+        <segue reference="n3b-yW-JcN"/>
         <segue reference="yfY-Yr-VGu"/>
     </inferredMetricsTieBreakers>
 </document>

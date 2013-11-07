@@ -132,8 +132,6 @@
     NSString *rankText = [NSString stringWithFormat:@"%d", indexPath.row+1];
     cell.rankingText.text = rankText;
     
-    
-    
     return cell;
 }
 
@@ -155,6 +153,10 @@
 }
 
 -(void)bukkitCell:(LeaderboardCell *)leaderboardCell didTapDiddit:(UIButton *)button {
+    MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+    mainViewController.userList = YES;
+    
+    [self.navigationController pushViewController:mainViewController animated:YES];
     
 }
 

@@ -7,7 +7,7 @@
 //
 
 #import "ProfileViewController.h"
-#import "ActivityViewController.h"
+#import "UserActivityViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
@@ -102,18 +102,20 @@
     }];
 }
 
--(IBAction)didTapBukkitButton:(id)sender {
-    ActivityViewController *activityViewController =
-    [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityViewController"];
-    activityViewController.showDidditUsers = NO;
+-(IBAction)didTapBukkitButton {
+    /*
+    UserActivityViewController *activityViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"UserActivityViewController"];
+    activityViewController.displayBukkitList = YES;
     [self.navigationController pushViewController:activityViewController animated:YES];
+     */
 }
 
--(IBAction)didTapDidditButton:(id)sender {
-    ActivityViewController *activityViewController =
-    [self.storyboard instantiateViewControllerWithIdentifier:@"ActivityViewController"];
-    activityViewController.showDidditUsers = YES;
+-(IBAction)didTapDidditButton {
+    /*
+    UserActivityViewController *activityViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"UserActivityViewController"];
+    activityViewController.displayBukkitList = NO;
     [self.navigationController pushViewController:activityViewController animated:YES];
+     */
 }
 
 - (void)didReceiveMemoryWarning

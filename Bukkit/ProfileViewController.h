@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfBukkit;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfDiddit;
 
--(IBAction)didTapBukkitButton:(id)sender;
--(IBAction)didTapDidditButton:(id)sender;
+-(IBAction)didTapBukkitButton;
+-(IBAction)didTapDidditButton;
 
 @end

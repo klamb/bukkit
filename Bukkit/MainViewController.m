@@ -30,7 +30,7 @@
 
 @implementation MainViewController
 
-@synthesize sidebarButton, addItemButton, navItem, list, topRated, shouldReloadOnAppear;
+@synthesize sidebarButton, addItemButton, navItem, list, topRated, shouldReloadOnAppear, userList;
 
 
 
@@ -61,27 +61,6 @@
     
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
-    // navItem.title = [list objectForKey:@"name"];
-    
-    /*
-    PFRelation *lists = [user relationforKey:@"lists"];
-    
-    PFQuery *query = [lists query];
-    [query whereKey:@"name" equalTo:[user objectForKey:@"school"]];
-    
-    PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkitList"];
-    [queryBukkitList whereKey:@"list" matchesQuery:query];
-    
-    [[lists query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
-            // There was an error
-        } else {
-            list = object;
-            navItem.title = [object objectForKey:@"name"];
-        }
-    }];
-    */
 }
 
 -(void) getListCallback:(PFObject *)object error:(NSError *)error {
@@ -169,6 +148,8 @@
         self.topRated = NO;
         
         self.shouldReloadOnAppear = NO;
+        
+        self.userList = NO;
     }
     
     return self;
@@ -237,15 +218,18 @@
     
     PFQuery *queryBukkitList;
     
+    if(userList) {
+        PFRelation *diddit = [user relationforKey:@"diddit"];
+        queryBukkitList = [diddit query];
+    } else {
         PFRelation *lists = [user relationforKey:@"lists"];
         
         PFQuery *query = [lists query];
         [query whereKey:@"name" equalTo:[user objectForKey:@"school"]];
         
-        
         queryBukkitList = [PFQuery queryWithClassName:self.parseClassName];
         [queryBukkitList whereKey:@"list" matchesQuery:query];
-    
+    }
     
     if(topRated) {
         [queryBukkitList orderByDescending:@"ranking"];
