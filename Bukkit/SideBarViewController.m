@@ -52,13 +52,13 @@
     UINavigationController *destViewController = (UINavigationController*)segue.destinationViewController;
     destViewController.title = [[menuItems objectAtIndex:indexPath.row] capitalizedString];
     
-    
+    /*
     if ([segue.identifier isEqualToString:@"showNewsFeed"]) {
         
         MainViewController *mainViewController = (MainViewController *)segue.destinationViewController;
         [(AppDelegate *)[[UIApplication sharedApplication] delegate] getBukkitList:mainViewController];
     }
-    
+    */
     
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;

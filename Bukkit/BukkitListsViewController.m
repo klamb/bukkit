@@ -88,6 +88,19 @@
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    if (storyboard) {
+        NSLog(@"okay");
+    } else {
+        NSLog(@"booshit");
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

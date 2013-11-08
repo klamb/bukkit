@@ -103,11 +103,11 @@
 }
 
 -(IBAction)didTapBukkitButton {
-    /*
-    UserActivityViewController *activityViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"UserActivityViewController"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    UserActivityViewController *activityViewController = [storyboard instantiateViewControllerWithIdentifier:@"UserActivityViewController"];
     activityViewController.displayBukkitList = YES;
     [self.navigationController pushViewController:activityViewController animated:YES];
-     */
+     
 }
 
 -(IBAction)didTapDidditButton {
