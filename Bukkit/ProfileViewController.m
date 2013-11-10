@@ -7,7 +7,7 @@
 //
 
 #import "ProfileViewController.h"
-#import "UserActivityViewController.h"
+#import "MainViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
@@ -21,7 +21,7 @@
 
 @implementation ProfileViewController
 
-@synthesize sidebarButton, nameText, profileView, upperBackgroundView, didditButton, bukkitButton, numberOfDiddit, numberOfBukkit;
+@synthesize sidebarButton, nameText, profileView, upperBackgroundView, didditButton, bukkitButton, numberOfDiddit, numberOfBukkit, profile, pushedView;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -43,18 +43,31 @@
     // Change button color
     sidebarButton.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
     
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    sidebarButton.target = self.revealViewController;
-    sidebarButton.action = @selector(revealToggle:);
+    if (!pushedView) {
+        
+        //UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@""];
+        
+        // [self.navigationController.navigationBar pushNavigationItem:navItem animated:NO];
+        
+        UIImage *image = [UIImage imageNamed:@"menu.png"];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:image forState:UIControlStateNormal];
+        UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+        
+        self.navigationController.navigationItem.leftBarButtonItem = menuButtonItem;
+        
+        // Set the side bar button action. When it's tapped, it'll show up the sidebar.
+        menuButtonItem.target = self.revealViewController;
+        menuButtonItem.action = @selector(revealToggle:);
     
-     nameText.text = [[PFUser currentUser] objectForKey:@"username"];
+        // Set the gesture
+        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    }
     
+    nameText.text = [[PFUser currentUser] objectForKey:@"username"];
     upperBackgroundView.backgroundColor = RGB(34, 158, 245);
     
-    // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
-    PFFile *profPicFile = [[PFUser currentUser] objectForKey:@"profilepic"];
+    PFFile *profPicFile = [profile objectForKey:@"profilepic"];
     [profPicFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error) {
             self.profileView.image = [UIImage imageWithData:imageData];
@@ -69,7 +82,7 @@
         }
     }];
     
-    PFRelation *relationOfBukkit = [[PFUser currentUser] relationforKey:@"bukkit"];
+    PFRelation *relationOfBukkit = [profile relationforKey:@"bukkit"];
     [[relationOfBukkit query] countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
         if (!error) {
             if (count == 0) {
@@ -85,7 +98,7 @@
     }];
     
     
-    PFRelation *relationOfDiddit = [[PFUser currentUser] relationforKey:@"diddit"];
+    PFRelation *relationOfDiddit = [profile relationforKey:@"diddit"];
     [[relationOfDiddit query] countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         if(!error) {
             if (number == 0) {
@@ -103,19 +116,24 @@
 }
 
 -(IBAction)didTapBukkitButton {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    UserActivityViewController *activityViewController = [storyboard instantiateViewControllerWithIdentifier:@"UserActivityViewController"];
-    activityViewController.displayBukkitList = YES;
-    [self.navigationController pushViewController:activityViewController animated:YES];
+    MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+    
+    NSString *listTitle = [NSString stringWithFormat:@"%@ Bukkit List", profile.username];
+    mainViewController.nameOfList = listTitle;
+    PFRelation *list = [profile relationforKey:@"bukkit"];
+    mainViewController.query = [list query];
+    [self.navigationController pushViewController:mainViewController animated:YES];
      
 }
 
 -(IBAction)didTapDidditButton {
-    /*
-    UserActivityViewController *activityViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"UserActivityViewController"];
-    activityViewController.displayBukkitList = NO;
-    [self.navigationController pushViewController:activityViewController animated:YES];
-     */
+    
+    MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+    NSString *listTitle = [NSString stringWithFormat:@"%@ Diddit List", profile.username];
+    mainViewController.nameOfList = listTitle;
+    PFRelation *list = [profile relationforKey:@"diddit"];
+    mainViewController.query = [list query];
+    [self.navigationController pushViewController:mainViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

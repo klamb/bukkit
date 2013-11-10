@@ -248,12 +248,30 @@
             
             NSArray *education = userData[@"education"];
             NSString *name = userData[@"name"];
+            NSString *facebookID = userData[@"id"];
+            
+            imageData = [[NSMutableData alloc] init];
+            
+            NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
+            
+            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:pictureURL
+                                                                      cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                                  timeoutInterval:2.0f];
+            // Run network request asynchronously
+            NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
+            
+            if (!urlConnection) {
+                NSLog(@"Failed to download picture");
+            }
+
             
             for (FBGraphObject* edu in education) {
                 if ([[edu objectForKey:@"type"] isEqualToString:@"College"]) {
                     schoolName = [[edu objectForKey:@"school"] objectForKey:@"name"];
                 }
             }
+            
+            NSLog(@"USERNAME: %@", name);
 
             user.username = name;
             [self createUser:user andBukkitList:schoolName];
@@ -274,12 +292,14 @@
             [bukkitlist saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 PFRelation *relation = [user relationforKey:@"lists"];
                 [relation addObject:bukkitlist];
+                [user setObject:bukkitlist forKey:@"defaultList"];
                 [user saveInBackground];
             }];
         } else {
             // The find succeeded.
             PFRelation *relation = [user relationforKey:@"lists"];
             [relation addObject:object];
+            [user setObject:object forKey:@"defaultList"];
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                     [self performSegueWithIdentifier:@"Signing Up" sender:facebookButton];
@@ -298,6 +318,36 @@
     NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
     return [emailTest evaluateWithObject:text];
+}
+
+
+
+#pragma mark - NSURLConnectionDataDelegate
+
+/* Callback delegate methods used for downloading the user's profile picture */
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    // As chuncks of the image are received, we build our data file
+    [self.imageData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // All data has been downloaded, now we can set the image in the header image view
+    // UIImage *profilePic = [UIImage imageWithData:self.imageData];
+    NSLog(@"Got the picture...");
+    PFFile *imageFile = [PFFile fileWithName:@"profilepic.jpg" data:self.imageData];
+    
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            PFUser *user = [PFUser currentUser];
+            [user setObject:imageFile forKey:@"profilepic"];
+            [user saveInBackground];
+            
+        }
+        else{
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "LeaderboardViewController.h"
+#import "ProfileViewController.h"
 #import "MainViewController.h"
 #import "AppDelegate.h"
 
@@ -141,15 +142,12 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if(indexPath.section == 0) {
-        
-    }
-    else if (indexPath.section > self.objects.count && self.paginationEnabled) {
-        // Load More Cell
-        [self loadNextPage];
-    } else {
-        // [self loadBukkitView:self.objects[indexPath.section]];
-    }
+    ProfileViewController *profileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+    profileViewController.profile = [self.objects objectAtIndex:indexPath.row];
+    profileViewController.pushedView = YES;
+    [self.navigationController pushViewController:profileViewController animated:YES];
+    
+    
 }
 
 -(void)bukkitCell:(LeaderboardCell *)leaderboardCell didTapDiddit:(UIButton *)button {

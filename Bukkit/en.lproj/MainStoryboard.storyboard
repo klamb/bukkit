@@ -415,7 +415,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Ejz-sQ-HuQ" kind="custom" customClass="SWRevealViewControllerSegue" id="I3B-6D-fXs"/>
+                                    <segue destination="Ejz-sQ-HuQ" kind="custom" identifier="showProfileView" customClass="SWRevealViewControllerSegue" id="I3B-6D-fXs"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Bukkit Lists" id="bs1-Ju-5G6">
@@ -492,7 +492,7 @@
         <!--Profile View Controller-->
         <scene sceneID="sy8-9f-eTo">
             <objects>
-                <viewController id="Ejz-sQ-HuQ" customClass="ProfileViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ejz-sQ-HuQ" customClass="ProfileViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PU3-lc-6UQ"/>
                         <viewControllerLayoutGuide type="bottom" id="O3v-v1-624"/>
@@ -572,14 +572,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem image="menu.png" id="hVM-gP-DlO"/>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" id="Lys-ly-MbD">
-                        <connections>
-                            <outlet property="leftBarButtonItem" destination="hVM-gP-DlO" id="c2a-US-ylm"/>
-                        </connections>
-                    </navigationItem>
+                    <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="bukkitButton" destination="Afz-kD-YGm" id="1pw-fb-Fe8"/>
@@ -588,7 +581,6 @@
                         <outlet property="numberOfBukkit" destination="bdJ-xI-0rJ" id="NS7-pI-Ect"/>
                         <outlet property="numberOfDiddit" destination="Fad-Hy-XyV" id="Awp-KL-fqg"/>
                         <outlet property="profileView" destination="qLA-t2-pTc" id="0bf-XC-XVj"/>
-                        <outlet property="sidebarButton" destination="hVM-gP-DlO" id="8zZ-wd-hob"/>
                         <outlet property="upperBackgroundView" destination="GwO-c4-JMm" id="EQK-BM-mfd"/>
                     </connections>
                 </viewController>
@@ -609,7 +601,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VcR-ea-Eg1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2064" y="386"/>
+            <point key="canvasLocation" x="2072" y="402"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="b1U-Qi-hOU">
@@ -822,10 +814,10 @@
             </objects>
             <point key="canvasLocation" x="3043" y="402"/>
         </scene>
-        <!--Activity View Controller-->
+        <!--User Activity View Controller-->
         <scene sceneID="EsW-oG-toO">
             <objects>
-                <tableViewController storyboardIdentifier="UserActivityViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ET9-mP-hiN" customClass="ActivityViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserActivityViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ET9-mP-hiN" customClass="UserActivityViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="CM8-FG-FNP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -902,6 +894,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DsW-c2-lKL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3467" y="402"/>
+        </scene>
+        <!--Activity View Controller-->
+        <scene sceneID="rq1-oW-MtV">
+            <objects>
+                <tableViewController storyboardIdentifier="ActivityViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QHd-Di-bhD" customClass="ActivityViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3CV-6K-wvU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="grV-cK-Ssy">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="grV-cK-Ssy" id="ttT-kN-Stb">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="QHd-Di-bhD" id="7ti-Ol-6kj"/>
+                            <outlet property="delegate" destination="QHd-Di-bhD" id="hKC-7k-muD"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OzA-OA-6Mo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3369" y="1108"/>
         </scene>
         <!--Navigation Controller - AddItemNavigation-->
         <scene sceneID="qVM-Yq-WON">
@@ -1127,6 +1147,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="n3b-yW-JcN"/>
-        <segue reference="d3e-Ur-mHH"/>
+        <segue reference="yfY-Yr-VGu"/>
     </inferredMetricsTieBreakers>
 </document>

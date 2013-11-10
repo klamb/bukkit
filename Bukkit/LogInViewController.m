@@ -246,7 +246,7 @@
 }
 
 -(void)loadProfileView:(PFUser *) user {
-    NSLog(@"Loading... ");
+
     FBRequest *request = [FBRequest requestForMe];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // handle response
@@ -297,7 +297,6 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     // All data has been downloaded, now we can set the image in the header image view
     // UIImage *profilePic = [UIImage imageWithData:self.imageData];
-    NSLog(@"Got the picture...");
     PFFile *imageFile = [PFFile fileWithName:@"profilepic.jpg" data:self.imageData];
     
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

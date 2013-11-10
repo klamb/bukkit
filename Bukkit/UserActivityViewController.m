@@ -15,12 +15,11 @@
 
 @implementation UserActivityViewController
 
-@synthesize displayBukkitList;
+@synthesize query;
 
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super initWithCoder:aCoder];
     if (self) {
-        
         // The className to query on
         self.parseClassName = @"bukkit";
         
@@ -32,8 +31,10 @@
         // The number of objects to show per page
         self.objectsPerPage = 10;
     }
+    
     return self;
 }
+
 
 - (void)viewDidLoad
 {
@@ -45,24 +46,53 @@
 - (PFQuery *)queryForTable {
     
     if (![PFUser currentUser]) {
-        PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-        [query setLimit:0];
-        return query;
+        PFQuery *noUserQuery = [PFQuery queryWithClassName:self.parseClassName];
+        [noUserQuery setLimit:0];
+        return noUserQuery;
     }
     
-    PFRelation *list;
-    if(displayBukkitList) {
-        list = [[PFUser currentUser] relationforKey:@"bukkit"];
-    }
-    else {
-        list = [[PFUser currentUser] relationforKey:@"diddit"];
-    }
-    
-    PFQuery *queryBukkitList = [list query];
-    queryBukkitList.limit = 100;
-    
-    return queryBukkitList;
+    return query;
 }
+
+/*
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSInteger sections = self.objects.count;
+    if (self.paginationEnabled)
+        sections = sections + 1;
+    return sections;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 0.0f;
+    }
+    return 8.0f;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section > self.objects.count) {
+        return 0.0f;
+    }
+    return 8.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section > self.objects.count) {
+        return 50.0f;   // Load More Section
+    } else if (indexPath.section == 0) {
+        return 30.0f;   // Segmented Control Section
+    } else {
+        return 175.0f;
+    }
+}
+*/
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *CellIdentifier = @"Cell";

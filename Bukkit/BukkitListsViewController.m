@@ -7,6 +7,8 @@
 //
 
 #import "BukkitListsViewController.h"
+#import "UserActivityViewController.h"
+#import "MainViewController.h"
 
 @interface BukkitListsViewController ()
 
@@ -93,12 +95,22 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    PFObject *obj = [self.objects objectAtIndex:indexPath.row];
+    
+    PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
+    [queryBukkitList whereKey:@"list" equalTo:obj];
+    
+     MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+    mainViewController.nameOfList = [obj objectForKey:@"name"];
+    mainViewController.query = queryBukkitList;
+    [self.navigationController pushViewController:mainViewController animated:YES];
+    
+    /*
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    if (storyboard) {
-        NSLog(@"okay");
-    } else {
-        NSLog(@"booshit");
-    }
+    UserActivityViewController *activityViewController = [storyboard instantiateViewControllerWithIdentifier:@"UserActivityViewController"];
+    activityViewController.query = queryBukkitList;
+    [self.navigationController pushViewController:activityViewController animated:YES];
+     */
 }
 
 - (void)didReceiveMemoryWarning

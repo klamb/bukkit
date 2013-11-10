@@ -10,6 +10,6 @@
 
 @interface UserActivityViewController : PFQueryTableViewController
 
-@property (nonatomic, assign) BOOL displayBukkitList;
+ @property (nonatomic, strong) PFQuery *query;
 
 @end

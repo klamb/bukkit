@@ -30,7 +30,7 @@
 
 @implementation MainViewController
 
-@synthesize sidebarButton, addItemButton, navItem, list, topRated, shouldReloadOnAppear, userList;
+@synthesize sidebarButton, addItemButton, navItem, list, topRated, shouldReloadOnAppear, userList, query, nameOfList;
 
 
 
@@ -40,86 +40,6 @@
         // Custom initialization
     }
     return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    PFUser *user = [PFUser currentUser];
-    
-    if (!user) {
-        return;
-    }
-    
-    // Change button color
-    sidebarButton.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
-    
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    sidebarButton.target = self.revealViewController;
-    sidebarButton.action = @selector(revealToggle:);
-    
-    // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-}
-
--(void) getListCallback:(PFObject *)object error:(NSError *)error {
-    if (!error) {
-        // The get request succeeded. Log the score
-        navItem.title = [object objectForKey:@"name"];
-        list = object;
-        
-    } else {
-        // Log details of our failure
-        NSLog(@"Error: %@ %@", error, [error userInfo]);
-    }
-}
-
--(void) pickOne:(id)sender{
-    
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-    NSString *order = [segmentedControl titleForSegmentAtIndex: [segmentedControl selectedSegmentIndex]];
-    [self updateTable:order];
-}
-
--(IBAction)presentAddItemView: (id)sender {
-
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
-                                                         bundle:nil];
-    
-    AddItemViewController *addItemController =
-    [storyboard instantiateViewControllerWithIdentifier:@"AddItemViewController"];
-    addItemController.delegate = self;
-    addItemController.bukkitList = list;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addItemController];
-    
-     [self presentViewController:navigationController animated:YES completion:nil];
-}
-
--(void)cancelAddingItem:(AddItemViewController *) addItemController {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)addItem:(id)sender {
-    self.shouldReloadOnAppear = YES;
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)loadBukkitView:(PFObject *)object {
-    
-    BukkitViewController *bukkitViewController =
-    [self.storyboard instantiateViewControllerWithIdentifier:@"BukkitViewController"];
-    bukkitViewController.delegate = self;
-    bukkitViewController.bukkit = object;
-    
-    [self.navigationController pushViewController:bukkitViewController animated:YES];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -155,6 +75,71 @@
     return self;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    PFUser *user = [PFUser currentUser];
+    
+    if (!user) {
+        return;
+    }
+    
+    // Change button color
+    sidebarButton.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
+    
+    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
+    sidebarButton.target = self.revealViewController;
+    sidebarButton.action = @selector(revealToggle:);
+    
+    // Set the gesture
+    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
+    navItem.title = nameOfList;
+}
+
+
+
+#pragma mark - SegmentedControl action
+-(void) pickOne:(id)sender{
+    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+    NSString *order = [segmentedControl titleForSegmentAtIndex: [segmentedControl selectedSegmentIndex]];
+    [self updateTable:order];
+}
+
+
+#pragma mark - Present Add Item Viewcontroller
+
+-(IBAction)presentAddItemView: (id)sender {
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
+                                                         bundle:nil];
+    
+    AddItemViewController *addItemController =
+    [storyboard instantiateViewControllerWithIdentifier:@"AddItemViewController"];
+    addItemController.delegate = self;
+    addItemController.bukkitList = list;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addItemController];
+    
+     [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+-(void)cancelAddingItem:(AddItemViewController *) addItemController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)addItem:(id)sender {
+    self.shouldReloadOnAppear = YES;
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
 #pragma mark - UITableViewDataSource
 
 
@@ -177,7 +162,6 @@
     return 8.0f;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section > self.objects.count || section == 0) {
         return 0.0f;
@@ -198,7 +182,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     if (self.shouldReloadOnAppear) {
         self.shouldReloadOnAppear = NO;
         [self loadObjects];
@@ -211,10 +194,21 @@
     PFUser *user = [PFUser currentUser];
     
     if (!user) {
-        PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-        [query setLimit:0];
-        return query;
+        PFQuery *noUserQuery = [PFQuery queryWithClassName:self.parseClassName];
+        [noUserQuery setLimit:0];
+        return noUserQuery;
     }
+    
+    if(topRated) {
+        [query orderByDescending:@"ranking"];
+    }
+    else {
+        [query orderByDescending:@"createdAt"];
+    }
+    
+    return query;
+    
+    
     
     PFQuery *queryBukkitList;
     
@@ -252,28 +246,6 @@
     //if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
     // [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     //}
-    
-    /*
-     This query will result in an error if the schema hasn't been set beforehand. While Parse usually handles this automatically, this is not the case for a compound query such as this one. The error thrown is:
-     
-     Error: bad special key: __type
-     
-     To set up your schema, you may post a photo with a caption. This will automatically set up the Photo and Activity classes needed by this query.
-     
-     You may also use the Data Browser at Parse.com to set up your classes in the following manner.
-     
-     Create a User class: "User" (if it does not exist)
-     
-     Create a Custom class: "Activity"
-     - Add a column of type pointer to "User", named "fromUser"
-     - Add a column of type pointer to "User", named "toUser"
-     - Add a string column "type"
-     
-     Create a Custom class: "Photo"
-     - Add a column of type pointer to "User", named "user"
-     
-     You'll notice that these correspond to each of the fields used by the preceding query.
-     */
     
     return queryBukkitList;
 }
@@ -448,6 +420,16 @@
     } else {
         [self loadBukkitView:self.objects[indexPath.section-1]];
     }
+}
+
+-(void)loadBukkitView:(PFObject *)object {
+    
+    BukkitViewController *bukkitViewController =
+    [self.storyboard instantiateViewControllerWithIdentifier:@"BukkitViewController"];
+    bukkitViewController.delegate = self;
+    bukkitViewController.bukkit = object;
+    
+    [self.navigationController pushViewController:bukkitViewController animated:YES];
 }
 
 -(void)bukkitCell:(BukkitCell *)bukkitCell didTapDiddit:(UIButton *)button {

@@ -7,6 +7,7 @@
 //
 
 #import "SideBarViewController.h"
+#import "ProfileViewController.h"
 #import "AppDelegate.h"
 
 @interface SideBarViewController ()
@@ -52,13 +53,36 @@
     UINavigationController *destViewController = (UINavigationController*)segue.destinationViewController;
     destViewController.title = [[menuItems objectAtIndex:indexPath.row] capitalizedString];
     
-    /*
+    
     if ([segue.identifier isEqualToString:@"showNewsFeed"]) {
         
         MainViewController *mainViewController = (MainViewController *)segue.destinationViewController;
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] getBukkitList:mainViewController];
+        
+        /*
+        PFRelation *lists = [[PFUser currentUser] relationforKey:@"lists"];
+        
+        PFQuery *query = [lists query];
+        [query whereKey:@"name" equalTo:[[PFUser currentUser] objectForKey:@"school"]];
+        
+        PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
+        [queryBukkitList whereKey:@"list" matchesQuery:query];
+        */
+        
+        PFObject *defaultList = [[PFUser currentUser] objectForKey:@"defaultList"];
+        PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
+        [queryBukkitList whereKey:@"list" equalTo:defaultList];
+        
+        mainViewController.query = queryBukkitList;
+        [defaultList fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            mainViewController.nameOfList = [defaultList objectForKey:@"name"];
+        }];
     }
-    */
+    
+    if([segue.identifier isEqualToString:@"showProfileView"]) {
+        ProfileViewController *profileViewController = (ProfileViewController *)segue.destinationViewController;
+        profileViewController.profile = [PFUser currentUser];
+    }
+    
     
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] ) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue*) segue;

@@ -16,10 +16,12 @@
 @interface MainViewController : PFQueryTableViewController <AddItemDelegate, BukkitViewDelegate, BukkitDelegate>
 
 @property (nonatomic, strong) PFObject *list;
+@property (nonatomic, strong) PFQuery *query;
 @property (nonatomic, assign) BOOL userList;
+
+@property (nonatomic, weak) NSString *nameOfList;
 
 
 -(void)loadBukkitView:(PFObject *)object;
--(void)getListCallback:(PFObject *)object error:(NSError *)error;
 
 @end

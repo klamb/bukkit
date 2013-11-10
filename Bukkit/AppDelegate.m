@@ -36,7 +36,6 @@
     
     [self checkForLogin];
     
-    // [[UINavigationBar appearance] setBarTintColor:RGB(0, 93, 238)];
     [[UINavigationBar appearance] setBarTintColor:RGB(34, 158, 245)];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{
