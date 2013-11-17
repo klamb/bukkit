@@ -49,22 +49,20 @@
         
         // [self.navigationController.navigationBar pushNavigationItem:navItem animated:NO];
         
-        UIImage *image = [UIImage imageNamed:@"menu.png"];
+        UIImage *image = [UIImage imageNamed:@"Menu-Button.png"];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.bounds = CGRectMake( 0, 0, image.size.width, image.size.height );
         [button setImage:image forState:UIControlStateNormal];
+        [button addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
         
-        self.navigationController.navigationItem.leftBarButtonItem = menuButtonItem;
-        
-        // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-        menuButtonItem.target = self.revealViewController;
-        menuButtonItem.action = @selector(revealToggle:);
+        self.navigationItem.leftBarButtonItem = menuButtonItem;
     
         // Set the gesture
         [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     }
     
-    nameText.text = [[PFUser currentUser] objectForKey:@"username"];
+    nameText.text = [profile objectForKey:@"username"];
     upperBackgroundView.backgroundColor = RGB(34, 158, 245);
     
     PFFile *profPicFile = [profile objectForKey:@"profilepic"];
@@ -122,6 +120,8 @@
     mainViewController.nameOfList = listTitle;
     PFRelation *list = [profile relationforKey:@"bukkit"];
     mainViewController.query = [list query];
+    mainViewController.navItem.title = [NSString stringWithFormat:@"%@'s Bukkit List", [profile objectForKey:@"username"]];
+    mainViewController.pushedView = YES;
     [self.navigationController pushViewController:mainViewController animated:YES];
      
 }
@@ -133,6 +133,8 @@
     mainViewController.nameOfList = listTitle;
     PFRelation *list = [profile relationforKey:@"diddit"];
     mainViewController.query = [list query];
+     mainViewController.navItem.title = [NSString stringWithFormat:@"%@'s Diddit List", [profile objectForKey:@"username"]];
+    mainViewController.pushedView = YES;
     [self.navigationController pushViewController:mainViewController animated:YES];
 }
 

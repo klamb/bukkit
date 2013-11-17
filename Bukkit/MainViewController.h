@@ -12,13 +12,17 @@
 #import "AddItemViewController.h"
 #import "ListViewController.h"
 #import "BukkitViewController.h"
+#import "CommentViewController.h"
 
-@interface MainViewController : PFQueryTableViewController <AddItemDelegate, BukkitViewDelegate, BukkitDelegate>
+@interface MainViewController : PFQueryTableViewController <AddItemDelegate, CommentViewDelegate,BukkitViewDelegate, BukkitDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 
 @property (nonatomic, strong) PFObject *list;
 @property (nonatomic, strong) PFQuery *query;
-@property (nonatomic, assign) BOOL userList;
 
+@property (nonatomic, assign) BOOL userList;
+@property (nonatomic, assign) BOOL pushedView;
 @property (nonatomic, weak) NSString *nameOfList;
 
 

@@ -67,8 +67,9 @@
     }
     
     PFQuery *queryAllUsers = [PFUser query];
-    
+    [queryAllUsers orderByDescending:@"ranking"];
     queryAllUsers.limit = 100;
+    [queryAllUsers orderByDescending:@"didditRanking"];
     
     return queryAllUsers;
 }
@@ -77,9 +78,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    // Change button color
-    sidebarButton.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
     
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     sidebarButton.target = self.revealViewController;
@@ -146,8 +144,6 @@
     profileViewController.profile = [self.objects objectAtIndex:indexPath.row];
     profileViewController.pushedView = YES;
     [self.navigationController pushViewController:profileViewController animated:YES];
-    
-    
 }
 
 -(void)bukkitCell:(LeaderboardCell *)leaderboardCell didTapDiddit:(UIButton *)button {

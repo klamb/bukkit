@@ -7,10 +7,12 @@
 //
 
 #import "AddItemViewController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
-@interface AddItemViewController ()
+@interface AddItemViewController () <GKImagePickerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+@property (nonatomic, strong) GKImagePicker *imagePicker;
 
 -(IBAction)cancel:(id)sender;
 
@@ -19,7 +21,7 @@
 
 @implementation AddItemViewController
 
-@synthesize cancelButton, uploadPhotoButton, titleField, bukkitList, delegate;
+@synthesize cancelButton, uploadPhotoButton, titleField, bukkitList, delegate, takenImage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,8 +32,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     titleField.delegate = self;
@@ -48,25 +49,39 @@
 }
 
 -(IBAction)addItem:(id)sender {
-    
-    PFObject *bukkit = [PFObject objectWithClassName:@"bukkit"];
-    [bukkit setObject:[NSNumber numberWithInt:0] forKey:@"ranking"];
-    [bukkit setObject:titleField.text forKey:@"title"];
-    [bukkit setObject:bukkitList forKey:@"list"];
-    PFRelation *relation = [bukkit relationforKey:@"bukkit"];
-    [relation addObject:[PFUser currentUser]];
-    [self linkImageWithBukkit:bukkit];
+    if(titleField.text.length == 0) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Empty Title Field"
+                                                           message:@"You need to type in a title for this item."
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"OK"
+                                                 otherButtonTitles:nil];
+        [message show];
+    } else {
+        PFObject *bukkit = [PFObject objectWithClassName:@"bukkit"];
+        [bukkit setObject:[NSNumber numberWithInt:0] forKey:@"ranking"];
+        [bukkit setObject:titleField.text forKey:@"title"];
+        [bukkit setObject:bukkitList forKey:@"list"];
+        PFRelation *relation = [bukkit relationforKey:@"bukkit"];
+        [relation addObject:[PFUser currentUser]];
+        [self linkImageWithBukkit:bukkit];
+    }
 }
 
 -(IBAction)didTapUploadPhotoButton:(id)sender {
+    
+    [titleField resignFirstResponder];
+    
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo", @"Choose Photo", nil];
     if(titleField)
         [actionSheet showInView:self.view];
 }
 
 -(void)linkImageWithBukkit:(PFObject *)bukkit {
-    UIImage *image = [UIImage imageNamed:@"hong-kong.png"];
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.05f);
+    if(!self.takenImage) {
+        takenImage = [UIImage imageNamed:@"hong-kong.png"];
+    }
+    
+    NSData *imageData = UIImageJPEGRepresentation(takenImage, 0.05f);
     
     PFFile *imageFile = [PFFile fileWithName:@"Image.png" data:imageData];
     
@@ -85,20 +100,75 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+
+}
+
+- (BOOL)shouldStartUIImagePickerController:(CGSize) rect sourceTypeCamera:(BOOL) showCamera  {
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO && showCamera == YES) {
+        return NO;
+    }
+    
+    self.imagePicker = [[GKImagePicker alloc] init];
+    self.imagePicker.cropSize = rect;
+    
+    if(showCamera) {
+        self.imagePicker.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePicker.imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+    } else {
+        self.imagePicker.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    
+    self.imagePicker.delegate = self;
+    
+    [self presentViewController:self.imagePicker.imagePickerController animated:YES completion:nil];
+    // [self presentViewController:cameraUI animated:YES completion:nil];
+    
+    return YES;
+}
+
+
+#pragma mark - UIImagePickerDelegate
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    self.takenImage = image;
+}
+
+# pragma mark -
+# pragma mark GKImagePicker Delegate Methods
+
+- (void)imagePicker:(GKImagePicker *)imagePicker pickedImage:(UIImage *)image{
+    self.takenImage = image;
+    [self hideImagePicker];
+}
+
+- (void)hideImagePicker{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+    [self.imagePicker.imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        //[self shouldStartCameraController];
+        [self shouldStartUIImagePickerController:CGSizeMake(320, 137) sourceTypeCamera:YES];
     } else if (buttonIndex == 1) {
-        // [self shouldStartPhotoLibraryPickerController];
+        [self shouldStartUIImagePickerController:CGSizeMake(320, 137) sourceTypeCamera:NO];
     }
 }
 
+
+
 -(BOOL)textFieldShouldReturn:(UITextField*)textField {
-    [self addItem:textField];
+    // [self addItem:textField];
     [textField resignFirstResponder];
     
     return NO; // We do not want UITextField to insert line-breaks.

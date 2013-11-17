@@ -464,10 +464,8 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
             [queryBukkitList whereKey:@"list" equalTo:defaultList];
             
             mainViewController.query = queryBukkitList;
-            
-            [defaultList fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                mainViewController.nameOfList = [defaultList objectForKey:@"name"];
-            }];
+            mainViewController.pushedView = NO;
+            mainViewController.list = defaultList;
             
             segue.performBlock = ^(SWRevealViewControllerSegue* rvc_segue, UIViewController* svc, UIViewController* dvc)
             {

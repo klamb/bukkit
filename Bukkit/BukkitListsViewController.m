@@ -80,7 +80,7 @@
 	// Do any additional setup after loading the view.
     
     // Change button color
-    sidebarButton.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
+    // sidebarButton.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
     
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     sidebarButton.target = self.revealViewController;
@@ -102,6 +102,7 @@
     
      MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
     mainViewController.nameOfList = [obj objectForKey:@"name"];
+    mainViewController.pushedView = YES;
     mainViewController.query = queryBukkitList;
     [self.navigationController pushViewController:mainViewController animated:YES];
     

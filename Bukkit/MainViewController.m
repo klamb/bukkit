@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 #define CENTER_TAG 1
 #define LEFT_PANEL_TAG 2
@@ -19,7 +20,6 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addItemButton;
-@property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 
 @property (nonatomic, assign) BOOL topRated;
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
@@ -30,7 +30,7 @@
 
 @implementation MainViewController
 
-@synthesize sidebarButton, addItemButton, navItem, list, topRated, shouldReloadOnAppear, userList, query, nameOfList;
+@synthesize sidebarButton, addItemButton, navItem, list, topRated, shouldReloadOnAppear, userList, query, nameOfList, pushedView;
 
 
 
@@ -84,17 +84,24 @@
         return;
     }
     
-    // Change button color
-    sidebarButton.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
+    if (!pushedView) {
+        
+        UIImage *image = [UIImage imageNamed:@"Menu-Button.png"];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.bounds = CGRectMake( 0, 0, image.size.width, image.size.height);
+        [button setImage:image forState:UIControlStateNormal];
+        [button addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+        menuButtonItem.tintColor = [UIColor colorWithWhite:0.16f alpha:0.8f];
+        self.navigationItem.leftBarButtonItem = menuButtonItem;
+        
+        // Set the gesture
+        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    }
     
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    sidebarButton.target = self.revealViewController;
-    sidebarButton.action = @selector(revealToggle:);
-    
-    // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
-    navItem.title = nameOfList;
+    [list fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        navItem.title = [object objectForKey:@"name"];
+    }];
 }
 
 
@@ -133,6 +140,47 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)showUIPickerView:(AddItemViewController *) addItemController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self shouldStartCameraController];
+}
+
+
+- (BOOL)shouldStartCameraController {
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
+        return NO;
+    }
+    
+    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
+        && [[UIImagePickerController availableMediaTypesForSourceType:
+             UIImagePickerControllerSourceTypeCamera] containsObject:(NSString *)kUTTypeImage]) {
+        
+        cameraUI.mediaTypes = [NSArray arrayWithObject:(NSString *) kUTTypeImage];
+        cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+        
+        if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear]) {
+            cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+        } else if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
+            cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+        }
+        
+    } else {
+        return NO;
+    }
+    
+    cameraUI.allowsEditing = YES;
+    cameraUI.showsCameraControls = YES;
+    cameraUI.delegate = self;
+    
+    [self presentViewController:cameraUI animated:YES completion:nil];
+    
+    return YES;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -156,7 +204,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == 0 || section == 1) {
         return 0.0f;
     }
     return 8.0f;
@@ -175,7 +223,7 @@
     } else if (indexPath.section == 0) {
         return 30.0f;   // Segmented Control Section
     } else {
-        return 175.0f;
+        return 208.0f;
     }
 }
 
@@ -206,35 +254,10 @@
         [query orderByDescending:@"createdAt"];
     }
     
+    query.limit = 100;
     return query;
     
-    
-    
-    PFQuery *queryBukkitList;
-    
-    if(userList) {
-        PFRelation *diddit = [user relationforKey:@"diddit"];
-        queryBukkitList = [diddit query];
-    } else {
-        PFRelation *lists = [user relationforKey:@"lists"];
-        
-        PFQuery *query = [lists query];
-        [query whereKey:@"name" equalTo:[user objectForKey:@"school"]];
-        
-        queryBukkitList = [PFQuery queryWithClassName:self.parseClassName];
-        [queryBukkitList whereKey:@"list" matchesQuery:query];
-    }
-    
-    if(topRated) {
-        [queryBukkitList orderByDescending:@"ranking"];
-    }
-    else {
-        [queryBukkitList orderByDescending:@"createdAt"];
-    }
-
-    
     // queryBukkitList.cachePolicy = kPFCachePolicyIgnoreCache;
-    queryBukkitList.limit = 100;
     
     // A pull-to-refresh should always trigger a network request.
     // [queryBukkitList setCachePolicy:kPFCachePolicyNetworkOnly];
@@ -246,8 +269,6 @@
     //if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
     // [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     //}
-    
-    return queryBukkitList;
 }
 
 
@@ -295,6 +316,13 @@
     
     cell.delegate = self;
     cell.title.text = [object objectForKey:@"title"];
+    cell.imageView.file = [object objectForKey:@"Image"];
+    
+    if ([cell.imageView.file isDataAvailable]) {
+        [cell.imageView loadInBackground];
+    }
+    
+    
     cell.bukkit = object;
     
     [self checkForUserActivity:object forButton:cell.didditButton];
@@ -342,7 +370,7 @@
     if (![cell.contentView viewWithTag:11]) {
         NSArray *itemArray = [NSArray arrayWithObjects: @"Most Recent", @"Top Rated", nil];
         UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-        segmentedControl.frame = CGRectMake(0, 0, 320, 29);
+        segmentedControl.frame = CGRectMake(0, 0, 320, 30);
         segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
         segmentedControl.selectedSegmentIndex = 0;
         segmentedControl.tag = 11;
@@ -445,6 +473,7 @@
             
             PFRelation *relationForUser = [user relationforKey:@"diddit"];
             [relationForUser addObject:bukkit];
+            [user incrementKey:@"didditRanking"];
             [user saveInBackground];
         } else {
             [relation removeObject:user];
@@ -453,6 +482,7 @@
             
             PFRelation *relationForUser = [user relationforKey:@"diddit"];
             [relationForUser removeObject:bukkit];
+            [user incrementKey:@"didditRanking" byAmount:[NSNumber numberWithInt:-1]];
             [user saveInBackground];
         }
     }];
@@ -485,7 +515,30 @@
 }
 
 -(void)bukkitCell:(BukkitCell *)bukkitCell didTapComment:(UIButton *)button {
+    /*
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
+                                                         bundle:nil];
+    
+    CommentViewController *addCommentViewController =
+    [storyboard instantiateViewControllerWithIdentifier:@"CommentViewController"];
+    addCommentViewController.delegate = self;
+    //addCommentViewController.bukkitList = list;
+    UINavigationController *commentNavController = [[UINavigationController alloc] initWithRootViewController:addCommentViewController];
+    
+    [self presentViewController:commentNavController animated:YES completion:nil];
+     */
+}
+
+
+#pragma mark - CommentViewDelegate Methods
+
+- (void)cancelAddingComment:(CommentViewController *)addCommentViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(IBAction)addComment:(id)sender {
     
 }
+
 
 @end

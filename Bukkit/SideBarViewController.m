@@ -73,14 +73,14 @@
         [queryBukkitList whereKey:@"list" equalTo:defaultList];
         
         mainViewController.query = queryBukkitList;
-        [defaultList fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            mainViewController.nameOfList = [defaultList objectForKey:@"name"];
-        }];
+        mainViewController.pushedView = NO;
+        mainViewController.list = defaultList;
     }
     
     if([segue.identifier isEqualToString:@"showProfileView"]) {
         ProfileViewController *profileViewController = (ProfileViewController *)segue.destinationViewController;
         profileViewController.profile = [PFUser currentUser];
+        profileViewController.pushedView = NO;
     }
     
     

@@ -11,13 +11,14 @@
 
 @protocol BukkitDelegate;
 
-@interface BukkitCell : UITableViewCell
+@interface BukkitCell : PFTableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UILabel *rank;
-@property (weak, nonatomic) IBOutlet UIButton *didditButton;
-@property (weak, nonatomic) IBOutlet UIButton *bukkitButton;
-@property (weak, nonatomic) IBOutlet UIButton *commentButton;
+@property (strong, nonatomic) IBOutlet UIButton *didditButton;
+@property (strong, nonatomic) IBOutlet UIButton *bukkitButton;
+@property (strong, nonatomic) IBOutlet UIButton *commentButton;
+@property (weak, nonatomic) IBOutlet PFImageView *imageView;
 
 @property (weak, nonatomic) PFObject *bukkit;
 @property (nonatomic,weak) id <BukkitDelegate> delegate;

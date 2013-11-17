@@ -10,7 +10,7 @@
 
 @implementation BukkitCell
 
-@synthesize title, rank, didditButton, commentButton, bukkitButton, bukkit, delegate;
+@synthesize title, imageView, rank, didditButton, commentButton, bukkitButton, bukkit, delegate;
 
 /*
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -31,30 +31,9 @@
 
 -(void)setButton:(UIButton *)button {
     [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor orangeColor] forState:UIControlStateSelected];
     [button setTintColor:[UIColor clearColor]];
      button.adjustsImageWhenHighlighted = NO;
     [button setSelected:NO];
-    /*
-    if (![button isEqual:self.commentButton]) {
-        PFRelation *relation = [self.bukkit relationforKey:button.titleLabel.text.lowercaseString];
-        
-        [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                // The find succeeded.
-                NSLog(@"Successfully retrieved %d scores.", objects.count);
-                
-                for (PFObject *user in objects) {
-                    if (user.objectId == [PFUser currentUser].objectId)
-                        [button setSelected:YES];
-                }
-            } else {
-                // Log details of the failure
-                NSLog(@"WTF Error: %@ %@", error, [error userInfo]);
-            }
-        }];
-    }
-     */
 }
 
 
@@ -83,7 +62,7 @@
     else {
         [self.commentButton setSelected:YES];
     }
-    [delegate bukkitCell:self didTapBukkit:sender];
+    [delegate bukkitCell:self didTapComment:sender];
 }
 
 - (IBAction)didTapBukkitButtonAction:(UIButton *)sender {

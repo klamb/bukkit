@@ -7,6 +7,7 @@
 //
 
 #import "ActivityViewController.h"
+#import "ProfileViewController.h"
 
 @interface ActivityViewController ()
 
@@ -85,6 +86,17 @@
     
     
     return query;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    ProfileViewController *profileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+    profileViewController.profile = [self.objects objectAtIndex:indexPath.row];
+    profileViewController.pushedView = YES;
+    [self.navigationController pushViewController:profileViewController animated:YES];
 }
 
 

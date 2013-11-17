@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfBukkit;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfDiddit;
 
-@property    (weak, nonatomic) PFUser *profile;
+@property (weak, nonatomic) PFUser *profile;
 @property (nonatomic, assign) BOOL pushedView;
 
 -(IBAction)didTapBukkitButton;
