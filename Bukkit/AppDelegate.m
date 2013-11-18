@@ -41,6 +41,10 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{
                                                            UITextAttributeTextColor: [UIColor whiteColor]
                                                            }];
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor whiteColor], UITextAttributeTextColor,
+      [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0], UITextAttributeFont,nil]];
 
     return YES;
 }

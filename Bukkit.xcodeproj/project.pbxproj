@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37CCFB7918398DCB00BAA001 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CCFB7818398DCB00BAA001 /* Parse.framework */; };
+		37CCFB7C18398E4400BAA001 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CCFB7B18398E4400BAA001 /* FacebookSDK.framework */; };
+		37CCFB841839989A00BAA001 /* Diddit-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB831839989A00BAA001 /* Diddit-Button.png */; };
+		37CCFB88183999E200BAA001 /* bukkit-text-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB87183999E200BAA001 /* bukkit-text-button.png */; };
+		37CCFB901839A0B100BAA001 /* diddit-tab-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB8F1839A0B100BAA001 /* diddit-tab-blue.png */; };
+		37CCFB921839A1D800BAA001 /* diddit-tab-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB911839A1D800BAA001 /* diddit-tab-orange.png */; };
+		37CCFB941839A23D00BAA001 /* diddit-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB931839A23D00BAA001 /* diddit-tab.png */; };
+		37CCFB961839A28000BAA001 /* comment-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB951839A28000BAA001 /* comment-tab.png */; };
+		37CCFB981839A30C00BAA001 /* bukkit-tab-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB971839A30C00BAA001 /* bukkit-tab-blue.png */; };
+		37CCFB9A1839A35B00BAA001 /* bukkit-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB991839A35B00BAA001 /* bukkit-tab.png */; };
 		7D029072180E0CF90067B927 /* BukkitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D029071180E0CF90067B927 /* BukkitCell.m */; };
 		7D029074180E1B8E0067B927 /* hong-kong.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D029073180E1B8E0067B927 /* hong-kong.png */; };
 		7D029077180E24090067B927 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D029075180E24090067B927 /* MainStoryboard.storyboard */; };
@@ -98,6 +108,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		37CCFB7818398DCB00BAA001 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		37CCFB7B18398E4400BAA001 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		37CCFB831839989A00BAA001 /* Diddit-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Diddit-Button.png"; sourceTree = "<group>"; };
+		37CCFB87183999E200BAA001 /* bukkit-text-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bukkit-text-button.png"; sourceTree = "<group>"; };
+		37CCFB8F1839A0B100BAA001 /* diddit-tab-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "diddit-tab-blue.png"; sourceTree = "<group>"; };
+		37CCFB911839A1D800BAA001 /* diddit-tab-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "diddit-tab-orange.png"; sourceTree = "<group>"; };
+		37CCFB931839A23D00BAA001 /* diddit-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "diddit-tab.png"; sourceTree = "<group>"; };
+		37CCFB951839A28000BAA001 /* comment-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment-tab.png"; sourceTree = "<group>"; };
+		37CCFB971839A30C00BAA001 /* bukkit-tab-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bukkit-tab-blue.png"; sourceTree = "<group>"; };
+		37CCFB991839A35B00BAA001 /* bukkit-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bukkit-tab.png"; sourceTree = "<group>"; };
 		7D029070180E0CF90067B927 /* BukkitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BukkitCell.h; sourceTree = "<group>"; };
 		7D029071180E0CF90067B927 /* BukkitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BukkitCell.m; sourceTree = "<group>"; };
 		7D029073180E1B8E0067B927 /* hong-kong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hong-kong.png"; sourceTree = "<group>"; };
@@ -222,6 +242,8 @@
 				7D0F9D9F17E941C3007B71A9 /* CoreGraphics.framework in Frameworks */,
 				7DBF1F8717F3A7D40023C32B /* CFNetwork.framework in Frameworks */,
 				7D0F9D9B17E941C3007B71A9 /* UIKit.framework in Frameworks */,
+				37CCFB7918398DCB00BAA001 /* Parse.framework in Frameworks */,
+				37CCFB7C18398E4400BAA001 /* FacebookSDK.framework in Frameworks */,
 				7DBF1F8317F39FC40023C32B /* Parse.framework in Frameworks */,
 				7D0F9D9D17E941C3007B71A9 /* Foundation.framework in Frameworks */,
 				7DDF996A17FA5D7F0076A5DE /* FacebookSDK.framework in Frameworks */,
@@ -263,6 +285,8 @@
 		7D0F9D9917E941C3007B71A9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37CCFB7B18398E4400BAA001 /* FacebookSDK.framework */,
+				37CCFB7818398DCB00BAA001 /* Parse.framework */,
 				7DDF996917FA5D7F0076A5DE /* FacebookSDK.framework */,
 				7DBF1F8A17F3A88D0023C32B /* libz.1.1.3.dylib */,
 				7DBF1F8617F3A7D40023C32B /* CFNetwork.framework */,
@@ -299,6 +323,14 @@
 		7D0F9DA117E941C3007B71A9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				37CCFB991839A35B00BAA001 /* bukkit-tab.png */,
+				37CCFB971839A30C00BAA001 /* bukkit-tab-blue.png */,
+				37CCFB951839A28000BAA001 /* comment-tab.png */,
+				37CCFB931839A23D00BAA001 /* diddit-tab.png */,
+				37CCFB911839A1D800BAA001 /* diddit-tab-orange.png */,
+				37CCFB8F1839A0B100BAA001 /* diddit-tab-blue.png */,
+				37CCFB87183999E200BAA001 /* bukkit-text-button.png */,
+				37CCFB831839989A00BAA001 /* Diddit-Button.png */,
 				7DAF4130183979CE0000AF78 /* Menu-Button.png */,
 				7D5C59F118331CAE00B65E16 /* comment-grey.png */,
 				7D5C59EF18331B1D00B65E16 /* bukkit-grey.png */,
@@ -550,7 +582,9 @@
 				7DAF4131183979CE0000AF78 /* Menu-Button.png in Resources */,
 				7D5C59EC18331A6300B65E16 /* diddit-grey.png in Resources */,
 				7DB07BB718346BC4008F67AC /* PLCameraSheetButton@2x.png in Resources */,
+				37CCFB961839A28000BAA001 /* comment-tab.png in Resources */,
 				7D5C59EE18331AA200B65E16 /* bukkit-blue.png in Resources */,
+				37CCFB88183999E200BAA001 /* bukkit-text-button.png in Resources */,
 				7D5C59F218331CAE00B65E16 /* comment-grey.png in Resources */,
 				7DA742E91808A16E00688A67 /* bukkit_logo_v3_114.png in Resources */,
 				7D491BD118123F7900CC44F2 /* button.png in Resources */,
@@ -558,7 +592,11 @@
 				7D0F9DA517E941C3007B71A9 /* InfoPlist.strings in Resources */,
 				7DB07BB818346BC4008F67AC /* PLCameraSheetButtonPressed.png in Resources */,
 				7DBF345E1830794900609408 /* slidemenu.png in Resources */,
+				37CCFB901839A0B100BAA001 /* diddit-tab-blue.png in Resources */,
+				37CCFB941839A23D00BAA001 /* diddit-tab.png in Resources */,
+				37CCFB9A1839A35B00BAA001 /* bukkit-tab.png in Resources */,
 				7DC5EDBB1828920F00456E32 /* Default~iphone.png in Resources */,
+				37CCFB981839A30C00BAA001 /* bukkit-tab-blue.png in Resources */,
 				7D0F9DAD17E941C3007B71A9 /* Default.png in Resources */,
 				7D029074180E1B8E0067B927 /* hong-kong.png in Resources */,
 				7DBF346618307B7200609408 /* icon-list.png in Resources */,
@@ -567,6 +605,7 @@
 				7DB07BB618346BC4008F67AC /* PLCameraSheetButton.png in Resources */,
 				7DBF346518307B7200609408 /* icon-profile.png in Resources */,
 				7DB07BB918346BC4008F67AC /* PLCameraSheetButtonPressed@2x.png in Resources */,
+				37CCFB841839989A00BAA001 /* Diddit-Button.png in Resources */,
 				7DB07BBC18346BC4008F67AC /* PLCameraSheetDoneButtonPressed.png in Resources */,
 				7DB07BBB18346BC4008F67AC /* PLCameraSheetDoneButton@2x.png in Resources */,
 				7D889942181F1F0300715E83 /* DidditButtonBackground.png in Resources */,
@@ -576,6 +615,7 @@
 				7DBF346718307B7200609408 /* icon-leaderboard.png in Resources */,
 				7DBF346818307B7200609408 /* icon-feed.png in Resources */,
 				7DBF346418307B7200609408 /* icon-settings.png in Resources */,
+				37CCFB921839A1D800BAA001 /* diddit-tab-orange.png in Resources */,
 				7D0F9DAF17E941C3007B71A9 /* Default@2x.png in Resources */,
 				7D0F9DB117E941C3007B71A9 /* Default-568h@2x.png in Resources */,
 				7DB07BBA18346BC4008F67AC /* PLCameraSheetDoneButton.png in Resources */,
@@ -752,7 +792,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					/Users/Greg/Desktop/bukkit,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bukkit/Bukkit-Prefix.pch";
@@ -768,7 +809,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					/Users/Greg/Desktop/bukkit,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bukkit/Bukkit-Prefix.pch";

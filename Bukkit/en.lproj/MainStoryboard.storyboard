@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="JBH-Wz-6KW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A3017" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="JBH-Wz-6KW">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller - NavController-->
@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x1q-U3-SSv">
-                                <rect key="frame" x="60" y="358" width="75" height="30"/>
+                                <rect key="frame" x="59" y="350" width="75" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="81" id="JJX-Xu-VKg"/>
                                 </constraints>
@@ -58,7 +58,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Db-Nj-QSY">
-                                <rect key="frame" x="95" y="54" width="131" height="38"/>
+                                <rect key="frame" x="95" y="85" width="131" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -183,7 +183,8 @@
                             <constraint firstItem="Fhi-XD-492" firstAttribute="top" secondItem="phi-ye-9sv" secondAttribute="top" constant="276" id="gIv-DX-eUM"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="7GU-he-J9n"/>
+                    <navigationItem key="navigationItem" title="Log In" id="7GU-he-J9n"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="facebookButton" destination="83j-Rx-m54" id="Rr1-bc-gsa"/>
                         <outlet property="logInButton" destination="Fhi-XD-492" id="R89-0x-s7I"/>
@@ -521,10 +522,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GwO-c4-JMm">
+                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GwO-c4-JMm">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mwz-Zg-okB">
+                                        <rect key="frame" x="170" y="392" width="130" height="65"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fad-Hy-XyV">
+                                                <rect key="frame" x="0.0" y="44" width="130" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKA-Ez-qxH">
+                                                <rect key="frame" x="5" y="6" width="119" height="38"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Diddit" image="Diddit-Button.png">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="didTapDidditButton" destination="Ejz-sQ-HuQ" eventType="touchUpInside" id="NmI-VK-Khk"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qLA-t2-pTc">
                                         <rect key="frame" x="110" y="127" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -537,20 +563,20 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R3J-Kq-87Q">
-                                        <rect key="frame" x="20" y="392" width="130" height="71"/>
+                                        <rect key="frame" x="20" y="392" width="130" height="65"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdJ-xI-0rJ">
-                                                <rect key="frame" x="0.0" y="50" width="130" height="21"/>
+                                                <rect key="frame" x="0.0" y="44" width="130" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Afz-kD-YGm">
-                                                <rect key="frame" x="10" y="7" width="110" height="44"/>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Afz-kD-YGm">
+                                                <rect key="frame" x="5" y="6" width="119" height="38"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Bukkit" backgroundImage="BukkitButtonBackground.png">
+                                                <state key="normal" title="Bukkit" image="bukkit-text-button.png" backgroundImage="BukkitButtonBackground.png">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -561,33 +587,9 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mwz-Zg-okB">
-                                        <rect key="frame" x="170" y="392" width="130" height="71"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fad-Hy-XyV">
-                                                <rect key="frame" x="0.0" y="50" width="130" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKA-Ez-qxH">
-                                                <rect key="frame" x="10" y="7" width="110" height="44"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Diddit" backgroundImage="DidditButtonBackground.png">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="didTapDidditButton" destination="Ejz-sQ-HuQ" eventType="touchUpInside" id="NmI-VK-Khk"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.10980392156862745" green="0.62745098039215685" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.10980392156862745" green="0.62745098039215685" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
@@ -630,7 +632,7 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" sectionHeaderHeight="22" sectionFooterHeight="22" id="cEM-RF-VcN">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.68627450980392157" green="0.71372549019607845" blue="0.77254901960784317" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SegmentedControlCell" rowHeight="30" id="tiD-PU-jrj">
                                 <rect key="frame" x="0.0" y="22" width="320" height="30"/>
@@ -654,7 +656,7 @@
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRj-0U-EBm">
                                             <rect key="frame" x="40" y="0.0" width="291" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.97647058823529409" green="0.45882352941176469" blue="0.25098039215686274" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -662,32 +664,33 @@
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1bR-Qi-QLd">
                                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.97647058823529409" green="0.45882352941176469" blue="0.25098039215686274" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wbb-5W-pC4">
-                                            <rect key="frame" x="107" y="178" width="106" height="25"/>
+                                            <rect key="frame" x="107" y="177" width="106" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Comment" image="comment-grey.png"/>
+                                            <state key="normal" title="Comment" image="comment-tab.png"/>
                                             <connections>
                                                 <action selector="didTapCommentButtonAction:" destination="hCW-q3-jOC" eventType="touchUpInside" id="x61-L2-ldP"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fbn-qY-9fE">
-                                            <rect key="frame" x="214" y="178" width="106" height="25"/>
+                                            <rect key="frame" x="214" y="177" width="106" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Bukkit" image="bukkit-grey.png"/>
-                                            <state key="selected" image="bukkit-blue.png"/>
+                                            <state key="normal" title="Bukkit" image="bukkit-tab.png"/>
+                                            <state key="selected" image="bukkit-tab-blue.png"/>
                                             <connections>
                                                 <action selector="didTapBukkitButtonAction:" destination="hCW-q3-jOC" eventType="touchUpInside" id="AEj-MV-QYN"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HbC-7n-oTv">
-                                            <rect key="frame" x="0.0" y="178" width="106" height="25"/>
+                                            <rect key="frame" x="0.0" y="177" width="106" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Diddit" image="diddit-grey.png"/>
+                                            <state key="normal" title="Diddit" image="diddit-tab.png"/>
+                                            <state key="selected" image="diddit-tab-orange.png"/>
                                             <connections>
                                                 <action selector="didTapDidditButtonAction:" destination="hCW-q3-jOC" eventType="touchUpInside" id="hCh-NR-aeT"/>
                                             </connections>
@@ -1150,7 +1153,7 @@
                                             <constraint firstAttribute="height" constant="44" id="b2r-Mm-Itc"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                        <state key="normal" title="Log in with Facebook">
+                                        <state key="normal" title="Sign Up with Facebook">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -1183,7 +1186,8 @@
                             <constraint firstItem="tPt-g7-mTA" firstAttribute="leading" secondItem="cp2-rp-zw4" secondAttribute="leading" id="rjc-EW-TCd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="lSA-BD-mdn"/>
+                    <navigationItem key="navigationItem" title="Sign Up" id="lSA-BD-mdn"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="facebookButton" destination="SNX-Kd-jJy" id="V0H-89-JFX"/>
                         <outlet property="signUpButton" destination="Ezc-3i-f8e" id="yWq-eg-D9d"/>
@@ -1198,13 +1202,16 @@
     </scenes>
     <resources>
         <image name="BukkitButtonBackground.png" width="109" height="42"/>
+        <image name="Diddit-Button.png" width="120" height="43"/>
         <image name="DidditButtonBackground.png" width="120" height="44"/>
         <image name="Menu-Button.png" width="30" height="30"/>
-        <image name="bukkit-blue.png" width="212" height="50"/>
-        <image name="bukkit-grey.png" width="212" height="50"/>
+        <image name="bukkit-tab-blue.png" width="214" height="51"/>
+        <image name="bukkit-tab.png" width="214" height="51"/>
+        <image name="bukkit-text-button.png" width="120" height="43"/>
         <image name="button.png" width="320" height="91"/>
-        <image name="comment-grey.png" width="212" height="50"/>
-        <image name="diddit-grey.png" width="212" height="50"/>
+        <image name="comment-tab.png" width="214" height="51"/>
+        <image name="diddit-tab-orange.png" width="214" height="51"/>
+        <image name="diddit-tab.png" width="214" height="51"/>
         <image name="hong-kong.png" width="380" height="111"/>
         <image name="icon-feed.png" width="250" height="250"/>
         <image name="icon-leaderboard.png" width="250" height="250"/>
@@ -1219,7 +1226,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="n3b-yW-JcN"/>
+        <segue reference="ew8-bz-nzt"/>
         <segue reference="yfY-Yr-VGu"/>
     </inferredMetricsTieBreakers>
 </document>
