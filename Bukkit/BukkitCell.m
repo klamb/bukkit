@@ -30,18 +30,8 @@
 
 
 -(void)setButton:(UIButton *)button {
-    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [button setTintColor:[UIColor clearColor]];
      button.adjustsImageWhenHighlighted = NO;
     [button setSelected:NO];
-}
-
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (IBAction)didTapDidditButtonAction:(UIButton *)sender {

@@ -425,12 +425,12 @@
     
     if (hoursBetweenDates <= 0) {
         NSInteger minutesBetweenDates = distanceBetweenDates / secondsInAMinute;
-        return [NSString stringWithFormat:@"%d m", minutesBetweenDates];
+        return [NSString stringWithFormat:@"%dm", minutesBetweenDates];
     } else if(hoursBetweenDates >= 24) {
         NSInteger daysBetweenDates = distanceBetweenDates/secondsInADay;
-        return [NSString stringWithFormat:@"%d d", daysBetweenDates];
+        return [NSString stringWithFormat:@"%dd", daysBetweenDates];
     } else {
-        return [NSString stringWithFormat:@"%d h", hoursBetweenDates];
+        return [NSString stringWithFormat:@"%dh", hoursBetweenDates];
     }
 }
 
