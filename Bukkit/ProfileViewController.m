@@ -86,9 +86,9 @@
             if (count == 0) {
                 numberOfBukkit.text = @"Add to BukkitList";
             } else if (count == 1){
-                numberOfBukkit.text = [NSString stringWithFormat:@"%i Person", count];
+                numberOfBukkit.text = [NSString stringWithFormat:@"%i Item", count];
             } else {
-                numberOfBukkit.text = [NSString stringWithFormat:@"%i People", count];
+                numberOfBukkit.text = [NSString stringWithFormat:@"%i Items", count];
             }
         } else {
             // The request failed
@@ -102,9 +102,9 @@
             if (number == 0) {
                 numberOfDiddit.text = @"Accomplish in Diddit";
             } else if (number == 1){
-                numberOfDiddit.text = [NSString stringWithFormat:@"%i Diddit", number];
+                numberOfDiddit.text = [NSString stringWithFormat:@"%i Item", number];
             } else {
-                numberOfDiddit.text = [NSString stringWithFormat:@"%i Diddit", number];
+                numberOfDiddit.text = [NSString stringWithFormat:@"%i Items", number];
             }
             
         } else {
@@ -120,7 +120,10 @@
     mainViewController.nameOfList = listTitle;
     PFRelation *list = [profile relationforKey:@"bukkit"];
     mainViewController.query = [list query];
-    mainViewController.navItem.title = [NSString stringWithFormat:@"%@'s Bukkit List", [profile objectForKey:@"username"]];
+    NSString *nameString = [profile objectForKey:@"username"];
+    NSArray *myArray = [nameString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+    
+    mainViewController.navItem.title = [NSString stringWithFormat:@"%@'s Bukkit List", myArray[0]];
     mainViewController.pushedView = YES;
     [self.navigationController pushViewController:mainViewController animated:YES];
      
@@ -133,7 +136,9 @@
     mainViewController.nameOfList = listTitle;
     PFRelation *list = [profile relationforKey:@"diddit"];
     mainViewController.query = [list query];
-     mainViewController.navItem.title = [NSString stringWithFormat:@"%@'s Diddit List", [profile objectForKey:@"username"]];
+    NSString *nameString = [profile objectForKey:@"username"];
+    NSArray *myArray = [nameString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+     mainViewController.navItem.title = [NSString stringWithFormat:@"%@'s Diddit List", myArray[0]];
     mainViewController.pushedView = YES;
     [self.navigationController pushViewController:mainViewController animated:YES];
 }

@@ -95,6 +95,10 @@
 		7DC5EDBD18289C8400456E32 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC5EDBC18289C8400456E32 /* logo.png */; };
 		7DC5EDC31829F3E100456E32 /* UserActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC5EDC21829F3E100456E32 /* UserActivityViewController.m */; };
 		7DDF996A17FA5D7F0076A5DE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDF996917FA5D7F0076A5DE /* FacebookSDK.framework */; };
+		7DF43D7E183B1FDA0095138B /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF43D78183B1FDA0095138B /* libTestFlight.a */; };
+		7DF43D7F183B1FDB0095138B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7DF43D79183B1FDA0095138B /* README.md */; };
+		7DF43D80183B1FDB0095138B /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 7DF43D7A183B1FDA0095138B /* release_notes.md */; };
+		7DF43D82183B20DD0095138B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF43D81183B20DD0095138B /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,6 +229,13 @@
 		7DC5EDC11829F3E100456E32 /* UserActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserActivityViewController.h; sourceTree = "<group>"; };
 		7DC5EDC21829F3E100456E32 /* UserActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserActivityViewController.m; sourceTree = "<group>"; };
 		7DDF996917FA5D7F0076A5DE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		7DF43D78183B1FDA0095138B /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		7DF43D79183B1FDA0095138B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		7DF43D7A183B1FDA0095138B /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		7DF43D7B183B1FDA0095138B /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		7DF43D7C183B1FDA0095138B /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		7DF43D7D183B1FDA0095138B /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		7DF43D81183B20DD0095138B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,9 +243,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DF43D82183B20DD0095138B /* libz.dylib in Frameworks */,
 				7DBF1F9617F3A9080023C32B /* AudioToolbox.framework in Frameworks */,
 				7DBF1F9517F3A8F60023C32B /* SystemConfiguration.framework in Frameworks */,
 				7DBF1F9117F3A8CF0023C32B /* Security.framework in Frameworks */,
+				7DF43D7E183B1FDA0095138B /* libTestFlight.a in Frameworks */,
 				7DBF1F8F17F3A8B40023C32B /* QuartzCore.framework in Frameworks */,
 				7DBF1F8D17F3A8A10023C32B /* MobileCoreServices.framework in Frameworks */,
 				7DBF1F8B17F3A88D0023C32B /* libz.1.1.3.dylib in Frameworks */,
@@ -285,6 +298,7 @@
 		7D0F9D9917E941C3007B71A9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7DF43D81183B20DD0095138B /* libz.dylib */,
 				37CCFB7B18398E4400BAA001 /* FacebookSDK.framework */,
 				37CCFB7818398DCB00BAA001 /* Parse.framework */,
 				7DDF996917FA5D7F0076A5DE /* FacebookSDK.framework */,
@@ -314,6 +328,7 @@
 				7D0F9DA917E941C3007B71A9 /* AppDelegate.h */,
 				7D0F9DAA17E941C3007B71A9 /* AppDelegate.m */,
 				7DB07BAD18346BC4008F67AC /* GKImages */,
+				7DF43D77183B1FDA0095138B /* TestFlightSDK2.0.2 */,
 				7DB07B81183468DA008F67AC /* GKClasses */,
 				7D0F9DA117E941C3007B71A9 /* Supporting Files */,
 			);
@@ -498,6 +513,20 @@
 			path = GKImages;
 			sourceTree = "<group>";
 		};
+		7DF43D77183B1FDA0095138B /* TestFlightSDK2.0.2 */ = {
+			isa = PBXGroup;
+			children = (
+				7DF43D78183B1FDA0095138B /* libTestFlight.a */,
+				7DF43D79183B1FDA0095138B /* README.md */,
+				7DF43D7A183B1FDA0095138B /* release_notes.md */,
+				7DF43D7B183B1FDA0095138B /* TestFlight+AsyncLogging.h */,
+				7DF43D7C183B1FDA0095138B /* TestFlight+ManualSessions.h */,
+				7DF43D7D183B1FDA0095138B /* TestFlight.h */,
+			);
+			name = TestFlightSDK2.0.2;
+			path = ../TestFlightSDK2.0.2;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -597,6 +626,7 @@
 				37CCFB9A1839A35B00BAA001 /* bukkit-tab.png in Resources */,
 				7DC5EDBB1828920F00456E32 /* Default~iphone.png in Resources */,
 				37CCFB981839A30C00BAA001 /* bukkit-tab-blue.png in Resources */,
+				7DF43D80183B1FDB0095138B /* release_notes.md in Resources */,
 				7D0F9DAD17E941C3007B71A9 /* Default.png in Resources */,
 				7D029074180E1B8E0067B927 /* hong-kong.png in Resources */,
 				7DBF346618307B7200609408 /* icon-list.png in Resources */,
@@ -618,6 +648,7 @@
 				37CCFB921839A1D800BAA001 /* diddit-tab-orange.png in Resources */,
 				7D0F9DAF17E941C3007B71A9 /* Default@2x.png in Resources */,
 				7D0F9DB117E941C3007B71A9 /* Default-568h@2x.png in Resources */,
+				7DF43D7F183B1FDB0095138B /* README.md in Resources */,
 				7DB07BBA18346BC4008F67AC /* PLCameraSheetDoneButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -798,6 +829,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bukkit/Bukkit-Prefix.pch";
 				INFOPLIST_FILE = "Bukkit/Bukkit-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/kevinlamb/Documents/Bukkit/TestFlightSDK2.0.2,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -815,6 +850,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bukkit/Bukkit-Prefix.pch";
 				INFOPLIST_FILE = "Bukkit/Bukkit-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/kevinlamb/Documents/Bukkit/TestFlightSDK2.0.2,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

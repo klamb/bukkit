@@ -102,6 +102,8 @@
     [list fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         navItem.title = [object objectForKey:@"name"];
     }];
+    
+    [self.tableView reloadData];
 }
 
 
@@ -515,18 +517,14 @@
 }
 
 -(void)bukkitCell:(BukkitCell *)bukkitCell didTapComment:(UIButton *)button {
-    /*
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
-                                                         bundle:nil];
     
     CommentViewController *addCommentViewController =
-    [storyboard instantiateViewControllerWithIdentifier:@"CommentViewController"];
+    [self.storyboard instantiateViewControllerWithIdentifier:@"CommentViewController"];
     addCommentViewController.delegate = self;
-    //addCommentViewController.bukkitList = list;
+    addCommentViewController.bukkit = bukkitCell.bukkit;
     UINavigationController *commentNavController = [[UINavigationController alloc] initWithRootViewController:addCommentViewController];
     
     [self presentViewController:commentNavController animated:YES completion:nil];
-     */
 }
 
 
@@ -536,8 +534,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(IBAction)addComment:(id)sender {
-    
+- (void)addComment:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
