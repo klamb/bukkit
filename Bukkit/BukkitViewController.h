@@ -12,6 +12,8 @@
 
 @protocol BukkitViewDelegate <NSObject>
 
+-(void)updateBukkitCell:(PFObject *)object fromButton:(id)sender;
+
 @end
 
 @interface BukkitViewController : UIViewController <UITextViewDelegate, CommentViewDelegate>
@@ -28,7 +30,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *bukkitTabButton;
 @property (strong, nonatomic) IBOutlet UIButton *commentTabButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UITextView *commentsView;
+@property (strong, nonatomic) IBOutlet UITextView *commentsView;
 
 -(IBAction)didTapBukkitButton:(id)sender;
 -(IBAction)didTapDidditButton:(id)sender;

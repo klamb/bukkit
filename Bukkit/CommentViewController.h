@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
+@property (nonatomic, assign) BOOL mainListComment;
 @property (strong, nonatomic) PFObject *bukkit;
 
 -(IBAction)cancel:(id)sender;
@@ -27,6 +28,6 @@
 @protocol CommentViewDelegate <NSObject>
 
 - (void)cancelAddingComment:(CommentViewController *)addCommentViewController;
-- (void)addComment:(id)sender;
+- (void)addComment:(id)sender toBukkit:(PFObject *)bukkit;
 
 @end

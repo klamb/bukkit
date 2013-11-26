@@ -228,7 +228,7 @@
                                       reuseIdentifier:CellIdentifier];
     }
     
-    cell.delegate = self;
+    // cell.delegate = self;
     cell.title.text = [object objectForKey:@"title"];
     cell.bukkit = object;
     
@@ -316,8 +316,8 @@
         // Load More Cell
         [self loadNextPage];
     } else {
-        MainViewController *mainVC = (MainViewController *)self.parentViewController;
-        [mainVC loadBukkitView:self.objects[indexPath.section-1]];
+        // MainViewController *mainVC = (MainViewController *)self.parentViewController;
+        // [mainVC loadBukkitView:self.objects[indexPath.section-1]];
     }
 }
 

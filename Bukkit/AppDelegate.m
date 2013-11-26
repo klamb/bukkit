@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "TestFlight.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 #define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
@@ -27,7 +28,7 @@
     
      // ****************************************************************************
     
-     //[TestFlight takeOff:@"c7a04a2f-381f-4a80-87ab-0c17440f4e17"];
+     [TestFlight takeOff:@"c7a04a2f-381f-4a80-87ab-0c17440f4e17"];
     
      // ****************************************************************************
     

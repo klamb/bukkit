@@ -52,6 +52,7 @@
 		7D889941181F1F0300715E83 /* BukkitButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D88993F181F1F0300715E83 /* BukkitButtonBackground.png */; };
 		7D889942181F1F0300715E83 /* DidditButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D889940181F1F0300715E83 /* DidditButtonBackground.png */; };
 		7D8A27BE1811F7450002B224 /* BukkitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A27BD1811F7450002B224 /* BukkitViewController.m */; };
+		7D9B6ADD1843CA2500869C83 /* upload-photo-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D9B6ADC1843CA2500869C83 /* upload-photo-button.png */; };
 		7DA742E7180888B700688A67 /* AddItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA742E6180888B700688A67 /* AddItemViewController.m */; };
 		7DA742E91808A16E00688A67 /* bukkit_logo_v3_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DA742E81808A16E00688A67 /* bukkit_logo_v3_114.png */; };
 		7DA742EB1808A17500688A67 /* bukkit_logo_v3_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DA742EA1808A17500688A67 /* bukkit_logo_v3_57.png */; };
@@ -96,6 +97,9 @@
 		7DC5EDC31829F3E100456E32 /* UserActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC5EDC21829F3E100456E32 /* UserActivityViewController.m */; };
 		7DDF996A17FA5D7F0076A5DE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDF996917FA5D7F0076A5DE /* FacebookSDK.framework */; };
 		7DF43D82183B20DD0095138B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF43D81183B20DD0095138B /* libz.dylib */; };
+		7DF43D8C183B35320095138B /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF43D86183B35320095138B /* libTestFlight.a */; };
+		7DF43D8D183B35320095138B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7DF43D87183B35320095138B /* README.md */; };
+		7DF43D8E183B35320095138B /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 7DF43D88183B35320095138B /* release_notes.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +173,7 @@
 		7D889940181F1F0300715E83 /* DidditButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DidditButtonBackground.png; sourceTree = "<group>"; };
 		7D8A27BC1811F7450002B224 /* BukkitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BukkitViewController.h; sourceTree = "<group>"; };
 		7D8A27BD1811F7450002B224 /* BukkitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BukkitViewController.m; sourceTree = "<group>"; };
+		7D9B6ADC1843CA2500869C83 /* upload-photo-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upload-photo-button.png"; sourceTree = "<group>"; };
 		7DA742E5180888B600688A67 /* AddItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddItemViewController.h; sourceTree = "<group>"; };
 		7DA742E6180888B700688A67 /* AddItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddItemViewController.m; sourceTree = "<group>"; };
 		7DA742E81808A16E00688A67 /* bukkit_logo_v3_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bukkit_logo_v3_114.png; sourceTree = "<group>"; };
@@ -227,6 +232,12 @@
 		7DC5EDC21829F3E100456E32 /* UserActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserActivityViewController.m; sourceTree = "<group>"; };
 		7DDF996917FA5D7F0076A5DE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		7DF43D81183B20DD0095138B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		7DF43D86183B35320095138B /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		7DF43D87183B35320095138B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		7DF43D88183B35320095138B /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		7DF43D89183B35320095138B /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		7DF43D8A183B35320095138B /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		7DF43D8B183B35320095138B /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +256,7 @@
 				7D0F9D9F17E941C3007B71A9 /* CoreGraphics.framework in Frameworks */,
 				7DBF1F8717F3A7D40023C32B /* CFNetwork.framework in Frameworks */,
 				7D0F9D9B17E941C3007B71A9 /* UIKit.framework in Frameworks */,
+				7DF43D8C183B35320095138B /* libTestFlight.a in Frameworks */,
 				37CCFB7918398DCB00BAA001 /* Parse.framework in Frameworks */,
 				37CCFB7C18398E4400BAA001 /* FacebookSDK.framework in Frameworks */,
 				7DBF1F8317F39FC40023C32B /* Parse.framework in Frameworks */,
@@ -319,6 +331,7 @@
 				7D0F9DAA17E941C3007B71A9 /* AppDelegate.m */,
 				7DB07BAD18346BC4008F67AC /* GKImages */,
 				7DB07B81183468DA008F67AC /* GKClasses */,
+				7DF43D85183B35320095138B /* TestFlightSDK2.0.2 */,
 				7D0F9DA117E941C3007B71A9 /* Supporting Files */,
 			);
 			path = Bukkit;
@@ -350,6 +363,7 @@
 				7DC5EDBA1828920F00456E32 /* Default~iphone.png */,
 				7D88993F181F1F0300715E83 /* BukkitButtonBackground.png */,
 				7D889940181F1F0300715E83 /* DidditButtonBackground.png */,
+				7D9B6ADC1843CA2500869C83 /* upload-photo-button.png */,
 				7D491BD018123F7900CC44F2 /* button.png */,
 				7D029073180E1B8E0067B927 /* hong-kong.png */,
 				7DA742EA1808A17500688A67 /* bukkit_logo_v3_57.png */,
@@ -502,6 +516,19 @@
 			path = GKImages;
 			sourceTree = "<group>";
 		};
+		7DF43D85183B35320095138B /* TestFlightSDK2.0.2 */ = {
+			isa = PBXGroup;
+			children = (
+				7DF43D86183B35320095138B /* libTestFlight.a */,
+				7DF43D87183B35320095138B /* README.md */,
+				7DF43D88183B35320095138B /* release_notes.md */,
+				7DF43D89183B35320095138B /* TestFlight+AsyncLogging.h */,
+				7DF43D8A183B35320095138B /* TestFlight+ManualSessions.h */,
+				7DF43D8B183B35320095138B /* TestFlight.h */,
+			);
+			path = TestFlightSDK2.0.2;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -596,11 +623,13 @@
 				7D0F9DA517E941C3007B71A9 /* InfoPlist.strings in Resources */,
 				7DB07BB818346BC4008F67AC /* PLCameraSheetButtonPressed.png in Resources */,
 				7DBF345E1830794900609408 /* slidemenu.png in Resources */,
+				7D9B6ADD1843CA2500869C83 /* upload-photo-button.png in Resources */,
 				37CCFB901839A0B100BAA001 /* diddit-tab-blue.png in Resources */,
 				37CCFB941839A23D00BAA001 /* diddit-tab.png in Resources */,
 				37CCFB9A1839A35B00BAA001 /* bukkit-tab.png in Resources */,
 				7DC5EDBB1828920F00456E32 /* Default~iphone.png in Resources */,
 				37CCFB981839A30C00BAA001 /* bukkit-tab-blue.png in Resources */,
+				7DF43D8E183B35320095138B /* release_notes.md in Resources */,
 				7D0F9DAD17E941C3007B71A9 /* Default.png in Resources */,
 				7D029074180E1B8E0067B927 /* hong-kong.png in Resources */,
 				7DBF346618307B7200609408 /* icon-list.png in Resources */,
@@ -622,6 +651,7 @@
 				37CCFB921839A1D800BAA001 /* diddit-tab-orange.png in Resources */,
 				7D0F9DAF17E941C3007B71A9 /* Default@2x.png in Resources */,
 				7D0F9DB117E941C3007B71A9 /* Default-568h@2x.png in Resources */,
+				7DF43D8D183B35320095138B /* README.md in Resources */,
 				7DB07BBA18346BC4008F67AC /* PLCameraSheetDoneButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -805,8 +835,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/kevinlamb/Documents/Bukkit/TestFlightSDK2.0.2,
+					/Users/kevinlamb/Documents/Bukkit/Bukkit/TestFlightSDK2.0.2,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=*]" = "7DAFE75E-360D-4B64-BFF8-9A08385D6662";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -814,7 +846,7 @@
 		7D0F9DD117E941C4007B71A9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -826,8 +858,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/kevinlamb/Documents/Bukkit/TestFlightSDK2.0.2,
+					/Users/kevinlamb/Documents/Bukkit/Bukkit/TestFlightSDK2.0.2,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=*]" = "E75D2C78-174A-4DEE-9B02-6E8BFEC37580";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

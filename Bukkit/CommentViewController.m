@@ -14,7 +14,7 @@
 
 @implementation CommentViewController
 
-@synthesize cancelButton, textView, postButton, bukkit;
+@synthesize cancelButton, textView, postButton, bukkit, mainListComment;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -71,7 +71,7 @@
     [commentObject setValue:bukkit forKey:@"bukkit"]; // Set bukkit
     
     [commentObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-         [self.delegate addComment:self];
+        [self.delegate addComment:self toBukkit:bukkit];
     }];
 }
 

@@ -146,6 +146,7 @@
 
 - (void)imagePicker:(GKImagePicker *)imagePicker pickedImage:(UIImage *)image{
     self.takenImage = image;
+    [self.uploadPhotoButton setImage:takenImage forState:UIControlStateNormal];
     [self hideImagePicker];
 }
 

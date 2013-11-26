@@ -7,6 +7,7 @@
 //
 
 #import "BukkitViewController.h"
+#import "ProfileViewController.h"
 #import "ActivityViewController.h"
 
 @interface BukkitViewController ()
@@ -15,7 +16,7 @@
 
 @implementation BukkitViewController
 
-@synthesize numberOfBukkit, numberOfDiddit, titleBukkit, bukkit, imageView, bukkitButton, didditButton, bukkitTabButton, didditTabButton, commentTabButton, commentsView;
+@synthesize delegate, numberOfBukkit, numberOfDiddit, titleBukkit, bukkit, imageView, bukkitButton, didditButton, bukkitTabButton, didditTabButton, commentTabButton, commentsView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,6 +47,9 @@
     [self checkForUserActivity:bukkit forButton:self.bukkitTabButton];
     
     commentsView.delegate = self;
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textTapped:)];
+    [commentsView addGestureRecognizer:tapRecognizer];
     
     titleBukkit.text = [bukkit objectForKey:@"title"];
     
@@ -62,7 +66,7 @@
     [[relationOfBukkitUsers query] countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
         if (!error) {
             if (count == 0) {
-                numberOfBukkit.text = @"Be first to Bukkit";
+                numberOfBukkit.text = @"Be the first";
             } else if (count == 1){
                 numberOfBukkit.text = [NSString stringWithFormat:@"%i Person", count];
             } else {
@@ -78,7 +82,7 @@
     [[relationOfDidditUsers query] countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         if(!error) {
             if (number == 0) {
-                numberOfDiddit.text = @"Be first to Diddit";
+                numberOfDiddit.text = @"Be the first";
             } else if (number == 1){
                 numberOfDiddit.text = [NSString stringWithFormat:@"%i Person", number];
             } else {
@@ -117,18 +121,59 @@
 }
 
 -(NSMutableAttributedString *)formatString:(PFObject *) comment {
-    
+    PFUser *user = [comment objectForKey:@"user"];
     NSString *userNameText = [[comment objectForKey:@"user"] objectForKey:@"username"];
-    NSString *commentText = [comment objectForKey:@"text"];
-    NSString *userAndCommentString = [NSString stringWithFormat:@"%@: %@ \n", userNameText, commentText];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:userNameText attributes:@{ @"isClickableUser" : @(YES), @"user" : user }];
     
-    const CGFloat fontSize = 12;
+    NSString *commentString = [NSString stringWithFormat:@": %@ \n", [comment objectForKey:@"text"]];
+    
+    NSAttributedString *commentAttrText = [[NSAttributedString alloc] initWithString:commentString];
+    [attributedString appendAttributedString:commentAttrText];
+    // NSString *userAndCommentString = [NSString stringWithFormat:@"%@: %@ \n", userNameText, commentText];
+    
+    const CGFloat fontSize = 13;
     UIFont *boldFont = [UIFont boldSystemFontOfSize:fontSize];
     
-    NSMutableAttributedString *userAndCommentArrString = [[NSMutableAttributedString alloc] initWithString:userAndCommentString];
+    NSMutableAttributedString *userAndCommentArrString = [[NSMutableAttributedString alloc] initWithAttributedString:attributedString];
+    
     [userAndCommentArrString addAttribute:NSFontAttributeName value:boldFont range:NSMakeRange(0, userNameText.length+1)];
     
     return userAndCommentArrString;
+}
+
+- (void)textTapped:(UITapGestureRecognizer *)recognizer {
+    
+    UITextView *textView = (UITextView *)recognizer.view;
+    
+    NSLayoutManager *layoutManager = textView.layoutManager;
+    CGPoint location = [recognizer locationInView:textView];
+    
+    NSUInteger characterIndex;
+    characterIndex = [layoutManager characterIndexForPoint:location
+                                           inTextContainer:textView.textContainer
+                  fractionOfDistanceBetweenInsertionPoints:NULL];
+    
+    // NSLog(@"%@", [textView.textStorage attributedSubstringFromRange:NSMakeRange(characterIndex, 1)]);
+    
+    if (characterIndex < textView.textStorage.length) {
+        
+        NSRange range;
+        id value = [textView.textStorage attribute:@"isClickableUser" atIndex:characterIndex effectiveRange:&range];
+        
+        if (value) {
+            NSLog(@"%@, %d, %d", value, range.location, range.length);
+            PFUser *user = (PFUser *)[textView.textStorage attribute:@"user" atIndex:characterIndex effectiveRange:&range];
+            ProfileViewController *profileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+            profileViewController.profile = user;
+            profileViewController.pushedView = YES;
+            [self.navigationController pushViewController:profileViewController animated:YES];
+        }
+        else {
+            NSLog(@"Nope");
+        }
+        
+    }
+    
 }
 
 -(void)checkForUserActivity:(PFObject *)object forButton:(UIButton *)button {
@@ -174,6 +219,8 @@
         [self.didditTabButton setSelected:YES];
     }
     
+    [self.delegate updateBukkitCell:bukkit fromButton:sender];
+    
     PFUser *user = [PFUser currentUser];
     PFRelation *relation = [self.bukkit relationforKey:@"diddit"];
     [[relation query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -211,6 +258,7 @@
     [self.storyboard instantiateViewControllerWithIdentifier:@"CommentViewController"];
     addCommentViewController.delegate = self;
     addCommentViewController.bukkit = self.bukkit;
+    addCommentViewController.mainListComment = NO;
     UINavigationController *commentNavController = [[UINavigationController alloc] initWithRootViewController:addCommentViewController];
     
     [self presentViewController:commentNavController animated:YES completion:nil];
@@ -223,6 +271,8 @@
     else {
         [self.bukkitTabButton setSelected:YES];
     }
+    
+    [self.delegate updateBukkitCell:bukkit fromButton:sender];
     
     PFUser *user = [PFUser currentUser];
     PFRelation *relation = [bukkit relationforKey:@"bukkit"];
@@ -253,7 +303,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)addComment:(id)sender {
+- (void)addComment:(id)sender toBukkit:(PFObject *)bukkit {
     [self getComments];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

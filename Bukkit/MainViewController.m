@@ -30,7 +30,7 @@
 
 @implementation MainViewController
 
-@synthesize sidebarButton, addItemButton, navItem, list, topRated, shouldReloadOnAppear, userList, query, nameOfList, pushedView;
+@synthesize sidebarButton, addItemButton, navItem, list, topRated, shouldReloadOnAppear, userList, query, nameOfList, pushedView, editable;
 
 
 
@@ -70,6 +70,8 @@
         self.shouldReloadOnAppear = NO;
         
         self.userList = NO;
+        
+        self.editable = YES;
     }
     
     return self;
@@ -97,6 +99,12 @@
         
         // Set the gesture
         [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    }
+    
+    if (editable) {
+        UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(presentAddItemView:)];
+        menuButtonItem.tintColor = [UIColor whiteColor];
+        self.navigationItem.rightBarButtonItem = menuButtonItem;
     }
     
     [list fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -207,14 +215,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0 || section == 1) {
-        return 0.0f;
+        return 0.000001f;
     }
     return 8.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section > self.objects.count || section == 0) {
-        return 0.0f;
+        return 0.000001f;
     }
     return 8.0f;
 }
@@ -229,6 +237,16 @@
     }
 }
 
+/*
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat sectionHeaderHeight = 0.0;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight && scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+}
+*/
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -370,7 +388,7 @@
     }
     
     if (![cell.contentView viewWithTag:11]) {
-        NSArray *itemArray = [NSArray arrayWithObjects: @"Most Recent", @"Top Rated", nil];
+        NSArray *itemArray = [NSArray arrayWithObjects: @"Most Recent", @"Most Popular", nil];
         UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
         segmentedControl.frame = CGRectMake(0, 0, 320, 30);
         segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
@@ -385,6 +403,19 @@
     }
     
     return cell;
+}
+
+
+-(void)updateBukkitCell:(PFObject *)object fromButton:(id)sender {
+    NSIndexPath *indexPath = [self indexPathForObject:object];
+    BukkitCell *cell = (BukkitCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    UIButton *buttonType = (UIButton *)sender;
+    if ([buttonType.titleLabel.text isEqualToString:@"Bukkit"]) {
+        [cell didTapBukkitButtonAction:nil];
+    } else {
+        [cell didTapDidditButtonAction:nil];
+    }
 }
 
 
@@ -409,7 +440,7 @@
 
 -(void)updateTable:(NSString *)segmentSelected {
     
-    if([segmentSelected isEqualToString:@"Top Rated"]) {
+    if([segmentSelected isEqualToString:@"Most Popular"]) {
         self.topRated = YES;
     } else {
         self.topRated = NO;
@@ -448,18 +479,18 @@
         // Load More Cell
         [self loadNextPage];
     } else {
-        [self loadBukkitView:self.objects[indexPath.section-1]];
+        [self loadBukkitView:self.objects[indexPath.section-1] isAnimated:YES];
     }
 }
 
--(void)loadBukkitView:(PFObject *)object {
+-(void)loadBukkitView:(PFObject *)object isAnimated:(BOOL)isAnimated {
     
     BukkitViewController *bukkitViewController =
     [self.storyboard instantiateViewControllerWithIdentifier:@"BukkitViewController"];
     bukkitViewController.delegate = self;
     bukkitViewController.bukkit = object;
     
-    [self.navigationController pushViewController:bukkitViewController animated:YES];
+    [self.navigationController pushViewController:bukkitViewController animated:isAnimated];
 }
 
 -(void)bukkitCell:(BukkitCell *)bukkitCell didTapDiddit:(UIButton *)button {
@@ -467,7 +498,9 @@
     PFObject *bukkit = bukkitCell.bukkit;
     PFUser *user = [PFUser currentUser];
     PFRelation *relation = [bukkit relationforKey:@"diddit"];
-    [[relation query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    PFQuery *queryDiddit = [relation query];
+    [queryDiddit whereKey:@"objectId" equalTo:user.objectId];
+    [queryDiddit getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
             [relation addObject:user];
             [bukkit incrementKey:@"ranking"];
@@ -495,7 +528,10 @@
     PFObject *bukkit = bukkitCell.bukkit;
     PFUser *user = [PFUser currentUser];
     PFRelation *relation = [bukkit relationforKey:@"bukkit"];
-    [[relation query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    PFQuery *queryBukkit = [relation query];
+    [queryBukkit whereKey:@"objectId" equalTo:user.objectId];
+    
+    [queryBukkit getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!object) {
             [relation addObject:user];
             [bukkit incrementKey:@"ranking"];
@@ -522,6 +558,7 @@
     [self.storyboard instantiateViewControllerWithIdentifier:@"CommentViewController"];
     addCommentViewController.delegate = self;
     addCommentViewController.bukkit = bukkitCell.bukkit;
+    addCommentViewController.mainListComment = YES;
     UINavigationController *commentNavController = [[UINavigationController alloc] initWithRootViewController:addCommentViewController];
     
     [self presentViewController:commentNavController animated:YES completion:nil];
@@ -534,7 +571,13 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)addComment:(id)sender {
+- (void)addComment:(id)sender toBukkit:(PFObject *)bukkit {
+    CommentViewController *commentVC = (CommentViewController *)sender;
+    
+    if(commentVC.mainListComment) {
+        [self loadBukkitView:bukkit isAnimated:NO];
+    }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

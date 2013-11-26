@@ -22,10 +22,11 @@
 @property (nonatomic, strong) PFQuery *query;
 
 @property (nonatomic, assign) BOOL userList;
+@property (nonatomic, assign) BOOL editable;
 @property (nonatomic, assign) BOOL pushedView;
 @property (nonatomic, weak) NSString *nameOfList;
 
 
--(void)loadBukkitView:(PFObject *)object;
+-(void)loadBukkitView:(PFObject *)object isAnimated:(BOOL)isAnimated;
 
 @end

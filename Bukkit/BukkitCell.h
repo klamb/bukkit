@@ -23,6 +23,10 @@
 @property (weak, nonatomic) PFObject *bukkit;
 @property (nonatomic,weak) id <BukkitDelegate> delegate;
 
+- (IBAction)didTapDidditButtonAction:(UIButton *)sender;
+- (IBAction)didTapCommentButtonAction:(UIButton *)sender;
+- (IBAction)didTapBukkitButtonAction:(UIButton *)sender;
+
 @end
 
 
