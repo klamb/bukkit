@@ -15,11 +15,14 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) SWRevealViewController *revealViewController;
 @property (nonatomic, strong) UIStoryboard *storyboard;
+@property (weak, nonatomic) UIImage *navBarBackgroundImage;
+@property (weak, nonatomic) UIImage *navBarShadowImage;
 
--(void)logOut:(SettingsViewController *) settingsViewController;
+-(void)logOut;
+-(void)resetNavigationBar:(UINavigationBar *)navBar;
 -(void)getBukkitList:(MainViewController *) mainViewController;
 -(BOOL)checkForLogin;
 -(void)presentLogInViewController;

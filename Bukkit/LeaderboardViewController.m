@@ -14,21 +14,16 @@
 @interface LeaderboardViewController ()
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
+
+@property (assign, nonatomic) NSInteger previousNumOfObjects;
+@property (assign, nonatomic) BOOL endOfList;
 
 @end
 
 @implementation LeaderboardViewController
 
-@synthesize sidebarButton;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize sidebarButton, activityIndicatorView, endOfList, previousNumOfObjects;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -57,6 +52,30 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] resetNavigationBar:self.navigationController.navigationBar];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    CGRect footerRect = CGRectMake(0, 0, self.view.frame.size.width, 30);
+    UIView *footerView = [[UIView alloc] initWithFrame:footerRect];
+    
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityIndicatorView.center = CGPointMake(footerView.frame.size.width/2, footerView.frame.size.height/2);
+    self.activityIndicatorView.hidesWhenStopped = YES;
+    [footerView addSubview:activityIndicatorView];
+    
+    // self.tableView.tableFooterView = footerView;
+    
+    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
+    sidebarButton.target = self.revealViewController;
+    sidebarButton.action = @selector(revealToggle:);
+    
+    // Set the gesture
+    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+}
 
 - (PFQuery *)queryForTable {
     
@@ -67,7 +86,6 @@
     }
     
     PFQuery *queryAllUsers = [PFUser query];
-    [queryAllUsers orderByDescending:@"ranking"];
     queryAllUsers.limit = 100;
     [queryAllUsers orderByDescending:@"didditRanking"];
     
@@ -75,17 +93,10 @@
 }
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    sidebarButton.target = self.revealViewController;
-    sidebarButton.action = @selector(revealToggle:);
-    
-    // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.objects.count;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *CellIdentifier = @"Cell";
@@ -95,9 +106,6 @@
         cell = [[LeaderboardCell alloc] initWithStyle:UITableViewCellStyleDefault
                                  reuseIdentifier:CellIdentifier];
     }
-    
-    cell.delegate = self;
-    cell.title.text = [object objectForKey:@"username"];
     
     PFFile *profPicFile = [object objectForKey:@"profilepic"];
     [profPicFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -114,19 +122,11 @@
         }
     }];
     
-    PFRelation *relationOfDiddit = [object relationforKey:@"diddit"];
-    [[relationOfDiddit query] countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-        if(!error) {
-            if (number > 0) {
-                 NSString *text = [NSString stringWithFormat:@"%i", number];
-                [cell.didditPoints setTitle:text forState:UIControlStateNormal];
-            }
-            
-        } else {
-            
-        }
-    }];
+    cell.delegate = self;
+    cell.title.text = [object objectForKey:@"name"];
     
+    NSString *text = [[object objectForKey:@"didditRanking"] stringValue];
+    [cell.didditPoints setTitle:text forState:UIControlStateNormal];
     
     NSString *rankText = [NSString stringWithFormat:@"%d", indexPath.row+1];
     cell.rankingText.text = rankText;
@@ -134,28 +134,61 @@
     return cell;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    ProfileViewController *profileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileViewController"];
-    profileViewController.profile = [self.objects objectAtIndex:indexPath.row];
-    profileViewController.pushedView = YES;
-    [self.navigationController pushViewController:profileViewController animated:YES];
+    if (indexPath.row < self.objects.count) {
+        ProfileViewController *profileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+        profileViewController.profile = [self.objects objectAtIndex:indexPath.row];
+        profileViewController.pushedView = YES;
+        [self.navigationController pushViewController:profileViewController animated:YES];
+    }
 }
+
 
 -(void)bukkitCell:(LeaderboardCell *)leaderboardCell didTapDiddit:(UIButton *)button {
     MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
     mainViewController.userList = YES;
     
     [self.navigationController pushViewController:mainViewController animated:YES];
-    
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void) loadObjects {
+    [super loadObjects];
+    
+    self.endOfList = NO;
+    self.previousNumOfObjects = 0;
+}
+
+- (void)objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    
+    if (self.previousNumOfObjects >= self.objects.count) {
+        self.endOfList = YES;
+        // self.tableView.tableFooterView = [[UIView alloc] init];
+    }
+    
+    self.previousNumOfObjects = self.objects.count;
+    
+    if ([self.activityIndicatorView isAnimating]) {
+        [self.activityIndicatorView stopAnimating];
+    }
+}
+
+
+#pragma UIScrollView Delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentSize.height - scrollView.contentOffset.y < (self.view.bounds.size.height) && !self.endOfList) {
+        if (![self isLoading]) {
+            [self.activityIndicatorView startAnimating];
+            [self loadNextPage];
+        }
+    }
+}
+
+ 
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

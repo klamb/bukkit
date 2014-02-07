@@ -7,6 +7,8 @@
 //
 
 #import "LogInViewController.h"
+#import "MBProgressHUD.h"
+
 #define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 
 @interface LogInViewController ()
@@ -17,8 +19,7 @@
 
 @synthesize logInButton, username, password, loginTable, facebookButton, imageData;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -26,26 +27,31 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[self navigationController] setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.view setBackgroundColor:RGB(244, 244, 244)];
     
     [loginTable setBackgroundView:nil];
     [loginTable setBackgroundColor:UIColor.clearColor];
-    loginTable.allowsSelection=NO;
+    loginTable.allowsSelection = NO;
     
     [logInButton setEnabled:NO];
     logInButton.alpha = 0.5;
     
     [facebookButton setBackgroundColor:RGB(59, 89, 152)];
     facebookButton.titleLabel.shadowOffset = CGSizeMake(0.0, -0.8);
-	// Do any additional setup after loading the view.
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
 }
 
 -(UITextField*) makeTextField: (NSString*)placeholder {
@@ -61,30 +67,24 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    // Return the number of rows in the section.
-    // Usually the number of items in your array (the one that holds your list)
     return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     //Where we configure the cell in each row
-    
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell;
     
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell... setting the text of our cell's label
-    
     if ([indexPath row] == 0) {
          username = [self makeTextField:@"Username"];
          username.keyboardType = UIKeyboardTypeEmailAddress;
          username.returnKeyType = UIReturnKeyNext;
-         [username becomeFirstResponder];
          username.delegate = self;
          [cell addSubview:username];
     }
@@ -108,48 +108,12 @@
     return 0.0;
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    //Keyboard becomes visible
+    [UIView animateWithDuration:0.3f animations:^ {
+        self.view.frame = CGRectMake(0, -108, 320, [[UIScreen mainScreen] bounds].size.height);
+    }];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
@@ -185,10 +149,22 @@
     return YES;
 }
 
+-(void)dismissKeyboard {
+    if([username isFirstResponder]) {
+        [username resignFirstResponder];
+    }
+    if ([password isFirstResponder]) {
+        [password resignFirstResponder];
+    }
+    
+    [UIView animateWithDuration:0.3f animations:^ {
+        self.view.frame = CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height);
+    }];
+}
+
+
 - (void) validateTextFields {
-    NSLog(@"USERNAME: %@ PASSWORD %@", username.text, password.text);
     if (![username.text isEqualToString:@""] && ![password.text isEqualToString:@""]) {
-        // NSLog(@"USERNAME: %@ PASSWORD %@", username.text, password.text);
         [logInButton setEnabled:YES];
     }
     else {
@@ -197,35 +173,53 @@
 }
 
 - (IBAction)login:(id)sender {
-    
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, screenRect.size.height)];
+    overlay.backgroundColor = [UIColor colorWithWhite:0 alpha:.4];
+    [self.view addSubview:overlay];
     
     [PFUser logInWithUsernameInBackground:username.text password:password.text
-                                    block:^(PFUser *user, NSError *error) {
-                                        if (user) {
-                                            [self performSegueWithIdentifier:@"LOGGING IN" sender:logInButton];
-                                        } else {
-                                            // The login failed. Check error to see why.
-                                            NSString *errorString = [error userInfo][@"error"];
-                                            // Show the errorString somewhere and let the user try again.
-                                            UIAlertView *errorMessage = [[UIAlertView alloc] initWithTitle:@"Log In"
-                                                                                                   message:errorString
-                                                                                                  delegate:nil
-                                                                                         cancelButtonTitle:@"OK"
-                                                                                         otherButtonTitles:nil];
-                                            [errorMessage show];
-                                        }
+                            block:^(PFUser *user, NSError *error) {
+                                [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                                [overlay removeFromSuperview];
+                                
+                                if (user) {
+                                    [UIView animateWithDuration:0.3f animations:^ {
+                                        self.view.frame = CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height);
                                     }];
-    
-    }
+                                    [self performSegueWithIdentifier:@"LOGGING IN" sender:logInButton];
+                                } else {
+                                    // The login failed. Check error to see why.
+                                    NSString *errorString = [error userInfo][@"error"];
+                                    // Show the errorString somewhere and let the user try again.
+                                    UIAlertView *errorMessage = [[UIAlertView alloc] initWithTitle:@"Log In"
+                                                                                           message:errorString
+                                                                                          delegate:nil
+                                                                                 cancelButtonTitle:@"OK"
+                                                                                 otherButtonTitles:nil];
+                                    [errorMessage show];
+                                }
+                            }];
+}
 
 - (IBAction)loginFacebookButtonTouchHandler:(id)sender  {
+    
+    [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, screenRect.size.height)];
+    overlay.backgroundColor = [UIColor colorWithWhite:0 alpha:.4];
+    [self.view addSubview:overlay];
+    
     // The permissions requested from the user
     NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         // [_activityIndicator stopAnimating]; // Hide loading indicator
-        
+        [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+        [overlay removeFromSuperview];
         if (!user) {
             if (!error) {
                 NSLog(@"Uh oh. The user cancelled the Facebook login.");
@@ -310,6 +304,47 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+}
+
+-(IBAction)forgotPassword:(id)sender {
+    UIAlertView *resetPasswordAlertView = [[UIAlertView alloc] initWithTitle:@"Reset Password"
+                                                               message:@"Enter your Email Address:"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"Cancel"
+                                                 otherButtonTitles:@"Reset", nil];
+    resetPasswordAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    // [resetPasswordAlertView textFieldAtIndex:0].delegate = self;
+    [resetPasswordAlertView show];
+}
+
+#pragma mark - UIAlertViewDelegate 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != 0) {
+        [PFUser requestPasswordResetForEmailInBackground:[alertView textFieldAtIndex:0].text block:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                NSString *errorString = [error userInfo][@"error"];
+                // Show the errorString somewhere and let the user try again.
+                UIAlertView *errorMessage = [[UIAlertView alloc] initWithTitle:@"Reset Password"
+                                                                       message:errorString
+                                                                      delegate:nil
+                                                             cancelButtonTitle:@"OK"
+                                                             otherButtonTitles:nil];
+                [errorMessage show];
+            }
+        }];
+    }
+}
+
+- (void)willPresentAlertView:(UIAlertView *)alertView {
+    if ([username isFirstResponder] || [password isFirstResponder]) {
+        [self dismissKeyboard];
+    }
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

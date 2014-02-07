@@ -460,10 +460,10 @@ static NSString * const SWSegueRightIdentifier = @"sw_right";
             MainViewController *mainViewController = navController.viewControllers[0];
             
             PFObject *defaultList = [[PFUser currentUser] objectForKey:@"defaultList"];
-            PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
-            [queryBukkitList whereKey:@"list" equalTo:defaultList];
+            //PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
+            //[queryBukkitList whereKey:@"list" equalTo:defaultList];
             
-            mainViewController.query = queryBukkitList;
+            //mainViewController.query = queryBukkitList;
             mainViewController.pushedView = NO;
             mainViewController.list = defaultList;
             

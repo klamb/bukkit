@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "SWRevealViewController.h"
+#import "CreateListViewController.h"
 
-@interface BukkitListsViewController : PFQueryTableViewController
+@interface BukkitListsViewController : PFQueryTableViewController <CreateListDelegate>
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addListBarButton;
+
+-(IBAction)addList:(id)sender;
 
 @end

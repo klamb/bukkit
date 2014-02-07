@@ -10,6 +10,8 @@
 #import "ProfileViewController.h"
 #import "ActivityViewController.h"
 
+#define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
+
 @interface BukkitViewController ()
 
 @end
@@ -53,6 +55,17 @@
     
     titleBukkit.text = [bukkit objectForKey:@"title"];
     
+    [bukkitButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0)];
+    [didditButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0)];
+    
+    PFUser *creator = [bukkit objectForKey:@"createdBy"];
+    if ([creator.objectId isEqualToString:[PFUser currentUser].objectId]) {
+        UIBarButtonItem *deleteButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteItem:)];
+        deleteButtonItem.tintColor = [UIColor whiteColor];
+        self.navigationItem.rightBarButtonItem = deleteButtonItem;
+    }
+    
+    
     PFFile *userImageFile = [bukkit objectForKey:@"Image"];
     [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error) {
@@ -66,31 +79,26 @@
     [[relationOfBukkitUsers query] countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
         if (!error) {
             if (count == 0) {
-                numberOfBukkit.text = @"Be the first";
+                [bukkitButton setTitle:@"Be the first" forState:UIControlStateNormal];
             } else if (count == 1){
-                numberOfBukkit.text = [NSString stringWithFormat:@"%i Person", count];
+                [bukkitButton setTitle:[NSString stringWithFormat:@"%i Person", count] forState:UIControlStateNormal];
             } else {
-                numberOfBukkit.text = [NSString stringWithFormat:@"%i People", count];
+                [bukkitButton setTitle:[NSString stringWithFormat:@"%i People", count] forState:UIControlStateNormal];
             }
-        } else {
-            // The request failed
         }
     }];
     
     
     PFRelation *relationOfDidditUsers = [bukkit relationforKey:@"diddit"];
-    [[relationOfDidditUsers query] countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+    [[relationOfDidditUsers query] countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
         if(!error) {
-            if (number == 0) {
-                numberOfDiddit.text = @"Be the first";
-            } else if (number == 1){
-                numberOfDiddit.text = [NSString stringWithFormat:@"%i Person", number];
+            if (count == 0) {
+                [didditButton setTitle:@"Be the first" forState:UIControlStateNormal];
+            } else if (count == 1){
+                [didditButton setTitle:[NSString stringWithFormat:@"%i Person", count] forState:UIControlStateNormal];
             } else {
-                numberOfDiddit.text = [NSString stringWithFormat:@"%i People", number];
+                [didditButton setTitle:[NSString stringWithFormat:@"%i People", count] forState:UIControlStateNormal];
             }
-
-        } else {
-            
         }
     }];
     
@@ -122,7 +130,7 @@
 
 -(NSMutableAttributedString *)formatString:(PFObject *) comment {
     PFUser *user = [comment objectForKey:@"user"];
-    NSString *userNameText = [[comment objectForKey:@"user"] objectForKey:@"username"];
+    NSString *userNameText = [[comment objectForKey:@"user"] objectForKey:@"name"];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:userNameText attributes:@{ @"isClickableUser" : @(YES), @"user" : user }];
     
     NSString *commentString = [NSString stringWithFormat:@": %@ \n", [comment objectForKey:@"text"]];
@@ -137,6 +145,7 @@
     NSMutableAttributedString *userAndCommentArrString = [[NSMutableAttributedString alloc] initWithAttributedString:attributedString];
     
     [userAndCommentArrString addAttribute:NSFontAttributeName value:boldFont range:NSMakeRange(0, userNameText.length+1)];
+    [userAndCommentArrString addAttribute:NSForegroundColorAttributeName value:RGB(34, 158, 245) range:NSMakeRange(0, userNameText.length)];
     
     return userAndCommentArrString;
 }
@@ -217,10 +226,14 @@
     }
     else {
         [self.didditTabButton setSelected:YES];
+        if (self.bukkitTabButton.selected) {
+            [self.bukkitTabButton setSelected:NO];
+        }
     }
     
     [self.delegate updateBukkitCell:bukkit fromButton:sender];
     
+    /*
     PFUser *user = [PFUser currentUser];
     PFRelation *relation = [self.bukkit relationforKey:@"diddit"];
     [[relation query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -244,6 +257,7 @@
             [user saveInBackground];
         }
     }];
+     */
 }
 
 - (IBAction)didTapCommentTabButtonAction:(UIButton *)sender {
@@ -270,10 +284,14 @@
     }
     else {
         [self.bukkitTabButton setSelected:YES];
+        if (self.didditTabButton.selected) {
+            [self.didditTabButton setSelected:NO];
+        }
     }
     
     [self.delegate updateBukkitCell:bukkit fromButton:sender];
     
+    /*
     PFUser *user = [PFUser currentUser];
     PFRelation *relation = [bukkit relationforKey:@"bukkit"];
     [[relation query] getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -295,6 +313,41 @@
             [user saveInBackground];
         }
     }];
+     */
+}
+
+
+-(void)deleteItem:(id)sender {
+    [self.bukkit deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [self.delegate deletedItem];
+    }];
+}
+
+-(IBAction)reportContentAction:(UIButton *)sender {
+    UIAlertView *reportMessage = [[UIAlertView alloc] initWithTitle:@"Report Content"
+                                                            message:@"Do you think this item is against the terms and conditions of Bukkit?"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Report"
+                                                  otherButtonTitles:@"Cancel", nil];
+    [reportMessage show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        PFObject *flaggedContent = [PFObject objectWithClassName:@"FlaggedContent"];
+        flaggedContent[@"reporter"] = [PFUser currentUser];
+        flaggedContent[@"flaggedItem"] = self.bukkit;
+        [flaggedContent saveInBackground];
+        
+        UIAlertView *reportMessage = [[UIAlertView alloc] initWithTitle:@"Report Content"
+                                                                message:@"Your file was reported"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+        [reportMessage show];
+    }
 }
 
 #pragma mark - CommentViewDelegate Methods

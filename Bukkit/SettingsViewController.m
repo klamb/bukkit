@@ -46,7 +46,7 @@
 }
 
 -(IBAction)logOut:(id)sender {
-    [(AppDelegate *)[[UIApplication sharedApplication] delegate] logOut:self];
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] logOut];
 }
 
 - (void)didReceiveMemoryWarning

@@ -8,6 +8,7 @@
 
 #import "UserActivityViewController.h"
 #import "BukkitCell.h"
+#import "AppDelegate.h"
 
 @interface UserActivityViewController ()
 
@@ -35,9 +36,11 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] resetNavigationBar:self.navigationController.navigationBar];
+}
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
@@ -105,7 +108,7 @@
     
     // cell.delegate = self;
     cell.title.text = [object objectForKey:@"title"];
-    cell.bukkit = object;
+    cell.item = object;
     
     //[self checkForUserActivity:object forButton:cell.didditButton];
     // [self checkForUserActivity:object forButton:cell.bukkitButton];

@@ -10,11 +10,11 @@
 #import <Parse/Parse.h>
 #import "SWRevealViewController.h"
 #import "AddItemViewController.h"
-#import "ListViewController.h"
 #import "BukkitViewController.h"
 #import "CommentViewController.h"
+#import "BukkitCell.h"
 
-@interface MainViewController : PFQueryTableViewController <AddItemDelegate, CommentViewDelegate,BukkitViewDelegate, BukkitDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface MainViewController : PFQueryTableViewController <AddItemDelegate, CommentViewDelegate,BukkitViewDelegate, BukkitDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 
@@ -25,7 +25,7 @@
 @property (nonatomic, assign) BOOL editable;
 @property (nonatomic, assign) BOOL pushedView;
 @property (nonatomic, weak) NSString *nameOfList;
-
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 
 -(void)loadBukkitView:(PFObject *)object isAnimated:(BOOL)isAnimated;
 

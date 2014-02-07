@@ -11,7 +11,7 @@
 
 @protocol BukkitDelegate;
 
-@interface BukkitCell : PFTableViewCell
+@interface BukkitCell : PFTableViewCell <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UILabel *rank;
@@ -20,7 +20,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet PFImageView *imageView;
 
-@property (weak, nonatomic) PFObject *bukkit;
+@property (weak, nonatomic) PFObject *item;
 @property (nonatomic,weak) id <BukkitDelegate> delegate;
 
 - (IBAction)didTapDidditButtonAction:(UIButton *)sender;

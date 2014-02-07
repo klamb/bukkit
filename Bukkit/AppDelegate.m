@@ -14,7 +14,7 @@
 
 @implementation AppDelegate
 
-@synthesize revealViewController, storyboard;
+@synthesize revealViewController, storyboard, navBarBackgroundImage, navBarShadowImage;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -28,30 +28,21 @@
     
      // ****************************************************************************
     
-     [TestFlight takeOff:@"c7a04a2f-381f-4a80-87ab-0c17440f4e17"];
+     // [TestFlight takeOff:@"c7a04a2f-381f-4a80-87ab-0c17440f4e17"];
     
      // ****************************************************************************
     
     [PFFacebookUtils initializeFacebook];
     [FBLoginView class];
     
-    self.storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    self.revealViewController = [storyboard instantiateViewControllerWithIdentifier:@"RevealViewController"];
+    self.revealViewController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"RevealViewController"];
     
     self.window.rootViewController = self.revealViewController;
     [self.window makeKeyAndVisible];
     
     [self checkForLogin];
     
-    [[UINavigationBar appearance] setBarTintColor:RGB(34, 158, 245)];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{
-                                                           UITextAttributeTextColor: [UIColor whiteColor]
-                                                           }];
-    [[UINavigationBar appearance] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor whiteColor], UITextAttributeTextColor,
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0], UITextAttributeFont,nil]];
+    [self setUpAppearance];
 
     return YES;
 }
@@ -66,16 +57,15 @@
     }
 }
 
--(void)logOut:(SettingsViewController *) settingsViewController {
-    // Log out
+-(void)logOut {
     [PFUser logOut];
-    
-    
-    ViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
-    
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
-    
-    [settingsViewController presentViewController:navigationController animated:NO completion:nil];
+    [FBSession.activeSession closeAndClearTokenInformation];
+}
+
+-(void) resetNavigationBar:(UINavigationBar *) navBar {
+    navBar.translucent = YES;
+    [navBar setBackgroundImage:self.navBarBackgroundImage forBarMetrics:UIBarMetricsDefault];
+    [navBar setShadowImage:self.navBarShadowImage];
 }
 
 -(void)getBukkitList:(MainViewController *) mainViewController {
@@ -88,11 +78,26 @@
 }
 
 -(void)presentLogInViewController {
-    ViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
+    ViewController *loginViewController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewController"];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     
     [self.revealViewController presentViewController:navigationController animated:NO completion:nil];
+}
+
+-(void)setUpAppearance {
+    [[UINavigationBar appearance] setBarTintColor:RGB(34, 158, 245)];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{
+                                                           UITextAttributeTextColor: [UIColor whiteColor]
+                                                           }];
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor whiteColor], UITextAttributeTextColor,
+      [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0], UITextAttributeFont,nil]];
+    
+    self.navBarBackgroundImage = [self.revealViewController.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+    self.navBarShadowImage = [self.revealViewController.navigationController.navigationBar shadowImage];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {

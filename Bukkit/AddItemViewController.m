@@ -8,6 +8,7 @@
 
 #import "AddItemViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "MBProgressHUD.h"
 
 @interface AddItemViewController () <GKImagePickerDelegate>
 
@@ -51,19 +52,40 @@
 -(IBAction)addItem:(id)sender {
     if(titleField.text.length == 0) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Empty Title Field"
-                                                           message:@"You need to type in a title for this item."
-                                                          delegate:nil
-                                                 cancelButtonTitle:@"OK"
-                                                 otherButtonTitles:nil];
+                                            message:@"You need to type in a title for this item."
+                                            delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
         [message show];
     } else {
-        PFObject *bukkit = [PFObject objectWithClassName:@"bukkit"];
-        [bukkit setObject:[NSNumber numberWithInt:0] forKey:@"ranking"];
-        [bukkit setObject:titleField.text forKey:@"title"];
-        [bukkit setObject:bukkitList forKey:@"list"];
-        PFRelation *relation = [bukkit relationforKey:@"bukkit"];
-        [relation addObject:[PFUser currentUser]];
-        [self linkImageWithBukkit:bukkit];
+        [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+        PFObject *item = [PFObject objectWithClassName:@"bukkit"];
+        [item setObject:[NSNumber numberWithInt:0] forKey:@"ranking"];
+        [item setObject:titleField.text forKey:@"title"];
+        [item setObject:[PFUser currentUser] forKey:@"createdBy"];
+        [self linkImageWithBukkit:item];
+        // PFRelation *relation = [item relationforKey:@"diddit"];
+        [[item relationforKey:@"diddit"] addObject:[PFUser currentUser]];
+        
+        [item saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            // PFRelation *items = [bukkitList relationforKey:@"items"];
+            [[bukkitList relationforKey:@"items"] addObject:item];
+            [bukkitList saveInBackground];
+            
+            if ((NSNumber *)[bukkitList objectForKey:@"type"] != [NSNumber numberWithInt:2]) {
+                PFObject *didditList = [[PFUser currentUser] objectForKey:@"didditList"];
+                // PFRelation *didditItems = [didditList relationforKey:@"items"];
+                [[didditList relationforKey:@"items"] addObject:item];
+                [didditList saveInBackground];
+            }
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [self.delegate addItem:self];
+
+        }];
+        
+        // [bukkit setObject:bukkitList forKey:@"list"];
+        
+        // [self linkImageWithBukkit:item];
     }
 }
 
@@ -78,20 +100,23 @@
 
 -(void)linkImageWithBukkit:(PFObject *)bukkit {
     if(!self.takenImage) {
-        takenImage = [UIImage imageNamed:@"hong-kong.png"];
+        takenImage = [UIImage imageNamed:@"Default-Image.png"];
     }
     
     NSData *imageData = UIImageJPEGRepresentation(takenImage, 0.05f);
-    
     PFFile *imageFile = [PFFile fileWithName:@"Image.png" data:imageData];
     
+    [bukkit setObject:imageFile forKey:@"Image"];
+    /*
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             [bukkit setObject:imageFile forKey:@"Image"];
             [bukkit saveInBackgroundWithBlock:^(BOOL succeded, NSError *error) {
-                PFRelation *relation = [[PFUser currentUser] relationforKey:@"bukkit"];
-                [relation addObject:bukkit];
-                [[PFUser currentUser] saveInBackground];
+                //PFRelation *relation = [[PFUser currentUser] relationforKey:@"bukkit"];
+                //[relation addObject:bukkit];
+                //[[PFUser currentUser] saveInBackground];
+                
+                
                 [self.delegate addItem:self];
             }];
         }
@@ -100,7 +125,7 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-
+     */
 }
 
 - (BOOL)shouldStartUIImagePickerController:(CGSize) rect sourceTypeCamera:(BOOL) showCamera  {
@@ -111,6 +136,7 @@
     
     self.imagePicker = [[GKImagePicker alloc] init];
     self.imagePicker.cropSize = rect;
+    self.imagePicker.delegate = self;
     
     if(showCamera) {
         self.imagePicker.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -119,10 +145,7 @@
         self.imagePicker.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
     
-    self.imagePicker.delegate = self;
-    
     [self presentViewController:self.imagePicker.imagePickerController animated:YES completion:nil];
-    // [self presentViewController:cameraUI animated:YES completion:nil];
     
     return YES;
 }

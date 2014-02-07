@@ -11,6 +11,6 @@
 #import "SWRevealViewController.h"
 #import "LeaderboardCell.h"
 
-@interface LeaderboardViewController : PFQueryTableViewController <LeaderboardCellDelegate>
+@interface LeaderboardViewController : PFQueryTableViewController <LeaderboardCellDelegate, UIScrollViewDelegate>
 
 @end

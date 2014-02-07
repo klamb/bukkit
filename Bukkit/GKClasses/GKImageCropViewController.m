@@ -224,6 +224,7 @@
     [super viewWillLayoutSubviews];
     
     self.imageCropView.frame = self.view.bounds;
+    // NSLog(@"WIDTH - %f HEIGHT - %f", self.view.bounds.size.width, self.view.bounds.size.height);
     self.toolbar.frame = CGRectMake(0, CGRectGetHeight(self.view.frame) - 54, 320, 54);
 }
 

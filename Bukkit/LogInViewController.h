@@ -9,18 +9,20 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface LogInViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, FBLoginViewDelegate, NSURLConnectionDelegate>
+@interface LogInViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, FBLoginViewDelegate, NSURLConnectionDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *logInButton;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UITextField *username;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UITableView *loginTable;
+@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 
 @property (nonatomic, strong) NSMutableData *imageData;
 
 
 -(IBAction)login:(id)sender;
-- (IBAction)loginFacebookButtonTouchHandler:(id)sender;
+-(IBAction)loginFacebookButtonTouchHandler:(id)sender;
+-(IBAction)forgotPassword:(id)sender;
 
 @end

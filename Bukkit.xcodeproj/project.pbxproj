@@ -16,7 +16,6 @@
 		37CCFB981839A30C00BAA001 /* bukkit-tab-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB971839A30C00BAA001 /* bukkit-tab-blue.png */; };
 		37CCFB9A1839A35B00BAA001 /* bukkit-tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB991839A35B00BAA001 /* bukkit-tab.png */; };
 		37CCFB9E1839AC4F00BAA001 /* bukkit-text-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB9D1839AC4F00BAA001 /* bukkit-text-button.png */; };
-		37CCFBA01839AC8600BAA001 /* Diddit-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 37CCFB9F1839AC8600BAA001 /* Diddit-Button.png */; };
 		7D029072180E0CF90067B927 /* BukkitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D029071180E0CF90067B927 /* BukkitCell.m */; };
 		7D029074180E1B8E0067B927 /* hong-kong.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D029073180E1B8E0067B927 /* hong-kong.png */; };
 		7D029077180E24090067B927 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D029075180E24090067B927 /* MainStoryboard.storyboard */; };
@@ -40,6 +39,9 @@
 		7D0F9DCC17E941C4007B71A9 /* BukkitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F9DCB17E941C4007B71A9 /* BukkitTests.m */; };
 		7D0F9DD717EA804C007B71A9 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F9DD617EA804B007B71A9 /* LogInViewController.m */; };
 		7D0F9DDF17EA81B8007B71A9 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F9DDE17EA81B8007B71A9 /* SignUpViewController.m */; };
+		7D2DBFB9188A025200589D90 /* bukkit_logo_v3_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D2DBFB8188A025200589D90 /* bukkit_logo_v3_120.png */; };
+		7D2DBFBB188A046400589D90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D2DBFBA188A046400589D90 /* Images.xcassets */; };
+		7D2DBFBE189B40F100589D90 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2DBFBD189B40F100589D90 /* WebViewController.m */; };
 		7D491BD118123F7900CC44F2 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D491BD018123F7900CC44F2 /* button.png */; };
 		7D5C59EC18331A6300B65E16 /* diddit-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D5C59EB18331A6300B65E16 /* diddit-grey.png */; };
 		7D5C59EE18331AA200B65E16 /* bukkit-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D5C59ED18331AA200B65E16 /* bukkit-blue.png */; };
@@ -53,10 +55,10 @@
 		7D889942181F1F0300715E83 /* DidditButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D889940181F1F0300715E83 /* DidditButtonBackground.png */; };
 		7D8A27BE1811F7450002B224 /* BukkitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A27BD1811F7450002B224 /* BukkitViewController.m */; };
 		7D9B6ADD1843CA2500869C83 /* upload-photo-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D9B6ADC1843CA2500869C83 /* upload-photo-button.png */; };
+		7D9B6AE01844FC9200869C83 /* CustomSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6ADF1844FC9200869C83 /* CustomSegmentedControl.m */; };
 		7DA742E7180888B700688A67 /* AddItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA742E6180888B700688A67 /* AddItemViewController.m */; };
 		7DA742E91808A16E00688A67 /* bukkit_logo_v3_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DA742E81808A16E00688A67 /* bukkit_logo_v3_114.png */; };
 		7DA742EB1808A17500688A67 /* bukkit_logo_v3_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DA742EA1808A17500688A67 /* bukkit_logo_v3_57.png */; };
-		7DA742F1180B955300688A67 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA742F0180B955200688A67 /* ListViewController.m */; };
 		7DAF4131183979CE0000AF78 /* Menu-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DAF4130183979CE0000AF78 /* Menu-Button.png */; };
 		7DAF413418397B090000AF78 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DAF413318397B090000AF78 /* CommentViewController.m */; };
 		7DB07B9E183468DA008F67AC /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB07B83183468DA008F67AC /* GKCropBorderView.m */; };
@@ -92,6 +94,17 @@
 		7DBF346618307B7200609408 /* icon-list.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBF346118307B7200609408 /* icon-list.png */; };
 		7DBF346718307B7200609408 /* icon-leaderboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBF346218307B7200609408 /* icon-leaderboard.png */; };
 		7DBF346818307B7200609408 /* icon-feed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBF346318307B7200609408 /* icon-feed.png */; };
+		7DC1CD961877172F00965B14 /* ListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC1CD951877172F00965B14 /* ListCell.m */; };
+		7DC1CD9818837F3C00965B14 /* default-list.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC1CD9718837F3C00965B14 /* default-list.png */; };
+		7DC1CD9A18837F4700965B14 /* default-profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC1CD9918837F4700965B14 /* default-profile.png */; };
+		7DC1CD9C18837F4F00965B14 /* Default-Image.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC1CD9B18837F4F00965B14 /* Default-Image.png */; };
+		7DC2DAC1184EDD1200064B42 /* no-items-in-list.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC2DAC0184EDD1200064B42 /* no-items-in-list.png */; };
+		7DC2DAC5185575E600064B42 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2DAC4185575E600064B42 /* ListViewController.m */; };
+		7DC2DAC818557F4700064B42 /* CreateListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2DAC718557F4700064B42 /* CreateListViewController.m */; };
+		7DC2DACA185FDED200064B42 /* Bukkit-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC2DAC9185FDED200064B42 /* Bukkit-Button.png */; };
+		7DC2DACC185FE24B00064B42 /* Diddit-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC2DACB185FE24B00064B42 /* Diddit-Button.png */; };
+		7DC2DACF185FF08E00064B42 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2DACE185FF08E00064B42 /* MBProgressHUD.m */; };
+		7DC2DAD31861D93300064B42 /* PickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2DAD21861D93300064B42 /* PickerViewCell.m */; };
 		7DC5EDBB1828920F00456E32 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC5EDBA1828920F00456E32 /* Default~iphone.png */; };
 		7DC5EDBD18289C8400456E32 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC5EDBC18289C8400456E32 /* logo.png */; };
 		7DC5EDC31829F3E100456E32 /* UserActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC5EDC21829F3E100456E32 /* UserActivityViewController.m */; };
@@ -122,7 +135,6 @@
 		37CCFB971839A30C00BAA001 /* bukkit-tab-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bukkit-tab-blue.png"; sourceTree = "<group>"; };
 		37CCFB991839A35B00BAA001 /* bukkit-tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bukkit-tab.png"; sourceTree = "<group>"; };
 		37CCFB9D1839AC4F00BAA001 /* bukkit-text-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bukkit-text-button.png"; sourceTree = "<group>"; };
-		37CCFB9F1839AC8600BAA001 /* Diddit-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Diddit-Button.png"; sourceTree = "<group>"; };
 		7D029070180E0CF90067B927 /* BukkitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BukkitCell.h; sourceTree = "<group>"; };
 		7D029071180E0CF90067B927 /* BukkitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BukkitCell.m; sourceTree = "<group>"; };
 		7D029073180E1B8E0067B927 /* hong-kong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hong-kong.png"; sourceTree = "<group>"; };
@@ -156,6 +168,10 @@
 		7D0F9DD617EA804B007B71A9 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
 		7D0F9DDD17EA81B8007B71A9 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpViewController.h; path = ../SignUpViewController.h; sourceTree = "<group>"; };
 		7D0F9DDE17EA81B8007B71A9 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpViewController.m; path = ../SignUpViewController.m; sourceTree = "<group>"; };
+		7D2DBFB8188A025200589D90 /* bukkit_logo_v3_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bukkit_logo_v3_120.png; sourceTree = "<group>"; };
+		7D2DBFBA188A046400589D90 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7D2DBFBC189B40F000589D90 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		7D2DBFBD189B40F100589D90 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		7D491BD018123F7900CC44F2 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		7D5C59EB18331A6300B65E16 /* diddit-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "diddit-grey.png"; sourceTree = "<group>"; };
 		7D5C59ED18331AA200B65E16 /* bukkit-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bukkit-blue.png"; sourceTree = "<group>"; };
@@ -174,12 +190,12 @@
 		7D8A27BC1811F7450002B224 /* BukkitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BukkitViewController.h; sourceTree = "<group>"; };
 		7D8A27BD1811F7450002B224 /* BukkitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BukkitViewController.m; sourceTree = "<group>"; };
 		7D9B6ADC1843CA2500869C83 /* upload-photo-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upload-photo-button.png"; sourceTree = "<group>"; };
+		7D9B6ADE1844FC9200869C83 /* CustomSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegmentedControl.h; sourceTree = "<group>"; };
+		7D9B6ADF1844FC9200869C83 /* CustomSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSegmentedControl.m; sourceTree = "<group>"; };
 		7DA742E5180888B600688A67 /* AddItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddItemViewController.h; sourceTree = "<group>"; };
 		7DA742E6180888B700688A67 /* AddItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddItemViewController.m; sourceTree = "<group>"; };
 		7DA742E81808A16E00688A67 /* bukkit_logo_v3_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bukkit_logo_v3_114.png; sourceTree = "<group>"; };
 		7DA742EA1808A17500688A67 /* bukkit_logo_v3_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bukkit_logo_v3_57.png; sourceTree = "<group>"; };
-		7DA742EF180B955200688A67 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
-		7DA742F0180B955200688A67 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		7DAF4130183979CE0000AF78 /* Menu-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-Button.png"; sourceTree = "<group>"; };
 		7DAF413218397B090000AF78 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		7DAF413318397B090000AF78 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
@@ -226,6 +242,22 @@
 		7DBF346118307B7200609408 /* icon-list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-list.png"; sourceTree = "<group>"; };
 		7DBF346218307B7200609408 /* icon-leaderboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-leaderboard.png"; sourceTree = "<group>"; };
 		7DBF346318307B7200609408 /* icon-feed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-feed.png"; sourceTree = "<group>"; };
+		7DC1CD941877172F00965B14 /* ListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCell.h; sourceTree = "<group>"; };
+		7DC1CD951877172F00965B14 /* ListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListCell.m; sourceTree = "<group>"; };
+		7DC1CD9718837F3C00965B14 /* default-list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-list.png"; sourceTree = "<group>"; };
+		7DC1CD9918837F4700965B14 /* default-profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-profile.png"; sourceTree = "<group>"; };
+		7DC1CD9B18837F4F00965B14 /* Default-Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Image.png"; sourceTree = "<group>"; };
+		7DC2DAC0184EDD1200064B42 /* no-items-in-list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-items-in-list.png"; sourceTree = "<group>"; };
+		7DC2DAC3185575E600064B42 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		7DC2DAC4185575E600064B42 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		7DC2DAC618557F4700064B42 /* CreateListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateListViewController.h; sourceTree = "<group>"; };
+		7DC2DAC718557F4700064B42 /* CreateListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateListViewController.m; sourceTree = "<group>"; };
+		7DC2DAC9185FDED200064B42 /* Bukkit-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bukkit-Button.png"; sourceTree = "<group>"; };
+		7DC2DACB185FE24B00064B42 /* Diddit-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Diddit-Button.png"; sourceTree = "<group>"; };
+		7DC2DACD185FF08E00064B42 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		7DC2DACE185FF08E00064B42 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		7DC2DAD11861D93300064B42 /* PickerViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerViewCell.h; sourceTree = "<group>"; };
+		7DC2DAD21861D93300064B42 /* PickerViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerViewCell.m; sourceTree = "<group>"; };
 		7DC5EDBA1828920F00456E32 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		7DC5EDBC18289C8400456E32 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		7DC5EDC11829F3E100456E32 /* UserActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserActivityViewController.h; sourceTree = "<group>"; };
@@ -329,9 +361,11 @@
 				7D8A27B71810CC5D0002B224 /* View Controllers */,
 				7D0F9DA917E941C3007B71A9 /* AppDelegate.h */,
 				7D0F9DAA17E941C3007B71A9 /* AppDelegate.m */,
+				7DC2DAD0185FF09E00064B42 /* MBProgressHUD */,
 				7DB07BAD18346BC4008F67AC /* GKImages */,
 				7DB07B81183468DA008F67AC /* GKClasses */,
 				7DF43D85183B35320095138B /* TestFlightSDK2.0.2 */,
+				7D2DBFBA188A046400589D90 /* Images.xcassets */,
 				7D0F9DA117E941C3007B71A9 /* Supporting Files */,
 			);
 			path = Bukkit;
@@ -340,7 +374,12 @@
 		7D0F9DA117E941C3007B71A9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				37CCFB9F1839AC8600BAA001 /* Diddit-Button.png */,
+				7DC1CD9B18837F4F00965B14 /* Default-Image.png */,
+				7DC1CD9918837F4700965B14 /* default-profile.png */,
+				7DC1CD9718837F3C00965B14 /* default-list.png */,
+				7DC2DACB185FE24B00064B42 /* Diddit-Button.png */,
+				7DC2DAC9185FDED200064B42 /* Bukkit-Button.png */,
+				7DC2DAC0184EDD1200064B42 /* no-items-in-list.png */,
 				37CCFB9D1839AC4F00BAA001 /* bukkit-text-button.png */,
 				37CCFB991839A35B00BAA001 /* bukkit-tab.png */,
 				37CCFB971839A30C00BAA001 /* bukkit-tab-blue.png */,
@@ -368,6 +407,7 @@
 				7D029073180E1B8E0067B927 /* hong-kong.png */,
 				7DA742EA1808A17500688A67 /* bukkit_logo_v3_57.png */,
 				7DA742E81808A16E00688A67 /* bukkit_logo_v3_114.png */,
+				7D2DBFB8188A025200589D90 /* bukkit_logo_v3_120.png */,
 				7D0F9DA217E941C3007B71A9 /* Bukkit-Info.plist */,
 				7D0F9DA317E941C3007B71A9 /* InfoPlist.strings */,
 				7D0F9DA617E941C3007B71A9 /* main.m */,
@@ -401,12 +441,11 @@
 		7D8A27B71810CC5D0002B224 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7DC2DAC2185574E800064B42 /* Profile */,
 				7D8A27BB1811F7160002B224 /* DetailView */,
 				7D8A27BA1810CD670002B224 /* MainList */,
 				7D8A27B91810CD120002B224 /* SlideOut */,
-				7D8A27B81810CCE20002B224 /* Login */,
-				7DBEE186180519B500C16BF2 /* ProfileViewController.h */,
-				7DBEE187180519B500C16BF2 /* ProfileViewController.m */,
+				7D8A27B81810CCE20002B224 /* Signup/Login */,
 				7DBEE189180519D500C16BF2 /* SettingsViewController.h */,
 				7DBEE18A180519D500C16BF2 /* SettingsViewController.m */,
 				7D853A49181768B100332003 /* BukkitListsViewController.h */,
@@ -419,7 +458,7 @@
 			name = "View Controllers";
 			sourceTree = "<group>";
 		};
-		7D8A27B81810CCE20002B224 /* Login */ = {
+		7D8A27B81810CCE20002B224 /* Signup/Login */ = {
 			isa = PBXGroup;
 			children = (
 				7D0F9DB517E941C3007B71A9 /* ViewController.h */,
@@ -430,8 +469,10 @@
 				7DB88DA417EFB363005906A5 /* LogInTableViewController.m */,
 				7D0F9DDD17EA81B8007B71A9 /* SignUpViewController.h */,
 				7D0F9DDE17EA81B8007B71A9 /* SignUpViewController.m */,
+				7D2DBFBC189B40F000589D90 /* WebViewController.h */,
+				7D2DBFBD189B40F100589D90 /* WebViewController.m */,
 			);
-			name = Login;
+			name = Signup/Login;
 			sourceTree = "<group>";
 		};
 		7D8A27B91810CD120002B224 /* SlideOut */ = {
@@ -452,8 +493,6 @@
 				7DA742E6180888B700688A67 /* AddItemViewController.m */,
 				7D09DC6917FA928F00C9B114 /* MainViewController.h */,
 				7D09DC6A17FA928F00C9B114 /* MainViewController.m */,
-				7DA742EF180B955200688A67 /* ListViewController.h */,
-				7DA742F0180B955200688A67 /* ListViewController.m */,
 				7DAF413218397B090000AF78 /* CommentViewController.h */,
 				7DAF413318397B090000AF78 /* CommentViewController.m */,
 			);
@@ -478,6 +517,12 @@
 				7D029071180E0CF90067B927 /* BukkitCell.m */,
 				7D62C5FC1821279500A74B1D /* LeaderboardCell.h */,
 				7D62C5FD1821279500A74B1D /* LeaderboardCell.m */,
+				7D9B6ADE1844FC9200869C83 /* CustomSegmentedControl.h */,
+				7D9B6ADF1844FC9200869C83 /* CustomSegmentedControl.m */,
+				7DC2DAD11861D93300064B42 /* PickerViewCell.h */,
+				7DC2DAD21861D93300064B42 /* PickerViewCell.m */,
+				7DC1CD941877172F00965B14 /* ListCell.h */,
+				7DC1CD951877172F00965B14 /* ListCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -514,6 +559,28 @@
 				7DB07BB518346BC4008F67AC /* PLCameraSheetDoneButtonPressed@2x.png */,
 			);
 			path = GKImages;
+			sourceTree = "<group>";
+		};
+		7DC2DAC2185574E800064B42 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				7DBEE186180519B500C16BF2 /* ProfileViewController.h */,
+				7DBEE187180519B500C16BF2 /* ProfileViewController.m */,
+				7DC2DAC3185575E600064B42 /* ListViewController.h */,
+				7DC2DAC4185575E600064B42 /* ListViewController.m */,
+				7DC2DAC618557F4700064B42 /* CreateListViewController.h */,
+				7DC2DAC718557F4700064B42 /* CreateListViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		7DC2DAD0185FF09E00064B42 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				7DC2DACD185FF08E00064B42 /* MBProgressHUD.h */,
+				7DC2DACE185FF08E00064B42 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		7DF43D85183B35320095138B /* TestFlightSDK2.0.2 */ = {
@@ -611,17 +678,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DAF4131183979CE0000AF78 /* Menu-Button.png in Resources */,
+				7D2DBFBB188A046400589D90 /* Images.xcassets in Resources */,
 				7D5C59EC18331A6300B65E16 /* diddit-grey.png in Resources */,
 				7DB07BB718346BC4008F67AC /* PLCameraSheetButton@2x.png in Resources */,
 				37CCFB961839A28000BAA001 /* comment-tab.png in Resources */,
 				7D5C59EE18331AA200B65E16 /* bukkit-blue.png in Resources */,
+				7DC1CD9818837F3C00965B14 /* default-list.png in Resources */,
 				7D5C59F218331CAE00B65E16 /* comment-grey.png in Resources */,
+				7D2DBFB9188A025200589D90 /* bukkit_logo_v3_120.png in Resources */,
 				37CCFB9E1839AC4F00BAA001 /* bukkit-text-button.png in Resources */,
+				7DC2DACA185FDED200064B42 /* Bukkit-Button.png in Resources */,
 				7DA742E91808A16E00688A67 /* bukkit_logo_v3_114.png in Resources */,
 				7D491BD118123F7900CC44F2 /* button.png in Resources */,
 				7D889941181F1F0300715E83 /* BukkitButtonBackground.png in Resources */,
 				7D0F9DA517E941C3007B71A9 /* InfoPlist.strings in Resources */,
 				7DB07BB818346BC4008F67AC /* PLCameraSheetButtonPressed.png in Resources */,
+				7DC1CD9A18837F4700965B14 /* default-profile.png in Resources */,
 				7DBF345E1830794900609408 /* slidemenu.png in Resources */,
 				7D9B6ADD1843CA2500869C83 /* upload-photo-button.png in Resources */,
 				37CCFB901839A0B100BAA001 /* diddit-tab-blue.png in Resources */,
@@ -632,10 +704,11 @@
 				7DF43D8E183B35320095138B /* release_notes.md in Resources */,
 				7D0F9DAD17E941C3007B71A9 /* Default.png in Resources */,
 				7D029074180E1B8E0067B927 /* hong-kong.png in Resources */,
+				7DC1CD9C18837F4F00965B14 /* Default-Image.png in Resources */,
 				7DBF346618307B7200609408 /* icon-list.png in Resources */,
 				7DA742EB1808A17500688A67 /* bukkit_logo_v3_57.png in Resources */,
+				7DC2DAC1184EDD1200064B42 /* no-items-in-list.png in Resources */,
 				7D029077180E24090067B927 /* MainStoryboard.storyboard in Resources */,
-				37CCFBA01839AC8600BAA001 /* Diddit-Button.png in Resources */,
 				7DB07BB618346BC4008F67AC /* PLCameraSheetButton.png in Resources */,
 				7DBF346518307B7200609408 /* icon-profile.png in Resources */,
 				7DB07BB918346BC4008F67AC /* PLCameraSheetButtonPressed@2x.png in Resources */,
@@ -652,6 +725,7 @@
 				7D0F9DAF17E941C3007B71A9 /* Default@2x.png in Resources */,
 				7D0F9DB117E941C3007B71A9 /* Default-568h@2x.png in Resources */,
 				7DF43D8D183B35320095138B /* README.md in Resources */,
+				7DC2DACC185FE24B00064B42 /* Diddit-Button.png in Resources */,
 				7DB07BBA18346BC4008F67AC /* PLCameraSheetDoneButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -689,7 +763,9 @@
 			files = (
 				7DB07BA0183468DA008F67AC /* GKImageCropView.m in Sources */,
 				7DBEE17E18050F2B00C16BF2 /* SideBarViewController.m in Sources */,
+				7DC2DAC818557F4700064B42 /* CreateListViewController.m in Sources */,
 				7D0F9DA717E941C3007B71A9 /* main.m in Sources */,
+				7DC2DAD31861D93300064B42 /* PickerViewCell.m in Sources */,
 				7D0F9DAB17E941C3007B71A9 /* AppDelegate.m in Sources */,
 				7DB07B9F183468DA008F67AC /* GKImageCropOverlayView.m in Sources */,
 				7D0F9DB717E941C4007B71A9 /* ViewController.m in Sources */,
@@ -698,18 +774,22 @@
 				7D0F9DD717EA804C007B71A9 /* LogInViewController.m in Sources */,
 				7D88993E181EE90500715E83 /* ActivityViewController.m in Sources */,
 				7D029072180E0CF90067B927 /* BukkitCell.m in Sources */,
+				7D2DBFBE189B40F100589D90 /* WebViewController.m in Sources */,
+				7DC2DAC5185575E600064B42 /* ListViewController.m in Sources */,
 				7D0F9DDF17EA81B8007B71A9 /* SignUpViewController.m in Sources */,
 				7DC5EDC31829F3E100456E32 /* UserActivityViewController.m in Sources */,
+				7DC1CD961877172F00965B14 /* ListCell.m in Sources */,
 				7DB88DA517EFB363005906A5 /* LogInTableViewController.m in Sources */,
 				7DBEE18B180519D500C16BF2 /* SettingsViewController.m in Sources */,
 				7DAF413418397B090000AF78 /* CommentViewController.m in Sources */,
 				7DA742E7180888B700688A67 /* AddItemViewController.m in Sources */,
 				7DB07BA2183468DA008F67AC /* GKImagePicker.m in Sources */,
-				7DA742F1180B955300688A67 /* ListViewController.m in Sources */,
 				7D09DC6B17FA928F00C9B114 /* MainViewController.m in Sources */,
+				7DC2DACF185FF08E00064B42 /* MBProgressHUD.m in Sources */,
 				7DB07B9E183468DA008F67AC /* GKCropBorderView.m in Sources */,
 				7D09DC7D1803C70500C9B114 /* SWRevealViewController.m in Sources */,
 				7DB07BA3183468DA008F67AC /* GKResizeableCropOverlayView.m in Sources */,
+				7D9B6AE01844FC9200869C83 /* CustomSegmentedControl.m in Sources */,
 				7D62C5FE1821279500A74B1D /* LeaderboardCell.m in Sources */,
 				7D853A4B181768B100332003 /* BukkitListsViewController.m in Sources */,
 				7DB07BA1183468DA008F67AC /* GKImageCropViewController.m in Sources */,
@@ -823,6 +903,8 @@
 		7D0F9DD017E941C4007B71A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -838,7 +920,7 @@
 					/Users/kevinlamb/Documents/Bukkit/Bukkit/TestFlightSDK2.0.2,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=*]" = "7DAFE75E-360D-4B64-BFF8-9A08385D6662";
+				"PROVISIONING_PROFILE[sdk=*]" = "227F3E0E-555A-4E0F-81E5-CCFB2575C2D9";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -846,6 +928,8 @@
 		7D0F9DD117E941C4007B71A9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -861,7 +945,7 @@
 					/Users/kevinlamb/Documents/Bukkit/Bukkit/TestFlightSDK2.0.2,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=*]" = "E75D2C78-174A-4DEE-9B02-6E8BFEC37580";
+				"PROVISIONING_PROFILE[sdk=*]" = "C5C25A46-C689-43F2-9E01-99A964580061";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

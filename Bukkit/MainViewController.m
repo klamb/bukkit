@@ -7,7 +7,9 @@
 //
 
 #import "MainViewController.h"
+#import "CustomSegmentedControl.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "AppDelegate.h"
 
 #define CENTER_TAG 1
 #define LEFT_PANEL_TAG 2
@@ -23,6 +25,9 @@
 
 @property (nonatomic, assign) BOOL topRated;
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
+@property (nonatomic, assign) BOOL endOfList;
+
+@property (nonatomic, assign) NSInteger previousNumOfObjects;
 
 -(IBAction)presentAddItemView:(id)sender;
 
@@ -65,13 +70,15 @@
         // The number of objects to show per page
         self.objectsPerPage = 10;
         
-        self.topRated = NO;
+        self.topRated = YES;
         
         self.shouldReloadOnAppear = NO;
         
         self.userList = NO;
         
         self.editable = YES;
+        
+        self.endOfList = NO;
     }
     
     return self;
@@ -87,10 +94,9 @@
     }
     
     if (!pushedView) {
-        
         UIImage *image = [UIImage imageNamed:@"Menu-Button.png"];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.bounds = CGRectMake( 0, 0, image.size.width, image.size.height);
+        button.bounds = CGRectMake(0, 0, image.size.width, image.size.height);
         [button setImage:image forState:UIControlStateNormal];
         [button addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
@@ -101,15 +107,31 @@
         [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     }
     
-    if (editable) {
-        UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(presentAddItemView:)];
-        menuButtonItem.tintColor = [UIColor whiteColor];
-        self.navigationItem.rightBarButtonItem = menuButtonItem;
-    }
+    PFQuery *listsQuery = [[[PFUser currentUser] relationforKey:@"lists"] query];
+    [listsQuery whereKey:@"objectId" equalTo:list.objectId];
+    [listsQuery countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        if (!error) {
+            if(number > 0) {
+                UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(presentAddItemView:)];
+                menuButtonItem.tintColor = [UIColor whiteColor];
+                self.navigationItem.rightBarButtonItem = menuButtonItem;
+            }
+        }
+    }];
     
     [list fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         navItem.title = [object objectForKey:@"name"];
     }];
+    
+    CGRect footerRect = CGRectMake(0, 0, self.view.frame.size.width, 30);
+    UIView *footerView = [[UIView alloc] initWithFrame:footerRect];
+    
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityIndicatorView.center = CGPointMake(footerView.frame.size.width/2, footerView.frame.size.height/2);
+    self.activityIndicatorView.hidesWhenStopped = YES;
+    [footerView addSubview:self.activityIndicatorView];
+    
+    self.tableView.tableFooterView = footerView;
     
     [self.tableView reloadData];
 }
@@ -120,19 +142,22 @@
 -(void) pickOne:(id)sender{
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
     NSString *order = [segmentedControl titleForSegmentAtIndex: [segmentedControl selectedSegmentIndex]];
-    [self updateTable:order];
+    
+    if([order isEqualToString:@"Most Popular"])
+        self.topRated = YES;
+    else
+        self.topRated = NO;
+    
+    [self loadObjects];
 }
 
 
 #pragma mark - Present Add Item Viewcontroller
 
 -(IBAction)presentAddItemView: (id)sender {
-
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
-                                                         bundle:nil];
     
     AddItemViewController *addItemController =
-    [storyboard instantiateViewControllerWithIdentifier:@"AddItemViewController"];
+    [self.storyboard instantiateViewControllerWithIdentifier:@"AddItemViewController"];
     addItemController.delegate = self;
     addItemController.bukkitList = list;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addItemController];
@@ -150,45 +175,22 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)showUIPickerView:(AddItemViewController *) addItemController {
-    [self dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - Present Item ViewController
+
+-(void)loadBukkitView:(PFObject *)object isAnimated:(BOOL)isAnimated {
     
-    [self shouldStartCameraController];
+    BukkitViewController *bukkitViewController =
+    [self.storyboard instantiateViewControllerWithIdentifier:@"BukkitViewController"];
+    bukkitViewController.delegate = self;
+    bukkitViewController.bukkit = object;
+    
+    [self.navigationController pushViewController:bukkitViewController animated:isAnimated];
 }
 
-
-- (BOOL)shouldStartCameraController {
+-(void)deletedItem {
+    self.shouldReloadOnAppear = YES;
+    [self.navigationController popViewControllerAnimated:YES];
     
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
-        return NO;
-    }
-    
-    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
-        && [[UIImagePickerController availableMediaTypesForSourceType:
-             UIImagePickerControllerSourceTypeCamera] containsObject:(NSString *)kUTTypeImage]) {
-        
-        cameraUI.mediaTypes = [NSArray arrayWithObject:(NSString *) kUTTypeImage];
-        cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
-        
-        if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear]) {
-            cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-        } else if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
-            cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-        }
-        
-    } else {
-        return NO;
-    }
-    
-    cameraUI.allowsEditing = YES;
-    cameraUI.showsCameraControls = YES;
-    cameraUI.delegate = self;
-    
-    [self presentViewController:cameraUI animated:YES completion:nil];
-    
-    return YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -221,10 +223,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section > self.objects.count || section == 0) {
+    if (section == 0) {
         return 0.000001f;
     }
-    return 8.0f;
+    else if (section > self.objects.count) {
+        return 0.000001f;
+    } else {
+        return 8.0f;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -237,23 +243,14 @@
     }
 }
 
-/*
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat sectionHeaderHeight = 0.0;
-    if (scrollView.contentOffset.y<=sectionHeaderHeight && scrollView.contentOffset.y>=0) {
-        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-    } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
-        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-    }
-}
-*/
-
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (self.shouldReloadOnAppear) {
         self.shouldReloadOnAppear = NO;
         [self loadObjects];
     }
+    
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] resetNavigationBar:self.navigationController.navigationBar];
 }
 
 
@@ -267,15 +264,17 @@
         return noUserQuery;
     }
     
+    PFQuery *postQuery = [[list relationforKey:@"items"] query];
+
     if(topRated) {
-        [query orderByDescending:@"ranking"];
+        [postQuery orderByDescending:@"ranking"];
     }
     else {
-        [query orderByDescending:@"createdAt"];
+        [postQuery orderByDescending:@"createdAt"];
     }
     
-    query.limit = 100;
-    return query;
+    postQuery.limit = 100;
+    return postQuery;
     
     // queryBukkitList.cachePolicy = kPFCachePolicyIgnoreCache;
     
@@ -289,6 +288,42 @@
     //if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
     // [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     //}
+}
+
+- (void)loadObjects {
+    [super loadObjects];
+    
+    self.previousNumOfObjects = 0;
+    self.endOfList = NO;
+}
+
+- (void)objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    
+    if (self.previousNumOfObjects >= self.objects.count) {
+        self.endOfList = YES;
+        
+    }
+    self.previousNumOfObjects = self.objects.count;
+    
+    if ([self.activityIndicatorView isAnimating]) {
+        [self.activityIndicatorView stopAnimating];
+    }
+    
+    if ([self.objects count] == 0) {
+        NSLog(@"Database is empty");
+        
+        UIView *emptyTableView = [[UIView alloc] initWithFrame:self.tableView.bounds];
+        
+        UIImage *image = [UIImage imageNamed:@"no-items-in-list.png"];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        [imageView setFrame:CGRectMake(15, 90, 300, 56)];
+        [emptyTableView addSubview:imageView];
+        
+        [self.tableView setBackgroundView:emptyTableView];
+    } else  {
+        self.tableView.backgroundView = nil;
+    }
 }
 
 
@@ -338,23 +373,19 @@
     cell.title.text = [object objectForKey:@"title"];
     cell.imageView.file = [object objectForKey:@"Image"];
     
+    if (topRated)
+        cell.rank.text = [NSString stringWithFormat:@"%d", indexPath.section];
+    else
+        cell.rank.text = [self getTimeElapsed:object.createdAt];
+    
     if ([cell.imageView.file isDataAvailable]) {
         [cell.imageView loadInBackground];
     }
     
-    
-    cell.bukkit = object;
+    cell.item = object;
     
     [self checkForUserActivity:object forButton:cell.didditButton];
     [self checkForUserActivity:object forButton:cell.bukkitButton];
-    
-    if (topRated) {
-        NSString *rankText = [NSString stringWithFormat:@"%d", indexPath.section];
-        cell.rank.text = rankText;
-    } else {
-        NSString *time = [self getTimeElapsed:object.createdAt];
-        cell.rank.text = time;
-    }
     
     return cell;
 }
@@ -389,12 +420,8 @@
     
     if (![cell.contentView viewWithTag:11]) {
         NSArray *itemArray = [NSArray arrayWithObjects: @"Most Recent", @"Most Popular", nil];
-        UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-        segmentedControl.frame = CGRectMake(0, 0, 320, 30);
-        segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
-        segmentedControl.selectedSegmentIndex = 0;
-        segmentedControl.tag = 11;
-        segmentedControl.tintColor = RGB(34, 158, 245);
+        CustomSegmentedControl *segmentedControl = [[CustomSegmentedControl alloc] initWithItems:itemArray];
+        
         [segmentedControl addTarget:self
                              action:@selector(pickOne:)
                    forControlEvents:UIControlEventValueChanged];
@@ -438,17 +465,6 @@
 }
 
 
--(void)updateTable:(NSString *)segmentSelected {
-    
-    if([segmentSelected isEqualToString:@"Most Popular"]) {
-        self.topRated = YES;
-    } else {
-        self.topRated = NO;
-    }
-    
-    [self loadObjects];
-}
-
 -(NSString *)getTimeElapsed:(NSDate *)timeStamp {
     NSTimeInterval distanceBetweenDates = [[NSDate date] timeIntervalSinceDate:timeStamp];
     double secondsInAnHour = 3600;
@@ -472,60 +488,24 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if(indexPath.section == 0) {
-        
+    if(indexPath.section != 0) {
+        if (indexPath.section > self.objects.count && self.paginationEnabled) {
+            [self loadNextPage]; // Load More Cell
+        } else {
+            [self loadBukkitView:self.objects[indexPath.section-1] isAnimated:YES];
+        }
     }
-    else if (indexPath.section > self.objects.count && self.paginationEnabled) {
-        // Load More Cell
-        [self loadNextPage];
-    } else {
-        [self loadBukkitView:self.objects[indexPath.section-1] isAnimated:YES];
-    }
-}
-
--(void)loadBukkitView:(PFObject *)object isAnimated:(BOOL)isAnimated {
-    
-    BukkitViewController *bukkitViewController =
-    [self.storyboard instantiateViewControllerWithIdentifier:@"BukkitViewController"];
-    bukkitViewController.delegate = self;
-    bukkitViewController.bukkit = object;
-    
-    [self.navigationController pushViewController:bukkitViewController animated:isAnimated];
 }
 
 -(void)bukkitCell:(BukkitCell *)bukkitCell didTapDiddit:(UIButton *)button {
-    
-    PFObject *bukkit = bukkitCell.bukkit;
-    PFUser *user = [PFUser currentUser];
-    PFRelation *relation = [bukkit relationforKey:@"diddit"];
-    PFQuery *queryDiddit = [relation query];
-    [queryDiddit whereKey:@"objectId" equalTo:user.objectId];
-    [queryDiddit getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!object) {
-            [relation addObject:user];
-            [bukkit incrementKey:@"ranking"];
-            [bukkit saveInBackground];
-            
-            PFRelation *relationForUser = [user relationforKey:@"diddit"];
-            [relationForUser addObject:bukkit];
-            [user incrementKey:@"didditRanking"];
-            [user saveInBackground];
-        } else {
-            [relation removeObject:user];
-            [bukkit incrementKey:@"ranking" byAmount:[NSNumber numberWithInt:-1]];
-            [bukkit saveInBackground];
-            
-            PFRelation *relationForUser = [user relationforKey:@"diddit"];
-            [relationForUser removeObject:bukkit];
-            [user incrementKey:@"didditRanking" byAmount:[NSNumber numberWithInt:-1]];
-            [user saveInBackground];
-        }
-    }];
+
+    PFObject *bukkit = bukkitCell.item;
+    [[bukkit relationforKey:@"diddit"] addObject:[PFUser currentUser]];
 }
 
 -(void)bukkitCell:(BukkitCell *)bukkitCell didTapBukkit:(UIButton *)button {
     
-    PFObject *bukkit = bukkitCell.bukkit;
+    PFObject *bukkit = bukkitCell.item;
     PFUser *user = [PFUser currentUser];
     PFRelation *relation = [bukkit relationforKey:@"bukkit"];
     PFQuery *queryBukkit = [relation query];
@@ -557,7 +537,7 @@
     CommentViewController *addCommentViewController =
     [self.storyboard instantiateViewControllerWithIdentifier:@"CommentViewController"];
     addCommentViewController.delegate = self;
-    addCommentViewController.bukkit = bukkitCell.bukkit;
+    addCommentViewController.bukkit = bukkitCell.item;
     addCommentViewController.mainListComment = YES;
     UINavigationController *commentNavController = [[UINavigationController alloc] initWithRootViewController:addCommentViewController];
     
@@ -581,5 +561,16 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma UIScrollView Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentSize.height - scrollView.contentOffset.y < (self.view.bounds.size.height) && !self.endOfList) {
+        if (![self isLoading]) {
+            [self.activityIndicatorView startAnimating];
+            [self loadNextPage];
+            NSLog(@"Loading");
+        }
+    }
+}
 
 @end

@@ -177,7 +177,7 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
 
         self.userInteractionEnabled = YES;
         self.backgroundColor = [UIColor blackColor];
-        self.scrollView = [[ScrollView alloc] initWithFrame:self.bounds ];
+        self.scrollView = [[ScrollView alloc] initWithFrame:self.bounds];
         self.scrollView.showsHorizontalScrollIndicator = NO;
         self.scrollView.showsVerticalScrollIndicator = NO;
         self.scrollView.delegate = self;
@@ -228,10 +228,12 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
 - (void)layoutSubviews{
     [super layoutSubviews];
     
+    NSLog(@"%f, %f", self.bounds.size.width, self.bounds.size.height);
+    
     CGSize size = self.cropSize;
     CGFloat toolbarSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 0 : 54;
     self.xOffset = floor((CGRectGetWidth(self.bounds) - size.width) * 0.5);
-    self.yOffset = floor((CGRectGetHeight(self.bounds) - toolbarSize - size.height) * 0.5); //fixed
+    self.yOffset = floor((CGRectGetHeight(self.bounds) - (toolbarSize) - size.height) * 0.5); //fixed
 
     CGFloat height = self.imageToCrop.size.height;
     CGFloat width = self.imageToCrop.size.width;
@@ -255,14 +257,15 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
     
     self.cropOverlayView.frame = self.bounds;
     self.scrollView.frame = CGRectMake(xOffset, yOffset, size.width, size.height);
-    self.scrollView.contentSize = CGSizeMake(size.width, size.height);
+    // self.scrollView.contentSize = CGSizeMake(self.bounds.size.width,  self.imageView.frame.size.height);
     self.imageView.frame = CGRectMake(0, floor((size.height - faktoredHeight) * 0.5), faktoredWidth, faktoredHeight);
+    self.scrollView.contentSize = CGSizeMake(self.imageView.frame.size.width,  self.imageView.frame.size.height);
 }
 
 #pragma mark -
 #pragma UIScrollViewDelegate Methods
 
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.imageView;
 }
 

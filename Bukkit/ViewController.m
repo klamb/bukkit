@@ -40,15 +40,11 @@
 
 
 - (IBAction)login {
-    //self.view.backgroundColor = [UIColor redColor];
-    // [self.navigationController pushViewController:viewcontroller animated:NO];
-    // [self performSegueWithIdentifier:@"Logging In" sender:self];
-    // [self performSegueWithIdentifier:@"LoggingIn" sender:self];
+
 }
 
 - (IBAction)signin {
-     // self.view.backgroundColor = [UIColor blueColor];
-    //[self performSegueWithIdentifier:@"Signing Up" sender:self];
+    
 }
 
 - (void)didReceiveMemoryWarning

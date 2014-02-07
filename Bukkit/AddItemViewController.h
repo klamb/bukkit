@@ -32,6 +32,4 @@
 - (void)cancelAddingItem:(AddItemViewController *)addItemController;
 -(IBAction)addItem:(id)sender;
 
--(void)showUIPickerView:(AddItemViewController *)addItemController;
-
 @end

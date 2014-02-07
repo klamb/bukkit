@@ -13,6 +13,7 @@
 @protocol BukkitViewDelegate <NSObject>
 
 -(void)updateBukkitCell:(PFObject *)object fromButton:(id)sender;
+-(void)deletedItem;
 
 @end
 
@@ -29,11 +30,13 @@
 @property (strong, nonatomic) IBOutlet UIButton *didditTabButton;
 @property (strong, nonatomic) IBOutlet UIButton *bukkitTabButton;
 @property (strong, nonatomic) IBOutlet UIButton *commentTabButton;
+@property (strong, nonatomic) IBOutlet UIButton *reportButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UITextView *commentsView;
 
 -(IBAction)didTapBukkitButton:(id)sender;
 -(IBAction)didTapDidditButton:(id)sender;
+- (IBAction)reportContentAction:(UIButton *)sender;
 
 - (IBAction)didTapDidditTabButtonAction:(UIButton *)sender;
 - (IBAction)didTapCommentTabButtonAction:(UIButton *)sender;

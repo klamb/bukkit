@@ -58,21 +58,8 @@
         
         MainViewController *mainViewController = (MainViewController *)segue.destinationViewController;
         
-        /*
-        PFRelation *lists = [[PFUser currentUser] relationforKey:@"lists"];
-        
-        PFQuery *query = [lists query];
-        [query whereKey:@"name" equalTo:[[PFUser currentUser] objectForKey:@"school"]];
-        
-        PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
-        [queryBukkitList whereKey:@"list" matchesQuery:query];
-        */
-        
         PFObject *defaultList = [[PFUser currentUser] objectForKey:@"defaultList"];
-        PFQuery *queryBukkitList = [PFQuery queryWithClassName:@"bukkit"];
-        [queryBukkitList whereKey:@"list" equalTo:defaultList];
-        
-        mainViewController.query = queryBukkitList;
+
         mainViewController.pushedView = NO;
         mainViewController.list = defaultList;
     }
@@ -81,6 +68,17 @@
         ProfileViewController *profileViewController = (ProfileViewController *)segue.destinationViewController;
         profileViewController.profile = [PFUser currentUser];
         profileViewController.pushedView = NO;
+    }
+    
+    if ([segue.identifier isEqualToString:@"logout"]) {
+        [self.navigationController popToRootViewControllerAnimated:NO];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] logOut];
+        
+        ViewController *loginViewController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewController"];
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+        
+        [self.revealViewController presentViewController:navigationController animated:NO completion:nil];
     }
     
     
